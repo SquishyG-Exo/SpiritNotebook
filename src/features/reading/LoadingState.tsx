@@ -5,10 +5,16 @@ import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
 
 import { colors, spacing } from '../../theme';
 import { AppText } from '../../ui';
+import { EnergyField } from '../../ui/art';
 import { BreathingOrb } from './BreathingOrb';
 import { EntryQuote } from './EntryQuote';
 
 const PHRASE_MS = 2500;
+const ORB = 120;
+/** BreathingOrb lays itself out in a square 1.7× its size. */
+const ORB_BOX = ORB * 1.7;
+/** A faint, still aura behind the orb; the orb stays the only thing breathing. */
+const FIELD = 330;
 
 function asList(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : [];
@@ -38,7 +44,8 @@ export function LoadingState({ icon, text, hasPhoto }: LoadingStateProps) {
   return (
     <View style={styles.root} accessibilityLiveRegion="polite">
       <Animated.View entering={FadeIn.duration(600)} style={styles.orb}>
-        <BreathingOrb icon={icon} />
+        <EnergyField size={FIELD} color={colors.lavender} intensity={0.3} animated={false} style={styles.field} />
+        <BreathingOrb icon={icon} size={ORB} />
       </Animated.View>
 
       <View style={styles.phraseBox}>
@@ -66,6 +73,11 @@ const styles = StyleSheet.create({
   },
   orb: {
     alignItems: 'center',
+  },
+  field: {
+    top: (ORB_BOX - FIELD) / 2,
+    left: '50%',
+    marginLeft: -FIELD / 2,
   },
   phraseBox: {
     minHeight: 30,

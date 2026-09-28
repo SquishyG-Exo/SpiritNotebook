@@ -33,13 +33,21 @@ export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { savedEntries } = useJournal();
   const greeting = useGreeting();
+  // Where the hero text ends, so the scene keeps its butterflies in the open sky below it.
+  const [heroBottom, setHeroBottom] = useState<number>();
 
   return (
     <View style={styles.root}>
-      <DuskScene />
+      <DuskScene clearTop={heroBottom} />
 
       <View style={[styles.content, { paddingTop: insets.top + spacing.xxl }]}>
-        <View style={styles.hero}>
+        <View
+          style={styles.hero}
+          onLayout={(event) => {
+            const { y, height } = event.nativeEvent.layout;
+            // A covered screen (display: none on web) reports an empty layout: keep the last real one.
+            if (height > 0) setHeroBottom(Math.round(y + height));
+          }}>
           <Animated.View entering={enter(60)}>
             <AppText variant="overline" color={withAlpha(colors.cream, 0.8)} align="center">
               {t(`home.greeting.${greeting}`)}

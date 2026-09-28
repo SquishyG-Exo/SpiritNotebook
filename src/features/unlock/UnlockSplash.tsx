@@ -13,10 +13,12 @@ import Animated, {
 
 import { colors, gradients, shadow, spacing } from '../../theme';
 import { AppText } from '../../ui';
+import { Dreamscape } from '../../ui/art';
 
 /**
- * Shown while the passcode requirement is being checked. The content fades in
- * after a short delay, so a fast check shows only the cream page (no flash).
+ * Shown while the passcode requirement is being checked. The scenery and the
+ * content fade in after a short delay, so a fast check shows only the cream
+ * page (no flash). A faint dawn scene echoes the Unlock screen's dusk.
  */
 export function UnlockSplash() {
   const { t } = useTranslation();
@@ -33,6 +35,11 @@ export function UnlockSplash() {
 
   return (
     <View style={styles.root} accessibilityLabel={t('unlock.checking')}>
+      <Animated.View pointerEvents="none" entering={FadeIn.duration(600).delay(200)} style={StyleSheet.absoluteFill}>
+        <View style={styles.scenery}>
+          <Dreamscape variant="dawn" />
+        </View>
+      </Animated.View>
       <Animated.View entering={FadeIn.duration(420).delay(200)} style={styles.center}>
         <Animated.View style={[styles.orb, orbStyle]}>
           <LinearGradient
@@ -59,6 +66,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // Low intensity, and taller than the screen so the sun rises near the bottom edge
+  // instead of sitting under the title: only its rays reach up behind the orb.
+  scenery: { position: 'absolute', top: 0, left: 0, right: 0, height: '135%', opacity: 0.45 },
   center: { alignItems: 'center', gap: spacing.lg },
   orb: {
     width: ORB,

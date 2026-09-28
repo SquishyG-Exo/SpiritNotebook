@@ -1,17 +1,36 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { insights } from '../../../brand/insights';
 import { localeFor } from '../../lib/dates';
 import { useJournal, useSettings } from '../../state';
-import { colors, fonts, spacing } from '../../theme';
+import { colors, fonts, gradients, layout, spacing } from '../../theme';
 import { AppText, Button, Card, Chip, Icon, IconCircle, Screen } from '../../ui';
+import { Butterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
 import { GlanceCard } from './GlanceCard';
-import { computeInsightStats } from './insightsModel';
+import { computeInsightStats, withAlpha } from './insightsModel';
 import { WeeklyBars } from './WeeklyBars';
+
+/** Night header that carries the title block; the glance card sits just below its fade. */
+const HERO_HEIGHT = 184;
+/** Top edge and right side only: the title block owns the upper left, and the
+ * subtitle can run almost the full width (Spanish at 360 px). */
+const HERO_SPARKLES: SparkleSpec[] = [
+  { x: 0.6, y: 0.08, size: 8, delay: 0 },
+  { x: 0.74, y: 0.2, size: 10, delay: 800 },
+  { x: 0.94, y: 0.62, size: 8, delay: 1500 },
+];
+/** Night-sky scrim behind the text block, then a short tail that fades out above the sun. */
+const HERO_SCRIM_BODY = [withAlpha(colors.navyDeep, 0.55), withAlpha(colors.navyDeep, 0.46)] as const;
+const HERO_SCRIM_TAIL = [withAlpha(colors.navyDeep, 0.46), withAlpha(colors.navyDeep, 0)] as const;
+/** Night into cream through a lavender mist: a straight night-to-cream fade turns grey midway. */
+const HERO_FADE = [withAlpha(colors.lavenderSoft, 0), withAlpha(colors.lavenderSoft, 0.7), colors.cream] as const;
+/** Rose glow behind the "Patterns" card; it shows in the gutters and the gaps between cards. */
+const PATTERNS_GLOW = 500;
 
 /** Premium Insights preview: computed counts from the journal plus mocked patterns from brand/insights.ts. */
 export function InsightsScreen() {
@@ -29,28 +48,50 @@ export function InsightsScreen() {
 
   return (
     <Screen scroll>
-      <View style={styles.header}>
-        <View style={styles.titleRow}>
-          <AppText variant="title" accessibilityRole="header">
-            {t('insights.title')}
+      <DreamBanner
+        variant="night"
+        height={HERO_HEIGHT}
+        glow={false}
+        butterflies="none"
+        sparkles={false}
+        fadeTo={null}
+        style={styles.hero}
+        contentStyle={styles.heroContent}>
+        <LinearGradient pointerEvents="none" colors={HERO_FADE} locations={[0, 0.5, 1]} style={styles.heroFade} />
+        <View style={styles.heroText}>
+          {/* Deepens the sky (clouds, rays) behind the text so cream keeps AA contrast. It follows
+              the text block, so a wrapped subtitle stays covered, and ends before the sun. */}
+          <View pointerEvents="none" style={styles.heroScrim}>
+            <LinearGradient colors={HERO_SCRIM_BODY} style={styles.heroScrimBody} />
+            <LinearGradient colors={HERO_SCRIM_TAIL} style={styles.heroScrimTail} />
+          </View>
+          <View style={styles.titleRow}>
+            <AppText variant="title" color={colors.cream} accessibilityRole="header">
+              {t('insights.title')}
+            </AppText>
+            <Chip
+              label={t('common.premium')}
+              background={withAlpha(colors.white, 0.14)}
+              color={colors.cream}
+              icon={<Icon name="Sparkles" size={13} color={gradients.premium[0]} strokeWidth={2} />}
+              style={styles.heroChip}
+            />
+          </View>
+          <AppText variant="small" color={colors.cream}>
+            {t('insights.subtitle')}
           </AppText>
-          <Chip
-            label={t('common.premium')}
-            tone="premium"
-            icon={<Icon name="Sparkles" size={13} color={colors.gold} strokeWidth={2} />}
-          />
         </View>
-        <AppText variant="small" color={colors.muted}>
-          {t('insights.subtitle')}
-        </AppText>
-      </View>
+        <HeroDecor />
+      </DreamBanner>
 
       <View style={styles.stack}>
-        <Reveal order={0}>
+        {/* Above the Patterns glow, which would otherwise paint over its lower edge. */}
+        <Reveal order={0} style={styles.raised}>
           <GlanceCard stats={stats} monthName={monthName} />
         </Reveal>
 
         <Reveal order={1}>
+          <EnergyField size={PATTERNS_GLOW} color={colors.rose} intensity={0.42} style={styles.patternsGlow} />
           <Card style={styles.card}>
             <CardTitle icon="Waves" title={t('insights.patternsTitle')} />
             <AppText variant="body" color={colors.inkSoft}>
@@ -133,8 +174,31 @@ export function InsightsScreen() {
   );
 }
 
-function Reveal({ order, children }: { order: number; children: ReactNode }) {
-  return <Animated.View entering={FadeInUp.duration(460).delay(60 + order * 80)}>{children}</Animated.View>;
+function Reveal({ order, children, style }: { order: number; children: ReactNode; style?: StyleProp<ViewStyle> }) {
+  return (
+    <Animated.View entering={FadeInUp.duration(460).delay(60 + order * 80)} style={style}>
+      {children}
+    </Animated.View>
+  );
+}
+
+/** Sparkles and two tiny butterflies at the edges of the night scene. Never takes touches. */
+function HeroDecor() {
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      <Sparkles sparkles={HERO_SPARKLES} />
+      <Butterfly size={26} rotation={-14} colorA={colors.peach} colorB={colors.rose} style={styles.heroButterflyTop} />
+      <Butterfly
+        size={20}
+        rotation={24}
+        delay={1200}
+        colorA={colors.peach}
+        colorB={colors.rose}
+        opacity={0.85}
+        style={styles.heroButterflyLow}
+      />
+    </View>
+  );
 }
 
 function CardTitle({ icon, title, subtitle }: { icon: string; title: string; subtitle?: string }) {
@@ -156,9 +220,23 @@ function CardTitle({ icon, title, subtitle }: { icon: string; title: string; sub
 }
 
 const styles = StyleSheet.create({
-  header: { paddingTop: spacing.xl, paddingBottom: spacing.lg, gap: 2 },
+  // Full-bleed: undo the Screen gutter.
+  hero: { marginHorizontal: -layout.gutter },
+  heroContent: { justifyContent: 'flex-start' },
+  // Text stays in the upper, darker part of the scene, above the fade.
+  heroText: { paddingTop: spacing.xxl + spacing.xs, paddingHorizontal: layout.gutter, gap: spacing.xs },
+  heroScrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: -spacing.xxl },
+  heroScrimBody: { flex: 1 },
+  heroScrimTail: { height: spacing.xxl },
+  heroChip: { borderWidth: 1, borderColor: withAlpha(colors.white, 0.28) },
+  heroButterflyTop: { position: 'absolute', right: 22, top: 18 },
+  heroButterflyLow: { position: 'absolute', left: 16, bottom: 60 },
+  // Same height as the banner's own fade, which this replaces.
+  heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 96 },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, flexWrap: 'wrap' },
   stack: { gap: spacing.lg },
+  raised: { zIndex: 1 },
+  patternsGlow: { left: '50%', top: '50%', marginLeft: -PATTERNS_GLOW / 2, marginTop: -PATTERNS_GLOW / 2 },
   card: { gap: spacing.lg },
   cardTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   cardTitleText: { flex: 1 },

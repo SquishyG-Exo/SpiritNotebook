@@ -5,9 +5,10 @@ import Animated, { FadeInRight, FadeInUp } from 'react-native-reanimated';
 
 import { lifeSituations, type LifeSituationDef } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
-import { AppText, Card, Header, Icon, IconCircle, Screen } from '../../ui';
+import { AppText, Card, Icon, IconCircle, Screen } from '../../ui';
 import { lifeIntro, lifeTitle, situationColors, situationLabel } from './categoryCopy';
 import { pageStyle } from './pageStyle';
+import { ScreenBanner } from './ScreenBanner';
 
 function SituationRow({ def, label, index, last }: { def: LifeSituationDef; label: string; index: number; last: boolean }) {
   const { tint, accent } = situationColors(def.key);
@@ -37,7 +38,7 @@ export function LifeSituationsScreen() {
 
   return (
     <Screen scroll edges={['top', 'bottom']} contentStyle={pageStyle.content}>
-      <Header title={lifeTitle(t)} backLabel={t('common.actions.back')} />
+      <ScreenBanner height={140} title={lifeTitle(t)} />
 
       <Animated.View entering={FadeInUp.duration(450)}>
         <AppText variant="body" color={colors.muted} align="center" style={styles.intro}>

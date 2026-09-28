@@ -1,16 +1,28 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { useSettings } from '../../state';
-import { colors, fonts, gradients, spacing } from '../../theme';
+import { colors, fonts, gradients, layout, spacing } from '../../theme';
 import { AppText, Card, Icon, IconCircle, Screen, type IconName } from '../../ui';
+import { CornerButterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ResetDemoButton } from './ResetDemoButton';
 
 const AVATAR = 72;
+/** Cover art behind the title; the identity card overlaps its bottom edge like a profile cover. */
+const COVER_HEIGHT = 150;
+const COVER_OVERLAP = 36;
+/** Clear of the title (top left) and the corner butterfly (top right). */
+const COVER_SPARKLES: SparkleSpec[] = [
+  { x: 0.52, y: 0.14, size: 9, delay: 0 },
+  { x: 0.72, y: 0.46, size: 11, delay: 900 },
+  { x: 0.16, y: 0.56, size: 8, delay: 1600 },
+];
+/** Faint rose glow behind the "What Spirit Notebook is" card; it shows in the gutters. */
+const ABOUT_GLOW = 560;
 const VERSION = '0.1';
 
 const PILLARS: readonly { key: 'notice' | 'reflect' | 'understand' | 'grow'; icon: IconName }[] = [
@@ -30,11 +42,24 @@ export function ProfileScreen() {
 
   return (
     <Screen scroll>
-      <View style={styles.header}>
-        <AppText variant="title" accessibilityRole="header">
-          {t('profile.title')}
-        </AppText>
-      </View>
+      <DreamBanner
+        variant="dawn"
+        height={COVER_HEIGHT}
+        rounded={false}
+        butterflies="none"
+        sparkles={false}
+        style={styles.cover}
+        contentStyle={styles.coverContent}>
+        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+          <Sparkles sparkles={COVER_SPARKLES} />
+          <CornerButterfly corner="top-right" inset={16} size={48} rotation={-14} />
+        </View>
+        <View style={styles.header}>
+          <AppText variant="title" accessibilityRole="header">
+            {t('profile.title')}
+          </AppText>
+        </View>
+      </DreamBanner>
 
       <View style={styles.stack}>
         <Reveal order={0}>
@@ -57,7 +82,8 @@ export function ProfileScreen() {
           </Card>
         </Reveal>
 
-        <Reveal order={1}>
+        {/* Above the About glow, which would otherwise paint over its lower edge. */}
+        <Reveal order={1} style={styles.raised}>
           <Card style={styles.card}>
             <View style={styles.labelRow}>
               <Icon name="Languages" size={18} color={colors.lavenderDeep} />
@@ -71,6 +97,7 @@ export function ProfileScreen() {
         </Reveal>
 
         <Reveal order={2}>
+          <EnergyField size={ABOUT_GLOW} color={colors.rose} intensity={0.34} animated={false} style={styles.aboutGlow} />
           <Card style={styles.card}>
             <AppText variant="heading" accessibilityRole="header">
               {t('profile.aboutTitle')}
@@ -126,13 +153,23 @@ export function ProfileScreen() {
   );
 }
 
-function Reveal({ order, children }: { order: number; children: ReactNode }) {
-  return <Animated.View entering={FadeInUp.duration(440).delay(50 + order * 70)}>{children}</Animated.View>;
+function Reveal({ order, children, style }: { order: number; children: ReactNode; style?: StyleProp<ViewStyle> }) {
+  return (
+    <Animated.View entering={FadeInUp.duration(440).delay(50 + order * 70)} style={style}>
+      {children}
+    </Animated.View>
+  );
 }
 
 const styles = StyleSheet.create({
-  header: { paddingTop: spacing.xl, paddingBottom: spacing.lg },
-  stack: { gap: spacing.lg },
+  // Full-bleed: undo the Screen gutter.
+  cover: { marginHorizontal: -layout.gutter },
+  coverContent: { justifyContent: 'flex-start' },
+  header: { paddingTop: spacing.xl, paddingHorizontal: layout.gutter },
+  // The identity card rides up over the cover's faded bottom edge.
+  stack: { gap: spacing.lg, marginTop: -COVER_OVERLAP },
+  raised: { zIndex: 1 },
+  aboutGlow: { left: '50%', top: '50%', marginLeft: -ABOUT_GLOW / 2, marginTop: -ABOUT_GLOW / 2 },
   identity: { flexDirection: 'row', alignItems: 'center', gap: spacing.lg },
   avatar: {
     width: AVATAR,

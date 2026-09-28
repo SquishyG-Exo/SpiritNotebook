@@ -8,8 +8,9 @@ import { categoryByKey } from '../../../brand/categories';
 import { brand } from '../../../brand/config';
 import { useJournal } from '../../state';
 import { colors, spacing } from '../../theme';
-import { Button, Header, Icon, Screen } from '../../ui';
+import { Button, Icon, Screen } from '../../ui';
 import { categoryPlaceholder, situationColors, situationPlaceholder } from '../explore/categoryCopy';
+import { ScreenBanner } from '../explore/ScreenBanner';
 import { EntryInput } from './EntryInput';
 import { HintsCard } from './HintsCard';
 import { parseComposerTopic } from './params';
@@ -50,7 +51,8 @@ export function NewEntryScreen() {
   return (
     <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Screen scroll edges={['top', 'bottom']} contentStyle={pageStyle.content}>
-        <Header title={t('entry.title')} backLabel={t('common.actions.back')} />
+        {/* Calm art: no butterflies or sparkles above the composer. */}
+        <ScreenBanner height={110} title={t('entry.title')} butterflies="none" sparkles={false} />
 
         <View style={styles.stack}>
           <Animated.View entering={enter(40)}>

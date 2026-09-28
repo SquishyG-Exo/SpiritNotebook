@@ -21,10 +21,29 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError, unlockWithPasscode } from '../../api/client';
-import { colors, fonts, gradients, radius, shadow, spacing } from '../../theme';
+import { colors, fonts, radius, shadow, spacing } from '../../theme';
 import { AppText, Button, Icon, IconCircle } from '../../ui';
+import { Butterfly, Dreamscape, Sparkles, type SparkleSpec } from '../../ui/art';
+import { withAlpha } from '../insights/insightsModel';
 
 const MAX_LENGTH = 32;
+
+/** Twinkles in the open sky above the content and over the hills below it. */
+const SKY_SPARKLES: SparkleSpec[] = [
+  { x: 0.14, y: 0.05, size: 11, delay: 0 },
+  { x: 0.6, y: 0.08, size: 8, delay: 700 },
+  { x: 0.88, y: 0.04, size: 10, delay: 1400 },
+  { x: 0.12, y: 0.95, size: 9, delay: 1000 },
+];
+
+/** Cream mist behind the brand block, card and hint: the scenery shows above and below it. */
+const MIST = withAlpha(colors.cream, 0.78);
+const MIST_CLEAR = withAlpha(colors.cream, 0);
+const HILLS_VEIL = [withAlpha(colors.lavender, 0), withAlpha(colors.lavender, 0.5)] as const;
+/** How far the mist fades out beyond the content, top and bottom. */
+const MIST_EDGE = 96;
+/** Each fade reaches full strength a little inside the content, so text never sits on a thin edge. */
+const MIST_FADE = MIST_EDGE + spacing.xxl;
 
 function errorMessageKey(error: unknown): string {
   if (error instanceof ApiError) {
@@ -76,14 +95,31 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
 
   return (
     <View style={styles.root}>
-      <LinearGradient
-        colors={gradients.dusk}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0.4, y: 1 }}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={[styles.glow, styles.glowTop]} />
-      <View style={[styles.glow, styles.glowBottom]} />
+      <Dreamscape variant="dusk" />
+      {/* Softens the zoomed-in near hills so the page closes in lavender, not a heavy violet block. */}
+      <LinearGradient pointerEvents="none" colors={HILLS_VEIL} style={styles.hillsVeil} />
+      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+        <Sparkles sparkles={SKY_SPARKLES} />
+        <Butterfly size={58} rotation={-14} style={[styles.butterfly, { top: insets.top + 56, left: 18 }]} />
+        <Butterfly
+          size={36}
+          rotation={18}
+          delay={900}
+          colorA={colors.peach}
+          colorB={colors.rose}
+          opacity={0.8}
+          style={[styles.butterfly, { top: insets.top + 112, right: 22 }]}
+        />
+        <Butterfly
+          size={26}
+          rotation={-24}
+          delay={1800}
+          colorA={colors.peach}
+          colorB={colors.lavender}
+          opacity={0.9}
+          style={[styles.butterfly, { bottom: insets.bottom + 64, right: 40 }]}
+        />
+      </View>
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.flex}>
         <ScrollView
@@ -94,6 +130,11 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
           <View style={styles.content}>
+            <View pointerEvents="none" style={styles.mist}>
+              <LinearGradient colors={[MIST_CLEAR, MIST]} style={styles.mistEdgeTop} />
+              <View style={styles.mistBody} />
+              <LinearGradient colors={[MIST, MIST_CLEAR]} style={styles.mistEdgeBottom} />
+            </View>
             <Animated.View entering={FadeInUp.duration(520)} style={styles.brand}>
               <IconCircle name="Moon" size={68} tint={colors.white} color={colors.lavenderDeep} style={shadow.glow} />
               <AppText variant="display" align="center">
@@ -198,16 +239,15 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.cream, overflow: 'hidden' },
   flex: { flex: 1 },
-  glow: {
-    position: 'absolute',
-    borderRadius: 999,
-    backgroundColor: colors.white,
-    opacity: 0.22,
-  },
-  glowTop: { width: 300, height: 300, top: -130, right: -110 },
-  glowBottom: { width: 240, height: 240, bottom: -100, left: -90, opacity: 0.16 },
+  hillsVeil: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '32%' },
+  butterfly: { position: 'absolute' },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: spacing.xl },
   content: { width: '100%', maxWidth: 380, alignSelf: 'center', gap: spacing.xxl },
+  // Hugs the content (so it follows it when it scrolls or wraps) and bleeds past the screen edges.
+  mist: { position: 'absolute', top: -MIST_EDGE, bottom: -MIST_EDGE, left: -80, right: -80 },
+  mistEdgeTop: { height: MIST_FADE },
+  mistBody: { flex: 1, backgroundColor: MIST },
+  mistEdgeBottom: { height: MIST_FADE },
   brand: { alignItems: 'center', gap: spacing.sm },
   card: {
     backgroundColor: colors.surface,

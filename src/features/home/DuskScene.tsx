@@ -1,10 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useIsFocused } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet, View, type DimensionValue, type ViewStyle } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
+  FadeIn,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
@@ -13,6 +14,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { colors, gradients } from '../../theme';
+import { EnergyField } from '../../ui/art';
+import { SkyButterflies } from './SkyButterflies';
 import { withAlpha } from './withAlpha';
 
 /** Horizon line, as a fraction of the scene height. */
@@ -30,6 +33,19 @@ const TAU = Math.PI * 2;
 const SUN = 62;
 /** How far the sun's center sits above the horizon. */
 const SUN_LIFT = 16;
+/**
+ * Faint energy field around the sun. Static, so the halo stays the only
+ * breathing layer there, and never taller than the open sky: its outer ring
+ * (41% of its size) stays below the hero text on short screens.
+ */
+const FIELD_MAX = 420;
+const FIELD_RING = 0.41;
+
+function fieldSize(sceneHeight: number, clearTop: number): number {
+  const sunY = sceneHeight * HORIZON - SUN_LIFT;
+  return Math.max(0, Math.min(FIELD_MAX, Math.floor((sunY - clearTop - 12) / FIELD_RING)));
+}
+
 const HALOS = [
   { size: 340, alpha: 0.2, color: colors.peach },
   { size: 236, alpha: 0.3, color: colors.peach },
@@ -105,13 +121,22 @@ function Star({ star, clock }: { star: StarDef; clock: SharedValue<number> }) {
   );
 }
 
+export interface DuskSceneProps {
+  /** Y (px from the top of the scene) where the hero text ends; butterflies stay below it. */
+  clearTop?: number;
+}
+
 /**
  * Abstract dusk scenery for Home: violet → rose → peach sky, a glowing sun
- * resting on the horizon with a slowly breathing halo, soft hills, and deep
+ * resting on the horizon with a slowly breathing halo inside a faint energy
+ * field, soft hills, a few butterflies drifting in the open sky, and deep
  * water with a column of reflected light and a few ripples.
  */
-export function DuskScene() {
+export function DuskScene({ clearTop }: DuskSceneProps) {
   const clock = useSceneClock();
+  const [height, setHeight] = useState(0);
+  const measured = clearTop !== undefined && height > 0;
+  const field = measured ? fieldSize(height, clearTop) : 0;
 
   const haloStyle = useAnimatedStyle(() => {
     const wave = 0.5 - 0.5 * Math.cos(clock.get() * TAU);
@@ -121,6 +146,11 @@ export function DuskScene() {
   return (
     <View
       style={[StyleSheet.absoluteFill, styles.noTouch]}
+      onLayout={(event) => {
+        // Ignore the empty layout of a covered screen so the sky art stays put (and paused) underneath.
+        const next = event.nativeEvent.layout.height;
+        if (next > 0) setHeight(next);
+      }}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants">
       {/* Sky */}
@@ -140,6 +170,17 @@ export function DuskScene() {
         <View style={[styles.hill, styles.hillBack]} />
 
         <View style={styles.horizonAnchor}>
+          {field > 0 ? (
+            <Animated.View entering={FadeIn.duration(900)} style={styles.fieldAnchor}>
+              <EnergyField
+                size={field}
+                color={colors.rose}
+                intensity={0.3}
+                animated={false}
+                style={{ left: -field / 2, top: -field / 2 - SUN_LIFT }}
+              />
+            </Animated.View>
+          ) : null}
           {/* The blur sits on a static child so the breathing transform only re-composites it. */}
           <Animated.View style={[styles.haloBox, haloStyle]}>
             <View style={[styles.haloBlur, webBlur(14)]}>
@@ -215,6 +256,8 @@ export function DuskScene() {
       {STARS.map((star) => (
         <Star key={`${star.left}-${star.top}`} star={star} clock={clock} />
       ))}
+
+      {measured ? <SkyButterflies top={clearTop} bottom={height * HORIZON} clock={clock} /> : null}
     </View>
   );
 }
@@ -243,6 +286,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: 0,
     height: 0,
+  },
+  fieldAnchor: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   haloBox: {
     position: 'absolute',

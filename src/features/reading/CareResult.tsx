@@ -5,9 +5,10 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { brand } from '../../../brand/config';
 import type { Reading } from '../../state';
 import { colors, radius, spacing } from '../../theme';
-import { AppText, Button, Icon, IconCircle } from '../../ui';
+import { AppText, Button, Icon } from '../../ui';
 import { openExternal } from './navigation';
 import { splitParagraphs } from './paragraphs';
+import { CareBanner } from './ReadingBanner';
 
 const enter = (step: number) => FadeInUp.delay(60 + step * 110).duration(600);
 
@@ -23,7 +24,7 @@ export function CareResult({ reading, onHome }: { reading: Reading; onHome: () =
   return (
     <View style={styles.root}>
       <Animated.View entering={enter(0)} style={styles.panel}>
-        <IconCircle name="Heart" size={60} tint={colors.roseSoft} color={colors.roseDeep} strokeWidth={2} />
+        <CareBanner fadeTo={colors.lavenderSoft} style={styles.art} />
         <AppText variant="overline" color={colors.roseDeep} style={styles.eyebrow}>
           {t('reading.care.eyebrow')}
         </AppText>
@@ -87,6 +88,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.xl,
     padding: spacing.xxl,
     gap: spacing.sm,
+    overflow: 'hidden',
+  },
+  // The dawn art runs edge to edge across the top of the panel and fades into it.
+  art: {
+    marginTop: -spacing.xxl,
+    marginHorizontal: -spacing.xxl,
   },
   eyebrow: {
     marginTop: spacing.md,
