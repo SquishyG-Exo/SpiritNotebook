@@ -78,7 +78,7 @@ export const brand = {
 
   ai: {
     /** Overridable with the ANTHROPIC_MODEL env var on the server. */
-    defaultModel: 'claude-opus-5',
+    defaultModel: 'claude-sonnet-5',
     minInputChars: 8,
     maxInputChars: 1500,
     maxOutputTokens: 1024,

@@ -16,7 +16,7 @@ export interface ServerConfig {
   apiKey?: string;
   model: string;
   effort: Effort;
-  /** 'default' sends the server-side refusal fallback (`fallbacks: "default"`); 'off' omits it. */
+  /** 'default' sends the server-side refusal fallback (`fallbacks: "default"`); 'off' omits it. See fallbacksFor. */
   fallbacks: 'default' | 'off';
   /** When set, /api/interpret requires it in the x-demo-passcode header. */
   passcode?: string;
@@ -52,12 +52,25 @@ function effort(value: string | undefined): Effort {
   return EFFORTS.find((level) => level === normalized) ?? 'low';
 }
 
+/**
+ * The server-side refusal fallback (a beta) targets the Opus / Fable tier.
+ * It is on for those models and off elsewhere unless ANTHROPIC_FALLBACKS says
+ * 'on' or 'off' explicitly.
+ */
+export function fallbacksFor(value: string | undefined, model: string): 'default' | 'off' {
+  const normalized = text(value)?.toLowerCase();
+  if (normalized === 'off') return 'off';
+  if (normalized === 'on' || normalized === 'default') return 'default';
+  return /opus|fable|mythos/i.test(model) ? 'default' : 'off';
+}
+
 export function readConfig(env: Env): ServerConfig {
+  const model = text(env.ANTHROPIC_MODEL) ?? brand.ai.defaultModel;
   return {
     apiKey: text(env.ANTHROPIC_API_KEY),
-    model: text(env.ANTHROPIC_MODEL) ?? brand.ai.defaultModel,
+    model,
     effort: effort(env.ANTHROPIC_EFFORT),
-    fallbacks: text(env.ANTHROPIC_FALLBACKS)?.toLowerCase() === 'off' ? 'off' : 'default',
+    fallbacks: fallbacksFor(env.ANTHROPIC_FALLBACKS, model),
     passcode: text(env.DEMO_PASSCODE),
     mockAi: env.MOCK_AI === 'true',
     limits: {

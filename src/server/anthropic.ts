@@ -56,7 +56,7 @@ export function createAnthropicModel(options: AnthropicModelOptions): ModelCall 
       max_tokens: maxTokens,
       system,
       messages: [{ role: 'user', content: buildUserMessage(input) }],
-      // Adaptive is Claude Opus 5's default; stated so a model override keeps thinking on.
+      // Adaptive thinking: the only thinking mode on Sonnet 5 / Opus 5; stated so a model override keeps it on.
       thinking: { type: 'adaptive' },
       output_config: { effort: options.effort, format },
     };
