@@ -77,8 +77,7 @@ export const brand = {
   },
 
   ai: {
-    /** Overridable with the ANTHROPIC_MODEL env var on the server. */
-    defaultModel: 'claude-sonnet-5',
+    // The models used are server-side settings (src/server/config.ts): this file ships in the client bundle.
     minInputChars: 8,
     maxInputChars: 1500,
     maxOutputTokens: 1024,

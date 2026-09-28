@@ -4,6 +4,10 @@ export type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
 const EFFORTS: readonly Effort[] = ['low', 'medium', 'high', 'xhigh', 'max'];
 
+/** Defaults live here, not in brand/config.ts, so model names never ship in the client bundle. */
+export const DEFAULT_MODEL = 'claude-sonnet-5';
+export const DEFAULT_ADVISOR_MODEL = 'claude-opus-5';
+
 export interface RateLimits {
   perIpPerMinute: number;
   perIpPerDay: number;
@@ -67,11 +71,11 @@ export function fallbacksFor(value: string | undefined, model: string): 'default
 }
 
 export function readConfig(env: Env): ServerConfig {
-  const model = text(env.ANTHROPIC_MODEL) ?? brand.ai.defaultModel;
+  const model = text(env.ANTHROPIC_MODEL) ?? DEFAULT_MODEL;
   return {
     apiKey: text(env.ANTHROPIC_API_KEY),
     model,
-    advisorModel: text(env.ANTHROPIC_ADVISOR_MODEL) ?? 'claude-opus-5',
+    advisorModel: text(env.ANTHROPIC_ADVISOR_MODEL) ?? DEFAULT_ADVISOR_MODEL,
     effort: effort(env.ANTHROPIC_EFFORT),
     fallbacks: fallbacksFor(env.ANTHROPIC_FALLBACKS, model),
     passcode: text(env.DEMO_PASSCODE),

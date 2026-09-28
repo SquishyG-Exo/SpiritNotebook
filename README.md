@@ -53,7 +53,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for 
    | --- | --- | --- |
    | `ANTHROPIC_API_KEY` | yes | Server-only. Without it `/api/interpret` answers `503 not_configured` and the app shows an honest "AI not set up" state (never a fake reading). |
    | `DEMO_PASSCODE` | no | When set, the app shows a passcode screen and the API refuses readings without it. |
-   | `ANTHROPIC_MODEL` | no | Defaults to `claude-sonnet-5` (see `brand/config.ts`); `claude-opus-5` gives the richest prose at a slower, pricier call. |
+   | `ANTHROPIC_MODEL` | no | Defaults to `claude-sonnet-5` (see `src/server/config.ts`); `claude-opus-5` gives the richest prose at a slower, pricier call. |
    | `RATE_LIMIT_PER_IP_PER_MINUTE` / `RATE_LIMIT_PER_IP_PER_DAY` / `RATE_LIMIT_GLOBAL_PER_DAY` | no | Defaults 8 / 40 / 300. |
    | `ANTHROPIC_ADVISOR_MODEL` | no | Advisor model for the Profile → Lab "advisor mode" readings (default `claude-opus-5`). |
    | `ANTHROPIC_EFFORT` | no | `low` (default), `medium` or `high`: how much the model thinks before writing. |
@@ -76,7 +76,7 @@ Or from the command line: `npx vercel` (preview) / `npx vercel --prod`.
 
 Everything brand-specific lives in `/brand`:
 
-- `config.ts` — name, palette, gradients, font names, crisis links, AI limits and default model.
+- `config.ts` — name, palette, gradients, font names, crisis links and AI input limits (model choices stay server-side).
 - `categories.ts` — the category grid and Life Situations list (keys, icons, tints).
 - `locales/en/*.json`, `locales/es/*.json` — every UI string, one file per screen.
 - `sample-entries.ts` — the preloaded journal (both languages), `insights.ts` — the mocked Premium copy.
