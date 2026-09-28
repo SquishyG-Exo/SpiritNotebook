@@ -102,3 +102,40 @@ describe('ReadingSchema', () => {
     expect(check({ reflection_question: `${'a'.repeat(300)}?` })).toBe(false);
   });
 });
+
+describe('ReadingSchema sanitising', () => {
+  const base = {
+    kind: 'reading',
+    title: 'The Silver Door',
+    reflection_question: 'What is waiting on the other side?',
+  };
+
+  it('turns HTML line breaks into a blank line and strips other tags', () => {
+    const interpretation =
+      'First paragraph about the door, long enough to pass the minimum length.</br></br>Second <b>paragraph</b> here.';
+    const parsed = ReadingSchema.parse({ ...base, interpretation });
+    expect(parsed.interpretation).toBe(
+      'First paragraph about the door, long enough to pass the minimum length.\n\nSecond paragraph here.',
+    );
+  });
+
+  it('removes Markdown emphasis and collapses extra blank lines', () => {
+    const interpretation =
+      'A *quiet* threshold, **silver** light, and nothing to rush toward at all today.\n\n\n\nStay with it for a while.';
+    const parsed = ReadingSchema.parse({ ...base, interpretation });
+    expect(parsed.interpretation).toBe(
+      'A quiet threshold, silver light, and nothing to rush toward at all today.\n\nStay with it for a while.',
+    );
+  });
+
+  it('flattens single-line fields', () => {
+    const parsed = ReadingSchema.parse({
+      ...base,
+      title: '  The <em>Silver</em>\nDoor ',
+      reflection_question: 'What is\n\nwaiting?',
+      interpretation: 'A long enough interpretation to satisfy the minimum length requirement here.',
+    });
+    expect(parsed.title).toBe('The Silver Door');
+    expect(parsed.reflection_question).toBe('What is waiting?');
+  });
+});

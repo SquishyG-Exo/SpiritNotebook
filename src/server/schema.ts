@@ -65,12 +65,41 @@ export const ModelOutputSchema = z.object({
   interpretation: z
     .string()
     .describe(
-      '120 to 180 words of plain text (never more than 200), one or two paragraphs separated by a blank line.',
+      '120 to 180 words of plain text (never more than 200): no HTML, no Markdown. One or two paragraphs separated by a single blank line. Do not end it with a question.',
     ),
   reflection_question: z
     .string()
     .describe('One open question the reader can journal about, ending with a question mark.'),
 });
+
+const BREAK_TAG = /\s*<\s*\/?\s*br\s*\/?\s*>\s*/gi;
+const OTHER_TAG = /<\/?[a-z][^<>]*>/gi;
+const MARKDOWN_EMPHASIS = /(\*\*|__|(?<!\w)[*_](?!\s))(.+?)\1/g;
+
+/**
+ * Models occasionally wrap paragraph breaks in HTML (`</br></br>`) or add
+ * emphasis marks even when asked for plain text. The app renders plain text,
+ * so markup is removed here and paragraph breaks are normalised to one blank
+ * line.
+ */
+export function cleanParagraphs(value: unknown): unknown {
+  if (typeof value !== 'string') return value;
+  return value
+    .replace(/\r\n?/g, '\n')
+    .replace(BREAK_TAG, '\n\n')
+    .replace(/<\s*\/?\s*p\s*>/gi, '\n\n')
+    .replace(OTHER_TAG, '')
+    .replace(MARKDOWN_EMPHASIS, '$2')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+/** Single-line fields: markup removed, whitespace collapsed. */
+export function cleanLine(value: unknown): unknown {
+  const cleaned = cleanParagraphs(value);
+  return typeof cleaned === 'string' ? cleaned.replace(/\s+/g, ' ').trim() : cleaned;
+}
 
 /** What the API accepts from the model before answering the client. */
 export const ReadingSchema = z.object({
@@ -80,9 +109,9 @@ export const ReadingSchema = z.object({
       z.enum(READING_KINDS),
     )
     .default('reading'),
-  title: z.string().trim().min(1).max(80),
-  interpretation: z.string().trim().min(40).max(2000),
-  reflection_question: z.string().trim().min(5).max(300),
+  title: z.preprocess(cleanLine, z.string().min(1).max(80)),
+  interpretation: z.preprocess(cleanParagraphs, z.string().min(40).max(2000)),
+  reflection_question: z.preprocess(cleanLine, z.string().min(5).max(300)),
 });
 
 export type Reading = z.output<typeof ReadingSchema>;

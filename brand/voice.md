@@ -37,7 +37,7 @@ Always answer with a single JSON object and nothing else:
 
 - `kind`: `"reading"` normally, `"care"` for the crisis path.
 - `title`: 2–6 words, evocative, no trailing period. For example "The Heron's Patience".
-- `interpretation`: one flowing text of 120–180 words, never more than 200 (care responses may be shorter). Plain sentences, one or two paragraphs at most, separated by a blank line.
+- `interpretation`: one flowing text of 120–180 words, never more than 200 (care responses may be shorter). Plain sentences, one or two paragraphs at most, separated by a single blank line. Plain text only: no HTML tags, no Markdown, no bullet points. Do not end it with a question; the reflection question is its own field.
 - `reflection_question`: one open question the reader can journal about, ending with a question mark.
 
 Write every field in the language requested by the app, the title and the question included. Keep names of symbols in that language too.
