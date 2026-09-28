@@ -83,6 +83,12 @@ Everything brand-specific lives in `/brand`:
 
 Fonts are loaded in `src/theme/fonts.ts` (Fraunces for display, DM Sans for body); icons are lucide line icons registered in `src/ui/icons.tsx`. App icons are generated from a single SVG design with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium).
 
+## Artwork
+
+The dreamscapes, butterflies, energy fields and sparkles are vector components in `src/ui/art/` (no image files): `Dreamscape` (sky, horizon glow, light rays, energy rings, cloud fields, misty hills; `dusk` / `dawn` / `night`), `DreamBanner` (a scene with glow, butterflies, sparkles and a fade into the page, used for screen headers and the reading banner), `Butterfly` (gradient wings with a soft wing-beat and drift), `EnergyField` (breathing radial glow) and `Sparkles`. They are crisp at any size, animate with Reanimated, never intercept touches, and respect reduced motion where the screen exposes it. The desktop backdrop behind the phone frame is `public/art/desktop-backdrop.svg`.
+
+`DreamBanner` also accepts a bundled image (`source`) so painterly artwork can replace the vector scene per banner without touching the screens.
+
 ## Project structure
 
 ```
@@ -93,6 +99,7 @@ scripts/        local API dev server, icon generator
 src/app/        Expo Router routes (thin)
 src/features/   screen implementations by feature
 src/ui/         shared primitives (Screen, AppText, Button, Card, Chip, Header, Icon…)
+src/ui/art/     vector artwork (Dreamscape, DreamBanner, Butterfly, EnergyField, Sparkles)
 src/theme/      design tokens and fonts
 src/state/      in-memory journal + settings providers
 src/i18n/       i18next setup

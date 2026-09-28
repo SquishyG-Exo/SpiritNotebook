@@ -50,6 +50,7 @@ This is a clickable proof of concept: mocked journal state in memory, a real AI 
 
 - `brand/` — everything a re-skin touches: `config.ts` (name, palette, fonts, AI limits), `categories.ts`, `locales/<lang>/<namespace>.json` (all UI copy), `sample-entries.ts`, `insights.ts`, `voice.md` (AI system prompt). No React Native imports in `brand/config.ts` or `brand/categories.ts`: the API imports them too.
 - `src/app/` — Expo Router routes only. Screen logic lives in `src/features/<feature>/`.
+- `src/ui/art/` — vector artwork (`DreamBanner`, `Dreamscape`, `Butterfly`, `EnergyField`, `Sparkles`). Use them for headers, banners and edge decoration; keep animated elements per screen modest (≤ 8) and never place art over text or inputs.
 - `src/ui/` — shared primitives (`Screen`, `AppText`, `Button`, `Card`, `Chip`, `IconCircle`, `Header`, `Icon`, `PressableScale`, `TabBar`). Use them before writing new styled views.
 - `src/theme/` — tokens (`colors`, `gradients`, `fonts`, `type`, `spacing`, `radius`, `shadow`, `layout`). Never hard-code colors or font names in features.
 - `src/state/` — `useJournal()` (entries, drafts, save, notes, reset) and `useSettings()` (language, unlock). Journal state is in memory on purpose.
