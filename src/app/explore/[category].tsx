@@ -1,18 +1,17 @@
-import { useTranslation } from 'react-i18next';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { AppText, Screen } from '../../ui';
+import { isCategoryKey } from '../../../brand/categories';
+import { LifeSituationsScreen } from '../../features/explore/LifeSituationsScreen';
+import { firstParam } from '../../features/entry/params';
 
-/** PLACEHOLDER screen: replaced by the feature implementation. */
-export default function CategoryScreen() {
-  const { t } = useTranslation();
-  return (
-    <Screen scroll>
-      <AppText variant="title" style={{ marginTop: 24 }}>
-        Category
-      </AppText>
-      <AppText variant="body" color="#6F6A94" style={{ marginTop: 8 }}>
-        {t('common.app.tagline')}
-      </AppText>
-    </Screen>
-  );
+/** Only "life" has a sub-list; any other valid category goes straight to the composer. */
+export default function CategoryRoute() {
+  const params = useLocalSearchParams<{ category?: string | string[] }>();
+  const category = firstParam(params.category);
+
+  if (category === 'life') return <LifeSituationsScreen />;
+  if (isCategoryKey(category)) {
+    return <Redirect href={{ pathname: '/entry/new', params: { category } }} />;
+  }
+  return <Redirect href="/explore" />;
 }

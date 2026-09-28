@@ -1,1 +1,12 @@
-{}
+{
+  "greeting": {
+    "morning": "Buenos días",
+    "afternoon": "Buenas tardes",
+    "evening": "Buenas noches",
+    "night": "Noche serena"
+  },
+  "latest": "Última entrada",
+  "empty": "Tu cuaderno está listo para su primera señal.",
+  "emptyHint": "Empieza con algo que haya llamado tu atención hoy.",
+  "openEntry": "Abrir tu última entrada: {{title}}"
+}

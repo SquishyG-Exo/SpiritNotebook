@@ -1,1 +1,43 @@
-{}
+{
+  "title": "Your Interpretation",
+  "loading": [
+    "Listening to your sign…",
+    "Finding the thread…",
+    "Weaving the meaning…",
+    "Almost there…"
+  ],
+  "loadingCaption": "Usually takes a few seconds",
+  "youWrote": "What you wrote",
+  "photoAttached": "Photo attached",
+  "reflection": "Reflection for you",
+  "save": "Save to Notebook",
+  "journal": "Journal My Thoughts",
+  "notePlaceholder": "What does this reading stir in you? Write freely…",
+  "noteLabel": "Your thoughts",
+  "saveWithNote": "Save with my thoughts",
+  "myThoughts": "My thoughts",
+  "addThought": "Add a thought",
+  "editThought": "Edit",
+  "saveThought": "Save thought",
+  "missing": {
+    "title": "This entry drifted away",
+    "body": "Unsaved drafts only last for this visit. Your saved entries are safe.",
+    "action": "Back to Home"
+  },
+  "error": {
+    "title": "The reading didn’t come through",
+    "retryIn_one": "You can try again in {{count}} second.",
+    "retryIn_other": "You can try again in {{count}} seconds.",
+    "retryInMinutes_one": "You can try again in about {{count}} minute.",
+    "retryInMinutes_other": "You can try again in about {{count}} minutes."
+  },
+  "care": {
+    "eyebrow": "You’re not alone",
+    "support": "In the US, you can call or text 988 any time to reach the Suicide & Crisis Lifeline. It’s free and confidential.",
+    "call": "Call 988",
+    "text": "Text 988",
+    "outsideUs": "Outside the US, please contact your local emergency number.",
+    "disclaimer": "Spirit Notebook is a space for reflection and can’t offer crisis support.",
+    "home": "Back to Home"
+  }
+}

@@ -1,1 +1,43 @@
-{}
+{
+  "title": "Tu interpretación",
+  "loading": [
+    "Escuchando tu señal…",
+    "Buscando el hilo…",
+    "Tejiendo el significado…",
+    "Ya casi…"
+  ],
+  "loadingCaption": "Suele tardar unos segundos",
+  "youWrote": "Lo que escribiste",
+  "photoAttached": "Foto adjunta",
+  "reflection": "Una reflexión para ti",
+  "save": "Guardar en mi cuaderno",
+  "journal": "Escribir lo que siento",
+  "notePlaceholder": "¿Qué despierta en ti esta lectura? Escribe con libertad…",
+  "noteLabel": "Tus pensamientos",
+  "saveWithNote": "Guardar con mis pensamientos",
+  "myThoughts": "Mis pensamientos",
+  "addThought": "Agregar un pensamiento",
+  "editThought": "Editar",
+  "saveThought": "Guardar pensamiento",
+  "missing": {
+    "title": "Esta entrada se desvaneció",
+    "body": "Los borradores sin guardar solo duran esta visita. Tus entradas guardadas están a salvo.",
+    "action": "Volver al inicio"
+  },
+  "error": {
+    "title": "La lectura no llegó",
+    "retryIn_one": "Puedes volver a intentarlo en {{count}} segundo.",
+    "retryIn_other": "Puedes volver a intentarlo en {{count}} segundos.",
+    "retryInMinutes_one": "Puedes volver a intentarlo en aproximadamente {{count}} minuto.",
+    "retryInMinutes_other": "Puedes volver a intentarlo en aproximadamente {{count}} minutos."
+  },
+  "care": {
+    "eyebrow": "No estás a solas",
+    "support": "En EE. UU. puedes llamar o enviar un mensaje de texto al 988 a cualquier hora para hablar con la Línea 988 de Prevención del Suicidio y Crisis. Es gratis, confidencial y hay atención en español.",
+    "call": "Llamar al 988",
+    "text": "Escribir al 988",
+    "outsideUs": "Si estás fuera de EE. UU., comunícate con el número de emergencias de tu país.",
+    "disclaimer": "Spirit Notebook es un espacio de reflexión y no puede brindar apoyo en crisis.",
+    "home": "Volver al inicio"
+  }
+}

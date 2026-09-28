@@ -1,1 +1,19 @@
-{}
+{
+  "title": "New Entry",
+  "change": "Change",
+  "changeHint": "Choose a different category",
+  "hintsTitle": "On this path",
+  "genericHints": [
+    "What you saw, heard or felt",
+    "Where you were and what was on your mind",
+    "Why it stayed with you"
+  ],
+  "placeholder": "Write what you noticed, in your own words…",
+  "inputLabel": "Your entry",
+  "counter": "{{count}}/{{max}}",
+  "addPhoto": "Add a photo",
+  "removePhoto": "Remove photo",
+  "photoNote": "Photos are illustrative in this preview.",
+  "interpret": "Interpret this entry",
+  "tooShort": "A few more words will help your reading."
+}

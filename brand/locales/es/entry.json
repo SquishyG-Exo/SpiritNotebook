@@ -1,1 +1,19 @@
-{}
+{
+  "title": "Nueva entrada",
+  "change": "Cambiar",
+  "changeHint": "Elegir otra categoría",
+  "hintsTitle": "En este camino",
+  "genericHints": [
+    "Lo que viste, escuchaste o sentiste",
+    "Dónde estabas y qué tenías en mente",
+    "Por qué se quedó contigo"
+  ],
+  "placeholder": "Escribe lo que notaste, con tus propias palabras…",
+  "inputLabel": "Tu entrada",
+  "counter": "{{count}}/{{max}}",
+  "addPhoto": "Agregar una foto",
+  "removePhoto": "Quitar la foto",
+  "photoNote": "En esta vista previa, las fotos son ilustrativas.",
+  "interpret": "Interpretar esta entrada",
+  "tooShort": "Unas palabras más harán tu lectura más personal."
+}
