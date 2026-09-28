@@ -130,7 +130,6 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
         />
         <AppText variant="caption" color={colors.muted}>
           {t('profile.lab.seconds', { seconds })}
-          {reading?.model ? ` · ${reading.model}` : ''}
         </AppText>
       </View>
       {result.errorKey ? (
@@ -156,7 +155,6 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
           {variant === 'advisor' ? (
             <AppText variant="caption" color={reading.advisor?.consulted ? colors.success : colors.muted}>
               {t(reading.advisor?.consulted ? 'profile.lab.consulted' : 'profile.lab.notConsulted')}
-              {reading.advisor?.model ? ` · ${reading.advisor.model}` : ''}
             </AppText>
           ) : null}
           {reading.advice ? (

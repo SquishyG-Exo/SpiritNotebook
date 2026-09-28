@@ -48,7 +48,6 @@ describe('POST /api/interpret', () => {
     expect(await response.json()).toEqual({
       ...sampleReading,
       language: 'en',
-      model: 'claude-opus-5',
       advisor: { requested: false, consulted: false },
       duration_ms: expect.any(Number),
     });
@@ -73,9 +72,11 @@ describe('POST /api/interpret', () => {
     expect(body).toMatchObject({ kind: 'care', title: 'You Deserve Support' });
   });
 
-  it('reports the model that actually served the reading', async () => {
+  it('never exposes model ids to the client', async () => {
     const { post } = setup({}, [ok(sampleReading, 'claude-opus-4-8')]);
-    expect(await (await post()).json()).toMatchObject({ model: 'claude-opus-4-8' });
+    const body = await (await post()).json();
+    expect(body).not.toHaveProperty('model');
+    expect(JSON.stringify(body)).not.toContain('claude-');
   });
 
   it('rejects invalid bodies with 400 before calling the model', async () => {
@@ -255,7 +256,6 @@ describe('MOCK_AI=true', () => {
       kind: 'reading',
       title: 'Una invitación silenciosa',
       language: 'es',
-      model: 'mock',
     });
     expect(sleep).toHaveBeenCalledWith(MOCK_DELAY_MS);
     expect(model).not.toHaveBeenCalled();
@@ -265,7 +265,7 @@ describe('MOCK_AI=true', () => {
     const { post, sleep } = mockSetup();
 
     const care = await post({ ...validBody, text: 'Testing the crisis path mock:care' });
-    expect(await care.json()).toMatchObject({ kind: 'care', model: 'mock' });
+    expect(await care.json()).toMatchObject({ kind: 'care' });
 
     const error = await post({ ...validBody, text: 'Testing a failure mock:error' });
     expect(error.status).toBe(502);
@@ -313,12 +313,14 @@ describe('advisor mode', () => {
     const { post, model } = setup({}, [advised]);
     const response = await post({ ...validBody, mode: 'advisor' });
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({
-      model: 'claude-sonnet-5',
-      advisor: { requested: true, consulted: true, model: 'claude-opus-5' },
+    const body = await response.json();
+    expect(body).toMatchObject({
+      advisor: { requested: true, consulted: true },
       advice: 'Lead with the stillness.',
       duration_ms: expect.any(Number),
     });
+    expect(body).not.toHaveProperty('model');
+    expect(body.advisor).not.toHaveProperty('model');
     expect(model).toHaveBeenCalledWith(
       expect.objectContaining({ input: expect.objectContaining({ mode: 'advisor' }) }),
     );

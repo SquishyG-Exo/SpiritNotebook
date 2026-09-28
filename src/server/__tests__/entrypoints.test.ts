@@ -22,6 +22,8 @@ describe('api/ entry points', () => {
       jsonRequest('http://localhost/api/interpret', validBody, { 'x-demo-passcode': 'lotus-42' }),
     );
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({ kind: 'reading', language: 'en', model: 'mock' });
+    const body = await response.json();
+    expect(body).toMatchObject({ kind: 'reading', language: 'en' });
+    expect(body).not.toHaveProperty('model');
   });
 });

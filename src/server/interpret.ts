@@ -154,20 +154,16 @@ export function createInterpretHandler(deps: InterpretDeps): Handler {
 
       const started = Date.now();
       try {
-        const { reading, model: servedBy, advisor, advice } = await generateReading(model, input, {
+        const { reading, advisor, advice } = await generateReading(model, input, {
           maxTokens: config.maxOutputTokens,
           signal: AbortSignal.timeout(MODEL_BUDGET_MS),
           logger,
         });
+        // Model ids stay in the server logs: the client only learns whether the advisor was consulted.
         return json(200, {
           ...reading,
           language: input.language,
-          model: servedBy,
-          advisor: {
-            requested: input.mode === 'advisor',
-            consulted: advisor?.consulted ?? false,
-            ...(advisor?.model ? { model: advisor.model } : {}),
-          },
+          advisor: { requested: input.mode === 'advisor', consulted: advisor?.consulted ?? false },
           ...(advice ? { advice } : {}),
           duration_ms: Date.now() - started,
         });

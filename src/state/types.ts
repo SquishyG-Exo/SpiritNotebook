@@ -10,8 +10,6 @@ export type ReadingMode = 'standard' | 'advisor';
 export interface AdvisorSummary {
   requested: boolean;
   consulted: boolean;
-  /** Advisor model id, when one was configured. */
-  model?: string;
 }
 
 /** What the AI guide returns for one entry. */
@@ -21,8 +19,7 @@ export interface Reading {
   interpretation: string;
   reflectionQuestion: string;
   language: Language;
-  /** Model id that produced it (absent for sample content). */
-  model?: string;
+  /** Which models produced it stays server-side (function logs); the client never sees model ids. */
   advisor?: AdvisorSummary;
   /** The advisor's guidance, when the advisor model returns it in plain text. */
   advice?: string;

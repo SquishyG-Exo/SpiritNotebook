@@ -18,7 +18,7 @@
     "title": "Lab",
     "subtitle": "Experimental settings for this preview.",
     "toggle": "Advisor mode",
-    "toggleHint": "New readings are written by Sonnet after it consults an Opus advisor about the most meaningful angle. Richer and a little slower, at roughly five times the cost per reading.",
+    "toggleHint": "New readings are written after the guide consults a second, deeper source about the most meaningful angle for your entry. Richer and a little slower, at a higher cost per reading.",
     "sample": "The comparison uses the heron sample entry, so both readings start from the same words.",
     "run": "Run a comparison",
     "runningStandard": "Writing the standard reading…",

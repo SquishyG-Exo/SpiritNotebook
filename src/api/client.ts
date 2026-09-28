@@ -6,8 +6,9 @@
  *   POST /api/interpret
  *     headers: content-type: application/json, x-demo-passcode?: string
  *     body:    { text, category, subcategory?, language, mode?: 'standard' | 'advisor' }
- *     200:     { kind: 'reading' | 'care', title, interpretation, reflection_question, language, model,
- *                advisor?: { requested, consulted, model? }, advice?: string, duration_ms?: number }
+ *     200:     { kind: 'reading' | 'care', title, interpretation, reflection_question, language,
+ *                advisor?: { requested, consulted }, advice?: string, duration_ms?: number }
+ *              Model ids are deliberately not part of the response; they live in the server logs.
  *     4xx/5xx: { error: ErrorCode, message?: string, retryAfter?: number }
  *
  *   GET  /api/unlock          → { required: boolean }
@@ -54,7 +55,6 @@ interface InterpretResponse {
   interpretation: string;
   reflection_question: string;
   language: Language;
-  model?: string;
   advisor?: AdvisorSummary;
   advice?: string;
   duration_ms?: number;
@@ -106,7 +106,6 @@ export async function requestInterpretation(input: InterpretInput): Promise<Read
     interpretation: data.interpretation,
     reflectionQuestion: data.reflection_question,
     language: data.language ?? input.language,
-    model: data.model,
     advisor: data.advisor,
     advice: data.advice,
     durationMs: data.duration_ms,

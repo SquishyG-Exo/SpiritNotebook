@@ -18,7 +18,7 @@
     "title": "Laboratorio",
     "subtitle": "Ajustes experimentales de esta versión de prueba.",
     "toggle": "Modo asesor",
-    "toggleHint": "Las nuevas lecturas las escribe Sonnet después de consultar a un asesor Opus sobre el enfoque más significativo. Más ricas y un poco más lentas, con un costo unas cinco veces mayor por lectura.",
+    "toggleHint": "Las nuevas lecturas se escriben después de que la guía consulta una segunda fuente, más profunda, sobre el enfoque más significativo para tu entrada. Más ricas y un poco más lentas, con un costo mayor por lectura.",
     "sample": "La comparación usa la entrada de ejemplo de la garza, así ambas lecturas parten de las mismas palabras.",
     "run": "Comparar lecturas",
     "runningStandard": "Escribiendo la lectura estándar…",
