@@ -43,6 +43,7 @@
     "network": "No pudimos conectar con el cuaderno. Revisa tu conexión e inténtalo otra vez.",
     "rateLimited": "Has pedido muchas lecturas en poco tiempo. Respira hondo e inténtalo de nuevo en un rato.",
     "notConfigured": "La guía de IA aún no está configurada en este servidor.",
-    "unauthorized": "Esta demo necesita un código de acceso."
+    "unauthorized": "Esta demo necesita un código de acceso.",
+    "rateLimitedDay": "Has llegado al límite de lecturas de hoy en esta versión de prueba. Vuelve mañana para más."
   }
 }

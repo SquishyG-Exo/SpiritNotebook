@@ -55,6 +55,9 @@ Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for 
    | `DEMO_PASSCODE` | no | When set, the app shows a passcode screen and the API refuses readings without it. |
    | `ANTHROPIC_MODEL` | no | Defaults to `claude-opus-5` (see `brand/config.ts`). |
    | `RATE_LIMIT_PER_IP_PER_MINUTE` / `RATE_LIMIT_PER_IP_PER_DAY` / `RATE_LIMIT_GLOBAL_PER_DAY` | no | Defaults 8 / 40 / 300. |
+   | `ANTHROPIC_EFFORT` | no | `low` (default), `medium` or `high`: how much the model thinks before writing. |
+   | `ANTHROPIC_FALLBACKS` | no | `off` disables the server-side refusal fallback (on by default; if the account lacks the beta the function retries once without it). |
+   | `ALLOWED_ORIGIN` | no | Extra origins allowed to call the API cross-site (localhost is always allowed for development). |
    | `MOCK_AI` | never in production | `true` returns canned readings for local UI work. |
 
 3. Deploy. Open the URL on a phone; on iOS use *Share → Add to Home Screen* to run it full-screen.
@@ -66,7 +69,7 @@ Or from the command line: `npx vercel` (preview) / `npx vercel --prod`.
 - **Voice**: `brand/voice.md` is the system prompt — a gentle, uplifting, non-dogmatic guide; never medical, legal, psychological or financial advice. If an entry suggests crisis or self-harm, the guide does not give a reading: it answers with care and points to **988** (US). The app renders that as a distinct "care" screen with tappable call/text buttons.
 - **Shape**: the model returns `{ kind, title, interpretation, reflection_question }` through structured output; the function validates it with zod before returning it, and the client validates again.
 - **Language**: the request carries `language: "en" | "es"`, and the reading comes back in that language.
-- **Cost**: roughly 1–2¢ per reading at Opus 5 prices with a ~1,100-token prompt and a short answer; the global daily cap bounds the worst case. Rate limits are kept in memory per serverless instance — good enough for a private demo, and the limiter sits behind a small interface so Redis (e.g. Upstash) can replace it without touching the handler.
+- **Cost**: roughly 1–2¢ per reading at Opus 5 prices with a ~1,100-token prompt and a short answer; the global daily cap bounds the worst case. When a per-IP or global daily cap is reached the API answers `429` with a `Retry-After` of up to a day and the app asks the reader to come back tomorrow. Rate limits are kept in memory per serverless instance — good enough for a private demo, and the limiter sits behind a small interface so Redis (e.g. Upstash) can replace it without touching the handler.
 
 ## Re-skinning
 

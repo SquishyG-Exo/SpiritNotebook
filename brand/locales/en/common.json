@@ -43,6 +43,7 @@
     "network": "We couldn’t reach the notebook. Check your connection and try again.",
     "rateLimited": "You’ve asked for many readings in a short while. Take a breath and try again soon.",
     "notConfigured": "The AI guide isn’t set up on this server yet.",
-    "unauthorized": "This demo needs a passcode."
+    "unauthorized": "This demo needs a passcode.",
+    "rateLimitedDay": "You’ve reached today’s reading limit for this preview. Come back tomorrow for more."
   }
 }
