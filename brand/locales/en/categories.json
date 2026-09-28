@@ -1,1 +1,162 @@
-{}
+{
+  "dreams": {
+    "label": "Dreams",
+    "bullets": ["Record your dream", "Get a personalized interpretation", "Save and track patterns"],
+    "placeholder": "Describe your dream as you remember it, even the strange parts…"
+  },
+  "numbers": {
+    "label": "Numbers",
+    "bullets": [
+      "Enter repeating numbers",
+      "Explore their spiritual meaning",
+      "See what they may be guiding you toward"
+    ],
+    "placeholder": "Write down the number you keep seeing and where it showed up: a clock, a receipt, a license plate…"
+  },
+  "signs": {
+    "label": "Signs & Symbols",
+    "bullets": [
+      "Add a photo or a description",
+      "Find meaning and guidance",
+      "Butterflies, feathers, stones and more"
+    ],
+    "placeholder": "Describe what you found or noticed, where it was, and what was on your mind at the time…"
+  },
+  "life": {
+    "label": "Life Situations",
+    "title": "Life Situations",
+    "intro": "Choose what is on your heart, then tell the notebook what happened.",
+    "bullets": [
+      "Love, family, work and more",
+      "Share what happened in your own words",
+      "Spiritual insight for real-life moments"
+    ],
+    "placeholder": "Tell the notebook what happened, and how it has been sitting with you…"
+  },
+  "people": {
+    "label": "People",
+    "bullets": [
+      "Interpret meaningful encounters",
+      "Reflect on your relationships",
+      "Past loves, new people, repeated connections"
+    ],
+    "placeholder": "Describe the encounter: who it was, where you were, and what you felt in that moment…"
+  },
+  "places": {
+    "label": "Places & Travel",
+    "bullets": [
+      "The meaning of places",
+      "The spiritual significance of travel",
+      "New beginnings and transitions"
+    ],
+    "placeholder": "Describe the place, how you came to be there, and what it stirred in you…"
+  },
+  "words": {
+    "label": "Repeated Words",
+    "bullets": [
+      "Words or phrases that keep returning",
+      "Explore their meaning and message",
+      "Notice when and where they appear"
+    ],
+    "placeholder": "Write down the word or phrase, and where you have heard or read it lately…"
+  },
+  "animals": {
+    "label": "Animals",
+    "bullets": ["Discover spiritual meanings", "Receive messages and guidance", "Explore different animals"],
+    "placeholder": "Describe the animal, what it was doing, and how it felt to cross paths with it…"
+  },
+  "objects": {
+    "label": "Objects",
+    "bullets": [
+      "Found objects, gifts and heirlooms",
+      "Coins, keys, jewelry and more",
+      "Discover what they may symbolize"
+    ],
+    "placeholder": "Describe the object, where it came from, and why it caught your attention…"
+  },
+  "body": {
+    "label": "Body Signs",
+    "bullets": [
+      "Spiritual perspectives on body sensations",
+      "Emotional and energetic meanings",
+      "Not a medical opinion"
+    ],
+    "placeholder": "Describe the sensation, where you felt it, and what was happening around you at the time…"
+  },
+  "questions": {
+    "label": "Spiritual Questions",
+    "bullets": [
+      "Ask any spiritual question",
+      "Receive intuitive guidance and insights",
+      "Support for decisions and self-discovery"
+    ],
+    "placeholder": "Ask the question that is on your heart, in whatever words come…"
+  },
+  "synchronicities": {
+    "label": "Synchronicities",
+    "bullets": ["Record meaningful coincidences", "See how the threads connect", "Track them over time"],
+    "placeholder": "Describe the coincidence, and the moment it made you stop and wonder…"
+  },
+  "situations": {
+    "love": {
+      "label": "Love & Relationships",
+      "placeholder": "Write about the person, the moment, and what your heart keeps returning to…"
+    },
+    "breakups": {
+      "label": "Breakups & Separation",
+      "placeholder": "Share what happened between you, and what you are still carrying…"
+    },
+    "family": {
+      "label": "Family",
+      "placeholder": "Write about the family moment that has stayed with you…"
+    },
+    "friendships": {
+      "label": "Friendships",
+      "placeholder": "Tell the story of this friendship and what has shifted lately…"
+    },
+    "career": {
+      "label": "Career & Purpose",
+      "placeholder": "Describe what is happening in your work, or the calling you keep coming back to…"
+    },
+    "money": {
+      "label": "Money & Abundance",
+      "placeholder": "Share what is happening with money, and the feelings that come with it…"
+    },
+    "home": {
+      "label": "Home & Changes",
+      "placeholder": "Describe the change at home, whether it is a move, a new room or one that suddenly feels empty…"
+    },
+    "travel": {
+      "label": "Travel & New Beginnings",
+      "placeholder": "Write about the journey, the place, or the fresh start in front of you…"
+    },
+    "endings": {
+      "label": "Endings & Transitions",
+      "placeholder": "Tell the notebook what is ending, and what you would like to honor about it…"
+    },
+    "decisions": {
+      "label": "Important Decisions",
+      "placeholder": "Describe the choice in front of you, and how each path feels when you imagine it…"
+    },
+    "encounters": {
+      "label": "Unexpected Encounters",
+      "placeholder": "Describe the unexpected meeting and what made it feel meaningful…"
+    },
+    "growth": {
+      "label": "Personal Growth",
+      "placeholder": "Write about the part of you that is growing, or longing to…"
+    },
+    "loss": {
+      "label": "Loss & Letting Go",
+      "placeholder": "Write about who or what you have lost, gently and in your own time…"
+    },
+    "repeated": {
+      "label": "Repeated Situations",
+      "placeholder": "Describe the situation that keeps repeating, and when you first noticed the pattern…"
+    },
+    "unexplained": {
+      "label": "Something I Can’t Explain",
+      "placeholder": "Describe what happened, even if it doesn’t make sense yet…"
+    }
+  }
+}

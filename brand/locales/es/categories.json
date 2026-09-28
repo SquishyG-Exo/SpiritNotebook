@@ -1,1 +1,174 @@
-{}
+{
+  "dreams": {
+    "label": "Sueños",
+    "bullets": [
+      "Registra tu sueño",
+      "Recibe una interpretación personalizada",
+      "Guárdalo y descubre patrones"
+    ],
+    "placeholder": "Describe tu sueño tal como lo recuerdas, incluso las partes más extrañas…"
+  },
+  "numbers": {
+    "label": "Números",
+    "bullets": [
+      "Anota los números que se repiten",
+      "Explora su significado espiritual",
+      "Descubre hacia dónde podrían guiarte"
+    ],
+    "placeholder": "Escribe el número que sigues viendo y dónde apareció: un reloj, un recibo, una placa…"
+  },
+  "signs": {
+    "label": "Señales y símbolos",
+    "bullets": [
+      "Agrega una foto o una descripción",
+      "Encuentra significado y orientación",
+      "Mariposas, plumas, piedras y más"
+    ],
+    "placeholder": "Describe lo que encontraste o notaste, dónde estaba y qué tenías en mente en ese momento…"
+  },
+  "life": {
+    "label": "Situaciones de vida",
+    "title": "Situaciones de vida",
+    "intro": "Elige lo que llevas en el corazón y luego cuéntale al cuaderno qué pasó.",
+    "bullets": [
+      "Amor, familia, trabajo y más",
+      "Cuenta lo que pasó con tus propias palabras",
+      "Una mirada espiritual a lo que vives"
+    ],
+    "placeholder": "Cuéntale al cuaderno qué pasó y cómo lo has ido viviendo…"
+  },
+  "people": {
+    "label": "Personas",
+    "bullets": [
+      "Interpreta encuentros significativos",
+      "Reflexiona sobre tus relaciones",
+      "Amores pasados, gente nueva, conexiones que se repiten"
+    ],
+    "placeholder": "Describe el encuentro: quién era, dónde estabas y qué sentiste en ese momento…"
+  },
+  "places": {
+    "label": "Lugares y viajes",
+    "bullets": [
+      "El significado de los lugares",
+      "El sentido espiritual de viajar",
+      "Nuevos comienzos y transiciones"
+    ],
+    "placeholder": "Describe el lugar, cómo llegaste ahí y lo que despertó en ti…"
+  },
+  "words": {
+    "label": "Palabras repetidas",
+    "bullets": [
+      "Palabras o frases que vuelven una y otra vez",
+      "Explora su significado y su mensaje",
+      "Observa cuándo y dónde aparecen"
+    ],
+    "placeholder": "Escribe la palabra o la frase, y dónde la has oído o leído últimamente…"
+  },
+  "animals": {
+    "label": "Animales",
+    "bullets": [
+      "Descubre su significado espiritual",
+      "Recibe mensajes y orientación",
+      "Explora distintos animales"
+    ],
+    "placeholder": "Describe el animal, qué estaba haciendo y qué sentiste al cruzarte con él…"
+  },
+  "objects": {
+    "label": "Objetos",
+    "bullets": [
+      "Objetos encontrados, regalos y recuerdos de familia",
+      "Monedas, llaves, joyas y más",
+      "Descubre lo que podrían simbolizar"
+    ],
+    "placeholder": "Describe el objeto, de dónde vino y por qué llamó tu atención…"
+  },
+  "body": {
+    "label": "Señales del cuerpo",
+    "bullets": [
+      "Una mirada espiritual a lo que sientes en el cuerpo",
+      "Significados emocionales y energéticos",
+      "No es una opinión médica"
+    ],
+    "placeholder": "Describe la sensación, en qué parte del cuerpo la sentiste y qué estaba pasando a tu alrededor…"
+  },
+  "questions": {
+    "label": "Preguntas espirituales",
+    "bullets": [
+      "Haz cualquier pregunta espiritual",
+      "Recibe orientación intuitiva y nuevas perspectivas",
+      "Apoyo para decidir y conocerte mejor"
+    ],
+    "placeholder": "Haz la pregunta que llevas en el corazón, con las palabras que te salgan…"
+  },
+  "synchronicities": {
+    "label": "Sincronicidades",
+    "bullets": [
+      "Registra coincidencias significativas",
+      "Descubre cómo se conectan los hilos",
+      "Sigue su rastro con el tiempo"
+    ],
+    "placeholder": "Describe la coincidencia y el momento en que te hizo detenerte a pensar…"
+  },
+  "situations": {
+    "love": {
+      "label": "Amor y relaciones",
+      "placeholder": "Escribe sobre esa persona, ese momento y eso a lo que tu corazón sigue volviendo…"
+    },
+    "breakups": {
+      "label": "Rupturas y separaciones",
+      "placeholder": "Cuenta qué pasó entre ustedes y qué sigues cargando…"
+    },
+    "family": {
+      "label": "Familia",
+      "placeholder": "Escribe sobre ese momento en familia que se te quedó grabado…"
+    },
+    "friendships": {
+      "label": "Amistades",
+      "placeholder": "Cuenta la historia de esta amistad y qué ha cambiado últimamente…"
+    },
+    "career": {
+      "label": "Trabajo y propósito",
+      "placeholder": "Describe lo que está pasando en tu trabajo, o ese llamado al que sigues volviendo…"
+    },
+    "money": {
+      "label": "Dinero y abundancia",
+      "placeholder": "Cuenta qué está pasando con el dinero y lo que sientes al respecto…"
+    },
+    "home": {
+      "label": "Hogar y cambios",
+      "placeholder": "Describe el cambio en casa, ya sea una mudanza, un cuarto nuevo o uno que de pronto se siente vacío…"
+    },
+    "travel": {
+      "label": "Viajes y nuevos comienzos",
+      "placeholder": "Escribe sobre el viaje, el lugar o ese nuevo comienzo que tienes enfrente…"
+    },
+    "endings": {
+      "label": "Cierres y transiciones",
+      "placeholder": "Cuéntale al cuaderno qué está terminando y qué te gustaría honrar de esa etapa…"
+    },
+    "decisions": {
+      "label": "Decisiones importantes",
+      "placeholder": "Describe la decisión que tienes enfrente y cómo se siente cada camino cuando lo imaginas…"
+    },
+    "encounters": {
+      "label": "Encuentros inesperados",
+      "placeholder": "Describe ese encuentro inesperado y qué lo hizo sentir tan significativo…"
+    },
+    "growth": {
+      "label": "Crecimiento personal",
+      "placeholder": "Escribe sobre esa parte de ti que está creciendo, o que tiene ganas de crecer…"
+    },
+    "loss": {
+      "label": "Pérdidas y desapego",
+      "placeholder": "Escribe sobre lo que has perdido, o sobre quien has perdido, con calma y a tu ritmo…"
+    },
+    "repeated": {
+      "label": "Situaciones que se repiten",
+      "placeholder": "Describe la situación que se repite y cuándo empezaste a notar el patrón…"
+    },
+    "unexplained": {
+      "label": "Algo que no puedo explicar",
+      "placeholder": "Describe lo que pasó, aunque todavía no le encuentres sentido…"
+    }
+  }
+}
