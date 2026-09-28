@@ -1,1 +1,17 @@
-{}
+{
+  "title": "Perfil",
+  "guestName": "Visitante",
+  "guestSubtitle": "Vista previa de Spirit Notebook",
+  "languageHint": "Las lecturas te responderán en este idioma.",
+  "aboutTitle": "Qué es Spirit Notebook",
+  "aboutBullets": [
+    "Un diario personal para señales, sueños y coincidencias",
+    "Significados espirituales y una guía amable",
+    "Herramientas para la autorreflexión y el crecimiento interior",
+    "Un lugar para ver tus patrones y el camino de tu alma a lo largo del tiempo"
+  ],
+  "resetLabel": "Restablecer datos de la demo",
+  "resetConfirm": "Toca de nuevo para restaurar el diario de ejemplo",
+  "resetDone": "Diario de ejemplo restaurado",
+  "version": "Vista previa de Spirit Notebook · v{{version}}"
+}

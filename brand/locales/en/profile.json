@@ -1,1 +1,17 @@
-{}
+{
+  "title": "Profile",
+  "guestName": "Guest",
+  "guestSubtitle": "Spirit Notebook preview",
+  "languageHint": "Readings will answer in this language.",
+  "aboutTitle": "What Spirit Notebook is",
+  "aboutBullets": [
+    "A personal journal for signs, dreams, and coincidences",
+    "Spiritual meanings and gentle guidance",
+    "Tools for self-reflection and inner growth",
+    "A place to see patterns and your soul’s journey over time"
+  ],
+  "resetLabel": "Reset demo data",
+  "resetConfirm": "Tap again to restore the sample journal",
+  "resetDone": "Sample journal restored",
+  "version": "Spirit Notebook preview · v{{version}}"
+}

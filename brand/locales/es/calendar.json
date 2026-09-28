@@ -1,1 +1,27 @@
-{}
+{
+  "title": "Calendario y diario",
+  "monthSummary_zero": "Aún no hay entradas este mes",
+  "monthSummary_one": "{{count}} entrada este mes",
+  "monthSummary_other": "{{count}} entradas este mes",
+  "monthSummaryOther_zero": "Sin entradas en {{month}}",
+  "monthSummaryOther_one": "{{count}} entrada en {{month}}",
+  "monthSummaryOther_other": "{{count}} entradas en {{month}}",
+  "previousMonth": "Mes anterior",
+  "nextMonth": "Mes siguiente",
+  "today": "Hoy",
+  "goToToday": "Ir a hoy",
+  "entriesOn": "Entradas del {{date}}",
+  "entryCount_one": "{{count}} entrada",
+  "entryCount_other": "{{count}} entradas",
+  "emptyDay": "Aún no hay nada anotado en este día.",
+  "emptyDayHint": "Una señal, un sueño, un sentimiento: todo lo que notes tiene un lugar aquí.",
+  "futureDay": "Este día todavía no ha llegado.",
+  "futureDayHint": "Cuando llegue, todo lo que notes encontrará su lugar aquí.",
+  "latestEntry": "Ver tu entrada más reciente",
+  "dayA11y_zero": "{{date}}",
+  "dayA11y_one": "{{date}}, {{count}} entrada",
+  "dayA11y_other": "{{date}}, {{count}} entradas",
+  "todayA11y": "{{label}}, hoy",
+  "untitled": "Entrada sin título",
+  "openEntry": "{{title}}, {{time}}, {{category}}"
+}

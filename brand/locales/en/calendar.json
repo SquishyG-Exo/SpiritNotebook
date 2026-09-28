@@ -1,1 +1,27 @@
-{}
+{
+  "title": "Calendar & Journal",
+  "monthSummary_zero": "No entries yet this month",
+  "monthSummary_one": "{{count}} entry this month",
+  "monthSummary_other": "{{count}} entries this month",
+  "monthSummaryOther_zero": "No entries in {{month}}",
+  "monthSummaryOther_one": "{{count}} entry in {{month}}",
+  "monthSummaryOther_other": "{{count}} entries in {{month}}",
+  "previousMonth": "Previous month",
+  "nextMonth": "Next month",
+  "today": "Today",
+  "goToToday": "Go to today",
+  "entriesOn": "Entries on {{date}}",
+  "entryCount_one": "{{count}} entry",
+  "entryCount_other": "{{count}} entries",
+  "emptyDay": "Nothing noted on this day yet.",
+  "emptyDayHint": "A sign, a dream, a feeling: whatever you notice has a place here.",
+  "futureDay": "This day hasn’t unfolded yet.",
+  "futureDayHint": "When it arrives, whatever you notice will find its place here.",
+  "latestEntry": "See your latest entry",
+  "dayA11y_zero": "{{date}}",
+  "dayA11y_one": "{{date}}, {{count}} entry",
+  "dayA11y_other": "{{date}}, {{count}} entries",
+  "todayA11y": "{{label}}, today",
+  "untitled": "Untitled entry",
+  "openEntry": "{{title}}, {{time}}, {{category}}"
+}

@@ -1,1 +1,11 @@
-{}
+{
+  "title": "Ingresa tu código de acceso",
+  "subtitle": "Esta vista previa es privada.",
+  "placeholder": "Código de acceso",
+  "submit": "Entrar",
+  "wrong": "Ese código no coincide.",
+  "show": "Mostrar código",
+  "hide": "Ocultar código",
+  "hint": "Pídele el código a la persona que compartió contigo esta vista previa.",
+  "checking": "Abriendo tu cuaderno…"
+}

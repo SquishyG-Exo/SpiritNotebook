@@ -1,1 +1,11 @@
-{}
+{
+  "title": "Enter your passcode",
+  "subtitle": "This preview is private.",
+  "placeholder": "Passcode",
+  "submit": "Enter",
+  "wrong": "That passcode doesn’t match.",
+  "show": "Show passcode",
+  "hide": "Hide passcode",
+  "hint": "Ask the person who shared this preview with you for the passcode.",
+  "checking": "Opening your notebook…"
+}
