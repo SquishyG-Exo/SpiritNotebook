@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html, body { margin: 0; background: transparent; }
+      #stage { position: absolute; left: 0; top: 0; line-height: 0; }
+      svg { display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <script>
+      // Brand icon: dusk sky over still water, a low sun, and a lotus of light.
+      // ?variant=rounded|square|glyph|bg|mono  &size=N
+      const params = new URLSearchParams(location.search);
+      const size = Number(params.get('size') || 512);
+      const variant = params.get('variant') || 'rounded';
+
+      const sky = `
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F9D6BC" />
+          <stop offset="0.45" stop-color="#E7A9C3" />
+          <stop offset="0.62" stop-color="#B597D8" />
+          <stop offset="1" stop-color="#2B2764" />
+        </linearGradient>
+        <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#FFF6E8" />
+          <stop offset="0.55" stop-color="#FFE0BF" stop-opacity="0.95" />
+          <stop offset="1" stop-color="#FFC9A6" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" />
+          <stop offset="1" stop-color="#F6C9DA" />
+        </linearGradient>
+        <linearGradient id="reflect" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFE3CF" stop-opacity="0.55" />
+          <stop offset="1" stop-color="#FFE3CF" stop-opacity="0" />
+        </linearGradient>
+        <clipPath id="clip"><rect width="100" height="100" rx="${variant === 'rounded' ? 22 : 0}" /></clipPath>`;
+
+      // Lotus: seven teardrop petals fanned from a base sitting on the water line (50, 72).
+      function lotus(scale = 1, fill = 'url(#petal)', stroke = 'rgba(200,105,138,0.28)', shadow = true) {
+        const petal = (rot, len, w) =>
+          `<path d="M0 0 C ${w} ${-len * 0.25}, ${w} ${-len * 0.75}, 0 ${-len} C ${-w} ${-len * 0.75}, ${-w} ${-len * 0.25}, 0 0 Z" fill="${fill}" stroke="${stroke}" stroke-width="0.5" transform="rotate(${rot})" />`;
+        return `<g transform="translate(50 72) scale(${scale})">
+          ${shadow ? '<ellipse cx="0" cy="2.5" rx="17" ry="3" fill="#2B2764" opacity="0.35" />' : ''}
+          <g opacity="0.82">${petal(-62, 22, 6.5)}${petal(62, 22, 6.5)}${petal(0, 31, 7.5)}</g>
+          <g>${petal(-38, 26, 7)}${petal(38, 26, 7)}${petal(-13, 28.5, 7)}${petal(13, 28.5, 7)}</g>
+        </g>`;
+      }
+
+      let body = '';
+      if (variant === 'rounded' || variant === 'square' || variant === 'bg') {
+        body += `<rect width="100" height="100" fill="url(#sky)" />`;
+      }
+      if (variant !== 'bg') {
+        const mono = variant === 'mono';
+        if (!mono) {
+          body += `<circle cx="50" cy="52" r="26" fill="url(#sun)" />
+                   <circle cx="50" cy="52" r="9" fill="#FFF3E2" />
+                   <rect x="0" y="57" width="100" height="1.2" fill="#FFFFFF" opacity="0.35" />
+                   <rect x="36" y="58" width="28" height="30" fill="url(#reflect)" />
+                   <g opacity="0.35" stroke="#FFFFFF" stroke-width="0.8" stroke-linecap="round">
+                     <line x1="30" y1="82" x2="70" y2="82" /><line x1="38" y1="88" x2="62" y2="88" /><line x1="44" y1="94" x2="56" y2="94" />
+                   </g>`;
+          body += lotus(variant === 'glyph' ? 1.35 : 1);
+        } else {
+          body += lotus(1.35, '#FFFFFF', 'none', false);
+        }
+      }
+      // Glyph variants sit on a transparent background, sized for Android's safe zone.
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">
+        <defs>${sky}</defs>
+        <g clip-path="url(#clip)">${body}</g>
+      </svg>`;
+      document.getElementById('stage').innerHTML = svg;
+    </script>
+  </body>
+</html>
