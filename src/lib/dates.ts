@@ -1,6 +1,7 @@
 import type { Language } from '../state/types';
 
-const LOCALE: Record<Language, string> = { en: 'en-US', es: 'es-ES' };
+/** es-US: the demo's Spanish audience is in the United States (12-hour times, US date order). */
+const LOCALE: Record<Language, string> = { en: 'en-US', es: 'es-US' };
 
 export const localeFor = (lang: Language): string => LOCALE[lang] ?? LOCALE.en;
 

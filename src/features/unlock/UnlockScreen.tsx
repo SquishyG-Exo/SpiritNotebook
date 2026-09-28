@@ -1,5 +1,4 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { EyeOff } from 'lucide-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -157,7 +156,7 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
                     accessibilityLabel={revealed ? t('unlock.hide') : t('unlock.show')}
                     style={({ pressed }) => [styles.eye, pressed ? styles.pressed : null]}>
                     {revealed ? (
-                      <EyeOff size={20} color={colors.muted} strokeWidth={1.75} />
+                      <Icon name="EyeOff" size={20} color={colors.muted} strokeWidth={1.75} />
                     ) : (
                       <Icon name="Eye" size={20} color={colors.muted} />
                     )}
