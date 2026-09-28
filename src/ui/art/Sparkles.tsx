@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
 export interface SparkleSpec {
@@ -22,10 +22,15 @@ export interface SparklesProps {
 function Sparkle({ x, y, size = 10, delay = 0, color, animated }: SparkleSpec & { color: string; animated: boolean }) {
   const glow = useSharedValue(0.35);
   useEffect(() => {
-    if (!animated) return;
+    if (!animated) {
+      cancelAnimation(glow);
+      glow.set(0.6);
+      return;
+    }
     glow.set(
       withDelay(delay, withRepeat(withTiming(1, { duration: 1800 + (delay % 700), easing: Easing.inOut(Easing.sin) }), -1, true)),
     );
+    return () => cancelAnimation(glow);
   }, [animated, delay, glow]);
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: glow.get(),

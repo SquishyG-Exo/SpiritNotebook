@@ -69,10 +69,4 @@ export function formatWeekRange(start: Date, end: Date, language: Language): str
   return `${format.format(start)} – ${format.format(end)}`.replace(/\./g, '');
 }
 
-/** '#RRGGBB' + alpha → 'rgba(r, g, b, a)', so translucent fills still come from tokens. */
-export function withAlpha(hex: string, alpha: number): string {
-  const value = hex.replace('#', '');
-  const full = value.length === 3 ? value.replace(/./g, (c) => c + c) : value;
-  const n = Number.parseInt(full, 16);
-  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
-}
+

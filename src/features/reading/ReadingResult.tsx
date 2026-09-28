@@ -8,7 +8,7 @@ import { formatDate } from '../../lib/dates';
 import { useSettings, type JournalEntry, type Reading } from '../../state';
 import { colors, spacing } from '../../theme';
 import { AppText, Button, Card, Chip, Icon } from '../../ui';
-import { entryTopicLabel } from '../explore/categoryCopy';
+import { entryTopicLabel } from '../../lib/categoryCopy';
 import { EntryQuote } from './EntryQuote';
 import { NoteEditor } from './NoteEditor';
 import { splitParagraphs } from './paragraphs';

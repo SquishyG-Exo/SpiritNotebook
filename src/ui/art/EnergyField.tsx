@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
+
+import { useSvgId } from './useSvgId';
 
 export interface EnergyFieldProps {
   /** Diameter in px. */
@@ -15,19 +17,24 @@ export interface EnergyFieldProps {
   style?: StyleProp<ViewStyle>;
 }
 
-let counter = 0;
-
 /** A soft radial glow: layered translucent rings that breathe slowly. Place behind content. */
 export function EnergyField({ size = 260, color = '#E9A6BB', intensity = 0.55, animated = true, delay = 0, style }: EnergyFieldProps) {
   const pulse = useSharedValue(0);
-  const id = `ef${counter++}`;
+  const id = useSvgId('ef');
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated) {
+      cancelAnimation(pulse);
+      pulse.set(0);
+      return;
+    }
     const start = () =>
       pulse.set(withRepeat(withTiming(1, { duration: 4800, easing: Easing.inOut(Easing.sin) }), -1, true));
     const timer = setTimeout(start, delay);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      cancelAnimation(pulse);
+    };
   }, [animated, delay, pulse]);
 
   const animatedStyle = useAnimatedStyle(() => ({

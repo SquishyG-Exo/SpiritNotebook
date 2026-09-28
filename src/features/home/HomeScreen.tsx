@@ -6,12 +6,11 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useJournal } from '../../state';
-import { colors, gradients, layout, spacing } from '../../theme';
+import { colors, gradients, layout, spacing , withAlpha } from '../../theme';
 import { AppText, Button, IconCircle } from '../../ui';
 import { DuskScene } from './DuskScene';
 import { greetingKeyFor } from './greeting';
 import { LatestEntryCard } from './LatestEntryCard';
-import { withAlpha } from './withAlpha';
 
 const PILLARS = ['notice', 'reflect', 'understand', 'grow'] as const;
 

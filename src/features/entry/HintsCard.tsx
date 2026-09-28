@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import type { CategoryKey } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
 import { AppText, Card, Icon } from '../../ui';
-import { categoryBullets } from '../explore/categoryCopy';
+import { categoryBullets } from '../../lib/categoryCopy';
 
 function genericHints(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : [];

@@ -9,7 +9,7 @@ import { brand } from '../../../brand/config';
 import { useJournal } from '../../state';
 import { colors, spacing } from '../../theme';
 import { Button, Icon, Screen } from '../../ui';
-import { categoryPlaceholder, situationColors, situationPlaceholder } from '../explore/categoryCopy';
+import { categoryPlaceholder, situationColors, situationPlaceholder } from '../../lib/categoryCopy';
 import { ScreenBanner } from '../explore/ScreenBanner';
 import { EntryInput } from './EntryInput';
 import { HintsCard } from './HintsCard';

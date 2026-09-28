@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { categoryByKey } from '../../../brand/categories';
-import { colors, fonts, gradients, radius, shadow, spacing } from '../../theme';
+import { colors, fonts, gradients, radius, shadow, spacing , withAlpha } from '../../theme';
 import { AppText, Icon, IconCircle } from '../../ui';
-import { categoryLabel } from '../calendar/categoryLabels';
-import { withAlpha, type InsightStats } from './insightsModel';
+import { categoryLabel } from '../../lib/categoryCopy';
+import { type InsightStats } from './insightsModel';
 
 const GLASS = withAlpha(colors.white, 0.62);
 const GLASS_EDGE = withAlpha(colors.white, 0.75);

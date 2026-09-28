@@ -11,7 +11,7 @@ const TONES: Record<ChipTone, { background: string; text: string }> = {
   rose: { background: colors.roseSoft, text: colors.roseDeep },
   lavender: { background: colors.lavenderSoft, text: colors.lavenderDeep },
   peach: { background: colors.peachSoft, text: '#B96F3F' },
-  premium: { background: '#FBEFD6', text: '#A9762A' },
+  premium: { background: '#FBEFD6', text: '#86591A' },
   ink: { background: colors.ink, text: colors.cream },
 };
 

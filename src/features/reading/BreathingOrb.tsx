@@ -11,9 +11,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, gradients } from '../../theme';
+import { colors, gradients , withAlpha } from '../../theme';
 import { Icon } from '../../ui';
-import { withAlpha } from '../home/withAlpha';
 
 const webSoft: ViewStyle | null = Platform.OS === 'web' ? { filter: 'blur(6px)' } : null;
 

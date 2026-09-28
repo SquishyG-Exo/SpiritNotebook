@@ -18,7 +18,7 @@ import { resolveContent, type JournalEntry, type Language } from '../../state';
 import { colors, radius, shadow, spacing } from '../../theme';
 import { AppText, Chip, Icon, IconCircle, PressableScale } from '../../ui';
 import { excerpt } from './calendarModel';
-import { entryCategoryLabel } from './categoryLabels';
+import { entryCategoryLabel } from '../../lib/categoryCopy';
 
 export interface EntryRowProps {
   entry: JournalEntry;

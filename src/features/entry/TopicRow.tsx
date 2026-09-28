@@ -3,10 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { categoryByKey, lifeSituations } from '../../../brand/categories';
-import { colors, radius, spacing } from '../../theme';
+import { colors, radius, spacing , withAlpha } from '../../theme';
 import { AppText, Icon, IconCircle } from '../../ui';
-import { categoryLabel, situationColors, situationLabel } from '../explore/categoryCopy';
-import { withAlpha } from '../home/withAlpha';
+import { categoryLabel, situationColors, situationLabel } from '../../lib/categoryCopy';
 import type { ComposerTopic } from './params';
 
 /** The chosen category (and life situation) as a soft chip, with a way to change it. */

@@ -8,7 +8,7 @@ import { categories, type CategoryDef } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
 import { AppText, Icon, Screen } from '../../ui';
 import { Butterfly, EnergyField } from '../../ui/art';
-import { categoryLabel } from './categoryCopy';
+import { categoryLabel } from '../../lib/categoryCopy';
 import { CategoryTile } from './CategoryTile';
 import { pageStyle } from './pageStyle';
 import { ScreenBanner } from './ScreenBanner';

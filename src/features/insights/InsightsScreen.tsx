@@ -8,11 +8,11 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { insights } from '../../../brand/insights';
 import { localeFor } from '../../lib/dates';
 import { useJournal, useSettings } from '../../state';
-import { colors, fonts, gradients, layout, spacing } from '../../theme';
+import { colors, fonts, gradients, layout, spacing , withAlpha } from '../../theme';
 import { AppText, Button, Card, Chip, Icon, IconCircle, Screen } from '../../ui';
 import { Butterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
 import { GlanceCard } from './GlanceCard';
-import { computeInsightStats, withAlpha } from './insightsModel';
+import { computeInsightStats } from './insightsModel';
 import { WeeklyBars } from './WeeklyBars';
 
 /** Night header that carries the title block; the glance card sits just below its fade. */

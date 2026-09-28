@@ -21,10 +21,9 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError, unlockWithPasscode } from '../../api/client';
-import { colors, fonts, radius, shadow, spacing } from '../../theme';
+import { colors, fonts, radius, shadow, spacing , withAlpha } from '../../theme';
 import { AppText, Button, Icon, IconCircle } from '../../ui';
 import { Butterfly, Dreamscape, Sparkles, type SparkleSpec } from '../../ui/art';
-import { withAlpha } from '../insights/insightsModel';
 
 const MAX_LENGTH = 32;
 

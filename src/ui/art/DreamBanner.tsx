@@ -85,7 +85,8 @@ export function DreamBanner({
       {fadeTo ? (
         <LinearGradient
           pointerEvents="none"
-          colors={['transparent', fadeTo]}
+          // Fade from the page colour at zero alpha: 'transparent' can band grey on native.
+          colors={[/^#[0-9a-f]{6}$/i.test(fadeTo) ? `${fadeTo}00` : 'transparent', fadeTo]}
           style={[styles.fade, { height: Math.min(96, height * 0.55) }]}
         />
       ) : null}

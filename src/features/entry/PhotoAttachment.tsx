@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
-import { colors, gradients, radius, spacing } from '../../theme';
+import { colors, gradients, radius, spacing , withAlpha } from '../../theme';
 import { AppText, Icon } from '../../ui';
-import { withAlpha } from '../home/withAlpha';
 
 export interface PhotoAttachmentProps {
   hasPhoto: boolean;

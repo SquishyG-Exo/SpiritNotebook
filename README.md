@@ -46,7 +46,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for 
 
 ## Deploy to Vercel
 
-1. Push this repository to GitHub and **Import** it in Vercel. Leave the framework preset as *Other*: `vercel.json` already sets the build command (`npx expo export --platform web`), the output directory (`dist`), the SPA rewrite, the function timeout and the `noindex` headers.
+1. In the Vercel dashboard choose **Add New → Project → Import Git Repository** and pick `SquishyG-Exo/SpiritNotebook` (branch `claude/hopeful-darwin-6k3tei`, or `main` once it exists). Leave the framework preset as *Other*: `vercel.json` already sets the build command (`npx expo export --platform web`), the output directory (`dist`), the SPA rewrite, the function timeout, the `noindex` headers and the voice-prompt file the function needs.
 2. Add the environment variables (Project → Settings → Environment Variables):
 
    | Variable | Required | Notes |

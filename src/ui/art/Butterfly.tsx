@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -12,6 +13,7 @@ import Animated, {
 import Svg, { Defs, Ellipse, G, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg';
 
 import { colors } from '../../theme';
+import { useSvgId } from './useSvgId';
 
 export interface ButterflyProps {
   /** Wingspan in px. */
@@ -29,8 +31,6 @@ export interface ButterflyProps {
   style?: StyleProp<ViewStyle>;
 }
 
-let gradientCounter = 0;
-
 /** A stylised, translucent butterfly drawn with soft gradients. */
 export function Butterfly({
   size = 64,
@@ -44,11 +44,16 @@ export function Butterfly({
 }: ButterflyProps) {
   const drift = useSharedValue(0);
   const flap = useSharedValue(1);
-  // Unique gradient ids so several butterflies can coexist on one page (web SVG ids are global).
-  const id = `bf${gradientCounter++}`;
+  const id = useSvgId('bf');
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated) {
+      cancelAnimation(drift);
+      cancelAnimation(flap);
+      drift.set(0);
+      flap.set(1);
+      return;
+    }
     drift.set(
       withDelay(
         delay,
@@ -69,6 +74,10 @@ export function Butterfly({
         ),
       ),
     );
+    return () => {
+      cancelAnimation(drift);
+      cancelAnimation(flap);
+    };
   }, [animated, delay, drift, flap]);
 
   const driftStyle = useAnimatedStyle(() => ({
@@ -130,11 +139,19 @@ export function Butterfly({
 export function CornerButterfly({
   corner,
   inset = 12,
+  insetX = inset,
+  insetY = inset,
   ...props
-}: ButterflyProps & { corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'; inset?: number }) {
+}: ButterflyProps & {
+  corner: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  /** Distance from both edges; insetX / insetY override per axis. */
+  inset?: number;
+  insetX?: number;
+  insetY?: number;
+}) {
   const [v, h] = corner.split('-') as ['top' | 'bottom', 'left' | 'right'];
   return (
-    <View pointerEvents="none" style={[styles.pinned, { [v]: inset, [h]: inset }]}>
+    <View pointerEvents="none" style={[styles.pinned, { [v]: insetY, [h]: insetX }]}>
       <Butterfly {...props} />
     </View>
   );

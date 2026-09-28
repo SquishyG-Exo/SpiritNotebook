@@ -13,10 +13,9 @@ import Animated, {
   type SharedValue,
 } from 'react-native-reanimated';
 
-import { colors, gradients } from '../../theme';
+import { colors, gradients , withAlpha } from '../../theme';
 import { EnergyField } from '../../ui/art';
 import { SkyButterflies } from './SkyButterflies';
-import { withAlpha } from './withAlpha';
 
 /** Horizon line, as a fraction of the scene height. */
 const HORIZON = 0.53;

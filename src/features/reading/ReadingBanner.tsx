@@ -2,10 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import type { CategoryDef } from '../../../brand/categories';
-import { colors, radius, spacing } from '../../theme';
+import { colors, radius, spacing , withAlpha } from '../../theme';
 import { AppText, Icon, IconCircle, type IconName } from '../../ui';
 import { DreamBanner } from '../../ui/art';
-import { withAlpha } from '../home/withAlpha';
 
 /** An icon on a translucent white disc inside a soft ring, so it reads over the artwork. */
 function Emblem({ icon, color, size }: { icon: IconName | string; color: string; size: number }) {

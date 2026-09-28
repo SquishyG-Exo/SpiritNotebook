@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import type { CategoryDef } from '../../../brand/categories';
-import { colors, radius, spacing } from '../../theme';
+import { colors, radius, spacing , withAlpha } from '../../theme';
 import { AppText, IconCircle, PressableScale } from '../../ui';
-import { withAlpha } from '../home/withAlpha';
 
 export interface CategoryTileProps {
   def: CategoryDef;

@@ -13,7 +13,8 @@ import {
   type CategoryDef,
   type CategoryKey,
   type LifeSituationKey,
-} from '../../../brand/categories';
+} from '../../brand/categories';
+import type { JournalEntry } from '../state/types';
 
 const LABELS: Record<CategoryKey, string> = {
   dreams: 'Dreams',
@@ -131,3 +132,11 @@ export function entryTopicLabel(t: TFunction, key: CategoryKey, sub?: LifeSituat
   return key === 'life' && sub ? situationLabel(t, sub) : categoryLabel(t, key);
 }
 
+
+/** The most specific label for an entry: the life situation when there is one. */
+export function entryCategoryLabel(
+  t: TFunction,
+  entry: Pick<JournalEntry, 'category' | 'subcategory'>,
+): string {
+  return entryTopicLabel(t, entry.category, entry.subcategory);
+}

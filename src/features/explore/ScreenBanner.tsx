@@ -2,10 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { colors, layout, shadow, spacing } from '../../theme';
+import { colors, layout, shadow, spacing , withAlpha } from '../../theme';
 import { AppText, goBackOrHome, Icon } from '../../ui';
 import { DreamBanner, type DreamBannerProps } from '../../ui/art';
-import { withAlpha } from '../home/withAlpha';
 
 /** Frosted glass for the back button over the artwork; the backdrop blur is a web-only nicety. */
 const glassBlur =

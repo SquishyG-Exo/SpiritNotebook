@@ -6,7 +6,7 @@ import Animated, { FadeInRight, FadeInUp } from 'react-native-reanimated';
 import { lifeSituations, type LifeSituationDef } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
 import { AppText, Card, Icon, IconCircle, Screen } from '../../ui';
-import { lifeIntro, lifeTitle, situationColors, situationLabel } from './categoryCopy';
+import { lifeIntro, lifeTitle, situationColors, situationLabel } from '../../lib/categoryCopy';
 import { pageStyle } from './pageStyle';
 import { ScreenBanner } from './ScreenBanner';
 

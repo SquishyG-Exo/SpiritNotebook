@@ -5,11 +5,10 @@ import { Platform, StyleSheet, View, type ViewStyle } from 'react-native';
 import { categoryByKey } from '../../../brand/categories';
 import { formatDate } from '../../lib/dates';
 import { resolveContent, useSettings, type JournalEntry } from '../../state';
-import { colors, radius, spacing } from '../../theme';
+import { colors, radius, spacing , withAlpha } from '../../theme';
 import { AppText, Icon, IconCircle, PressableScale } from '../../ui';
-import { entryTopicLabel } from '../explore/categoryCopy';
+import { entryTopicLabel } from '../../lib/categoryCopy';
 import { excerpt } from './greeting';
-import { withAlpha } from './withAlpha';
 
 const SOFT_TEXT = withAlpha(colors.cream, 0.74);
 

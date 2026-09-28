@@ -1,6 +1,8 @@
 import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle, Defs, Ellipse, G, LinearGradient, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { useSvgId } from './useSvgId';
+
 export type DreamscapeVariant = 'dusk' | 'dawn' | 'night';
 
 export interface DreamscapeProps {
@@ -47,8 +49,6 @@ const STARS = Array.from({ length: 22 }, (_, i) => {
   return { x: (t * 3.1) % 400, y: ((t * 1.7) % 95) + 6, r: 0.6 + (i % 3) * 0.45, o: 0.35 + (i % 4) * 0.15 };
 });
 
-let counter = 0;
-
 /**
  * A vector dreamscape: layered sky, glowing horizon light, soft cloud
  * fields, drifting energy rings, misty hills. Fills its parent (400×200
@@ -56,7 +56,7 @@ let counter = 0;
  */
 export function Dreamscape({ variant = 'dusk', style }: DreamscapeProps) {
   const p = PALETTES[variant];
-  const id = `ds${counter++}`;
+  const id = useSvgId('ds');
   return (
     <Svg
       pointerEvents="none"

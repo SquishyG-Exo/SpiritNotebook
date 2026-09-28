@@ -31,7 +31,7 @@ export const brand = {
     lavenderDeep: '#6D5BBE',
     rose: '#E9A6BB',
     roseSoft: '#F9E1E9',
-    roseDeep: '#C8698A',
+    roseDeep: '#A64A6B',
     peach: '#F6C8A8',
     peachSoft: '#FCE9DC',
     gold: '#CFA55B',
