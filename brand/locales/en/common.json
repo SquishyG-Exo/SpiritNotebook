@@ -1,0 +1,48 @@
+{
+  "app": {
+    "name": "Spirit Notebook",
+    "tagline": "Where signs become meaning, and meaning reveals your soul’s path.",
+    "shortTagline": "Where signs become meaning."
+  },
+  "tabs": {
+    "home": "Home",
+    "calendar": "Calendar",
+    "insights": "Insights",
+    "profile": "Profile"
+  },
+  "actions": {
+    "back": "Back",
+    "continue": "Continue",
+    "save": "Save",
+    "cancel": "Cancel",
+    "done": "Done",
+    "retry": "Try again",
+    "close": "Close",
+    "newEntry": "Log a New Entry",
+    "explore": "Explore"
+  },
+  "pillars": {
+    "notice": "Notice",
+    "reflect": "Reflect",
+    "understand": "Understand",
+    "grow": "Grow"
+  },
+  "premium": "Premium",
+  "sample": "Sample",
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "es": "Español"
+  },
+  "disclaimer": {
+    "title": "A gentle note",
+    "body": "Spirit Notebook is intended for personal reflection, spiritual exploration, inspiration, and entertainment purposes only. The interpretations are not professional medical, psychological, legal, financial, or other professional advice. We do not make guarantees and do not hold responsibility for any actions taken based on the information provided in the app. Always consult a qualified professional for medical, legal, financial, or mental health concerns."
+  },
+  "errors": {
+    "generic": "Something went quiet on our side. Please try again in a moment.",
+    "network": "We couldn’t reach the notebook. Check your connection and try again.",
+    "rateLimited": "You’ve asked for many readings in a short while. Take a breath and try again soon.",
+    "notConfigured": "The AI guide isn’t set up on this server yet.",
+    "unauthorized": "This demo needs a passcode."
+  }
+}

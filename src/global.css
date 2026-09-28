@@ -1,0 +1,58 @@
+/* Web-only page chrome. Metro applies this on web and ignores it on native. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #fff9f5;
+  color: #1f1b45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+body {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff9f5;
+}
+
+textarea,
+input {
+  outline: none;
+}
+
+/* Desktop and tablets: present the app inside a centered phone frame on a dusk gradient. */
+@media (min-width: 768px) and (min-height: 640px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(60% 50% at 20% 15%, rgba(255, 236, 214, 0.9) 0%, rgba(255, 236, 214, 0) 70%),
+      radial-gradient(50% 45% at 85% 85%, rgba(201, 185, 242, 0.75) 0%, rgba(201, 185, 242, 0) 70%),
+      linear-gradient(160deg, #fbe3d5 0%, #f3ccdb 48%, #d5c6f3 100%);
+  }
+
+  #root {
+    flex: 0 0 auto;
+    width: 390px;
+    max-width: 390px;
+    height: min(844px, calc(100dvh - 72px));
+    border-radius: 46px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 10px #1b1840,
+      0 0 0 12px rgba(255, 255, 255, 0.35),
+      0 40px 90px rgba(40, 25, 70, 0.35);
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "app": {
+    "name": "Spirit Notebook",
+    "tagline": "Donde las señales se vuelven significado, y el significado revela el camino de tu alma.",
+    "shortTagline": "Donde las señales se vuelven significado."
+  },
+  "tabs": {
+    "home": "Inicio",
+    "calendar": "Calendario",
+    "insights": "Patrones",
+    "profile": "Perfil"
+  },
+  "actions": {
+    "back": "Atrás",
+    "continue": "Continuar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "done": "Listo",
+    "retry": "Intentar de nuevo",
+    "close": "Cerrar",
+    "newEntry": "Nueva entrada",
+    "explore": "Explorar"
+  },
+  "pillars": {
+    "notice": "Observa",
+    "reflect": "Reflexiona",
+    "understand": "Comprende",
+    "grow": "Crece"
+  },
+  "premium": "Premium",
+  "sample": "Ejemplo",
+  "language": {
+    "label": "Idioma",
+    "en": "English",
+    "es": "Español"
+  },
+  "disclaimer": {
+    "title": "Una nota con cariño",
+    "body": "Spirit Notebook está pensado únicamente para la reflexión personal, la exploración espiritual, la inspiración y el entretenimiento. Las interpretaciones no constituyen asesoramiento médico, psicológico, legal, financiero ni de ningún otro tipo profesional. No ofrecemos garantías ni asumimos responsabilidad por las decisiones tomadas a partir de la información de la app. Consulta siempre a un profesional cualificado para cuestiones médicas, legales, financieras o de salud mental."
+  },
+  "errors": {
+    "generic": "Algo se quedó en silencio de nuestro lado. Inténtalo de nuevo en un momento.",
+    "network": "No pudimos conectar con el cuaderno. Revisa tu conexión e inténtalo otra vez.",
+    "rateLimited": "Has pedido muchas lecturas en poco tiempo. Respira hondo e inténtalo de nuevo en un rato.",
+    "notConfigured": "La guía de IA aún no está configurada en este servidor.",
+    "unauthorized": "Esta demo necesita un código de acceso."
+  }
+}
