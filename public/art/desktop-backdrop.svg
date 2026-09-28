@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBE3D5"/>
+      <stop offset="0.5" stop-color="#F3CCDB"/>
+      <stop offset="1" stop-color="#D5C6F3"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF1E2" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#FFD9BE" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FFD9BE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#EDE6FB" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#C9B9F2" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#C9B9F2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cloud" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hill1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9B9F2" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#8C7BC4" stop-opacity="0.45"/>
+    </linearGradient>
+    <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A08FD6" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5B4C9A" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="wingA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#E9A6BB"/>
+      <stop offset="1" stop-color="#C9B9F2"/>
+    </linearGradient>
+    <linearGradient id="wingB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#F6C8A8"/>
+      <stop offset="1" stop-color="#E9A6BB"/>
+    </linearGradient>
+    <g id="butterfly">
+      <g>
+        <path d="M2 0 C 10 -22, 34 -34, 44 -24 C 52 -14, 40 2, 20 4 C 12 5, 5 4, 2 0 Z" fill="url(#wingA)"/>
+        <path d="M2 2 C 12 4, 30 10, 30 24 C 30 34, 18 36, 10 28 C 5 22, 2 12, 2 2 Z" fill="url(#wingA)"/>
+      </g>
+      <g transform="scale(-1 1)">
+        <path d="M2 0 C 10 -22, 34 -34, 44 -24 C 52 -14, 40 2, 20 4 C 12 5, 5 4, 2 0 Z" fill="url(#wingA)"/>
+        <path d="M2 2 C 12 4, 30 10, 30 24 C 30 34, 18 36, 10 28 C 5 22, 2 12, 2 2 Z" fill="url(#wingA)"/>
+      </g>
+      <ellipse cx="0" cy="2" rx="2.6" ry="16" fill="#2A2660" opacity="0.55"/>
+      <path d="M-1 -14 C -6 -24, -10 -26, -12 -30 M1 -14 C 6 -24, 10 -26, 12 -30" stroke="#2A2660" stroke-opacity="0.5" stroke-width="1" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="butterfly2">
+      <g>
+        <path d="M2 0 C 10 -22, 34 -34, 44 -24 C 52 -14, 40 2, 20 4 C 12 5, 5 4, 2 0 Z" fill="url(#wingB)"/>
+        <path d="M2 2 C 12 4, 30 10, 30 24 C 30 34, 18 36, 10 28 C 5 22, 2 12, 2 2 Z" fill="url(#wingB)"/>
+      </g>
+      <g transform="scale(-1 1)">
+        <path d="M2 0 C 10 -22, 34 -34, 44 -24 C 52 -14, 40 2, 20 4 C 12 5, 5 4, 2 0 Z" fill="url(#wingB)"/>
+        <path d="M2 2 C 12 4, 30 10, 30 24 C 30 34, 18 36, 10 28 C 5 22, 2 12, 2 2 Z" fill="url(#wingB)"/>
+      </g>
+      <ellipse cx="0" cy="2" rx="2.6" ry="16" fill="#2A2660" opacity="0.55"/>
+      <path d="M-1 -14 C -6 -24, -10 -26, -12 -30 M1 -14 C 6 -24, 10 -26, 12 -30" stroke="#2A2660" stroke-opacity="0.5" stroke-width="1" fill="none" stroke-linecap="round"/>
+    </g>
+    <path id="star" d="M10 0 C 10.6 6, 14 9.4, 20 10 C 14 10.6, 10.6 14, 10 20 C 9.4 14, 6 10.6, 0 10 C 6 9.4, 9.4 6, 10 0 Z" fill="#FFFFFF"/>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="260" cy="180" r="420" fill="url(#glowL)"/>
+  <circle cx="1380" cy="820" r="460" fill="url(#glowR)"/>
+  <ellipse cx="400" cy="300" rx="420" ry="90" fill="url(#cloud)"/>
+  <ellipse cx="1250" cy="240" rx="380" ry="80" fill="url(#cloud)"/>
+  <g fill="none" stroke="#FFFFFF" opacity="0.5">
+    <circle cx="1380" cy="820" r="180" stroke-opacity="0.35" stroke-width="1.2"/>
+    <circle cx="1380" cy="820" r="260" stroke-opacity="0.22" stroke-width="1"/>
+    <circle cx="1380" cy="820" r="340" stroke-opacity="0.12" stroke-width="1"/>
+    <circle cx="260" cy="180" r="150" stroke-opacity="0.3" stroke-width="1.2"/>
+    <circle cx="260" cy="180" r="230" stroke-opacity="0.18" stroke-width="1"/>
+  </g>
+  <path d="M0 760 C 200 700, 380 740, 560 730 C 760 720, 900 660, 1100 690 C 1300 720, 1450 700, 1600 690 L1600 1000 L0 1000 Z" fill="url(#hill1)"/>
+  <path d="M0 860 C 180 820, 360 850, 540 845 C 760 838, 900 800, 1120 820 C 1320 838, 1480 860, 1600 850 L1600 1000 L0 1000 Z" fill="url(#hill2)"/>
+  <g opacity="0.9">
+    <use href="#butterfly" transform="translate(180 520) rotate(-18) scale(1.4)"/>
+    <use href="#butterfly2" transform="translate(330 300) rotate(14) scale(0.9)"/>
+    <use href="#butterfly2" transform="translate(1330 380) rotate(-22) scale(1.2)"/>
+    <use href="#butterfly" transform="translate(1440 620) rotate(20) scale(0.8)"/>
+    <use href="#butterfly" transform="translate(1180 160) rotate(28) scale(0.6)"/>
+  </g>
+  <g opacity="0.8">
+    <use href="#star" transform="translate(120 120) scale(0.9)"/>
+    <use href="#star" transform="translate(420 90) scale(0.6)"/>
+    <use href="#star" transform="translate(1240 110) scale(0.8)"/>
+    <use href="#star" transform="translate(1500 300) scale(0.7)"/>
+    <use href="#star" transform="translate(1100 560) scale(0.5)"/>
+    <use href="#star" transform="translate(260 660) scale(0.55)"/>
+  </g>
+</svg>

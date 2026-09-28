@@ -36,9 +36,9 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Dreamscape backdrop (public/art/desktop-backdrop.svg) over the dusk gradient. */
     background:
-      radial-gradient(60% 50% at 20% 15%, rgba(255, 236, 214, 0.9) 0%, rgba(255, 236, 214, 0) 70%),
-      radial-gradient(50% 45% at 85% 85%, rgba(201, 185, 242, 0.75) 0%, rgba(201, 185, 242, 0) 70%),
+      url('/art/desktop-backdrop.svg') center / cover no-repeat,
       linear-gradient(160deg, #fbe3d5 0%, #f3ccdb 48%, #d5c6f3 100%);
   }
 
