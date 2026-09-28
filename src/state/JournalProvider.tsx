@@ -29,6 +29,16 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+/** A reader's note applies to the entry in every language, samples included. */
+function withNote(entry: JournalEntry, note: string | undefined): JournalEntry {
+  const localized = entry.localized
+    ? Object.fromEntries(
+        Object.entries(entry.localized).map(([lang, content]) => [lang, content ? { ...content, note } : content]),
+      )
+    : undefined;
+  return { ...entry, content: { ...entry.content, note }, localized };
+}
+
 export interface DraftInput {
   text: string;
   category: CategoryKey;
@@ -99,15 +109,12 @@ export function JournalProvider({ children }: { children: ReactNode }) {
       const entry = state.entries[id];
       if (!entry) return;
       const note = options?.note?.trim();
-      dispatch({
-        type: 'upsert',
-        entry: {
-          ...entry,
-          status: 'saved',
-          createdAt: entry.status === 'saved' ? entry.createdAt : new Date().toISOString(),
-          content: { ...entry.content, note: note || entry.content.note },
-        },
-      });
+      const saved: JournalEntry = {
+        ...entry,
+        status: 'saved',
+        createdAt: entry.status === 'saved' ? entry.createdAt : new Date().toISOString(),
+      };
+      dispatch({ type: 'upsert', entry: note ? withNote(saved, note) : saved });
     },
     [state.entries],
   );
@@ -116,10 +123,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
     (id: string, note: string) => {
       const entry = state.entries[id];
       if (!entry) return;
-      dispatch({
-        type: 'upsert',
-        entry: { ...entry, content: { ...entry.content, note: note.trim() || undefined } },
-      });
+      dispatch({ type: 'upsert', entry: withNote(entry, note.trim() || undefined) });
     },
     [state.entries],
   );
