@@ -18,6 +18,7 @@ describe('InterpretRequestSchema', () => {
       category: 'animals',
       language: 'en',
       subcategory: undefined,
+      mode: 'standard',
     });
   });
 
@@ -137,5 +138,14 @@ describe('ReadingSchema sanitising', () => {
     });
     expect(parsed.title).toBe('The Silver Door');
     expect(parsed.reflection_question).toBe('What is waiting?');
+  });
+});
+
+describe('InterpretRequestSchema mode', () => {
+  it('defaults to standard and accepts advisor', () => {
+    expect(InterpretRequestSchema.parse(validBody).mode).toBe('standard');
+    expect(InterpretRequestSchema.parse({ ...validBody, mode: null }).mode).toBe('standard');
+    expect(InterpretRequestSchema.parse({ ...validBody, mode: 'advisor' }).mode).toBe('advisor');
+    expect(InterpretRequestSchema.safeParse({ ...validBody, mode: 'oracle' }).success).toBe(false);
   });
 });

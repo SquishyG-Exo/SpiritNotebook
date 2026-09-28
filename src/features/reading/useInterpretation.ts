@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ApiError, requestInterpretation, type ApiErrorCode } from '../../api/client';
-import { useJournal, type JournalEntry, type Language } from '../../state';
+import { useJournal, useSettings, type JournalEntry, type Language } from '../../state';
 
 export interface InterpretationError {
   code: ApiErrorCode;
@@ -18,6 +18,7 @@ export interface InterpretationError {
  */
 export function useInterpretation(entry: JournalEntry | undefined, language: Language) {
   const { setReading } = useJournal();
+  const { advisorMode } = useSettings();
   const [attempt, setAttempt] = useState(0);
   const [error, setError] = useState<InterpretationError | null>(null);
   const sentRef = useRef<string | null>(null);
@@ -40,7 +41,13 @@ export function useInterpretation(entry: JournalEntry | undefined, language: Lan
     if (sentRef.current === token) return;
     sentRef.current = token;
 
-    requestInterpretation({ text, category, subcategory, language })
+    requestInterpretation({
+      text,
+      category,
+      subcategory,
+      language,
+      mode: advisorMode ? 'advisor' : 'standard',
+    })
       .then((reading) => setReadingRef.current(id, reading))
       .catch((cause: unknown) => {
         setError(
@@ -49,7 +56,7 @@ export function useInterpretation(entry: JournalEntry | undefined, language: Lan
             : { code: 'unknown' },
         );
       });
-  }, [pending, id, attempt, text, category, subcategory, language]);
+  }, [pending, id, attempt, text, category, subcategory, language, advisorMode]);
 
   const retry = useCallback(() => {
     setError(null);

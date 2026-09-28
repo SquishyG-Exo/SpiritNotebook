@@ -1,7 +1,7 @@
 import type { BetaMessage } from '@anthropic-ai/sdk/resources/beta/messages/messages';
 import { describe, expect, it, vi } from 'vitest';
 
-import { createAnthropicModel, FALLBACK_BETA, toOutcome, type AnthropicModelOptions } from '../anthropic';
+import { ADVISOR_BETA, createAnthropicModel, FALLBACK_BETA, toOutcome, type AnthropicModelOptions } from '../anthropic';
 import { UpstreamError, type ModelRequest } from '../model';
 import { sampleReading, testLogger } from './helpers';
 
@@ -81,6 +81,7 @@ function setup(replies: Reply[], options: Partial<AnthropicModelOptions> = {}) {
   const model = createAnthropicModel({
     apiKey: 'sk-ant-test-key',
     model: 'claude-opus-5',
+    advisorModel: 'claude-opus-5',
     effort: 'low',
     fallbacks: 'default',
     logger,
@@ -279,5 +280,81 @@ describe('createAnthropicModel errors', () => {
     const signal = AbortSignal.abort();
     expect(await failureOf(model({ ...request, signal }))).toBe('timeout');
     expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+describe('advisor mode', () => {
+  const advisorRequest: ModelRequest = { ...request, input: { ...request.input, mode: 'advisor' } };
+  const advisorBlocks = [
+    { type: 'text', text: 'Let me consult the advisor.', citations: null },
+    { type: 'server_tool_use', id: 'srvtoolu_1', name: 'advisor', input: {} },
+    {
+      type: 'advisor_tool_result',
+      tool_use_id: 'srvtoolu_1',
+      content: { type: 'advisor_result', text: 'Lead with the stillness.', stop_reason: 'end_turn' },
+    },
+    { type: 'text', text: JSON.stringify(sampleReading), citations: null },
+  ] as unknown as BetaMessage['content'];
+  const advisorUsage = {
+    ...message().usage,
+    iterations: [
+      { type: 'message', input_tokens: 40, output_tokens: 20 },
+      { type: 'advisor_message', model: 'claude-opus-5', input_tokens: 900, output_tokens: 300 },
+      { type: 'message', input_tokens: 400, output_tokens: 300 },
+    ],
+  } as unknown as BetaMessage['usage'];
+
+  it('adds the advisor tool and beta, parses the last text block and reports the advice', async () => {
+    const { model, sent } = setup([jsonResponse(200, message({ content: advisorBlocks, usage: advisorUsage }))]);
+    const outcome = await model(advisorRequest);
+    expect(outcome).toEqual({
+      type: 'ok',
+      output: sampleReading,
+      model: 'claude-opus-5',
+      advisor: { requested: true, consulted: true, model: 'claude-opus-5', inputTokens: 900, outputTokens: 300 },
+      advice: 'Lead with the stillness.',
+    });
+    const [call] = sent;
+    expect(call.headers.get('anthropic-beta')).toBe(`${FALLBACK_BETA},${ADVISOR_BETA}`);
+    expect(call.body.tools).toEqual([
+      { type: 'advisor_20260301', name: 'advisor', model: 'claude-opus-5', max_uses: 1, max_tokens: 2048 },
+    ]);
+    expect(String(call.body.messages[0].content)).toContain('call the advisor tool once');
+  });
+
+  it('leaves the tool out of standard readings', async () => {
+    const { model, sent } = setup([jsonResponse(200, message())]);
+    await model(request);
+    expect(sent[0].body).not.toHaveProperty('tools');
+    expect(sent[0].headers.get('anthropic-beta')).toBe(FALLBACK_BETA);
+  });
+
+  it('resumes a paused turn by resending the transcript', async () => {
+    const paused = message({
+      stop_reason: 'pause_turn',
+      content: [{ type: 'server_tool_use', id: 'srvtoolu_1', name: 'advisor', input: {} }] as unknown as BetaMessage['content'],
+    });
+    const { model, sent } = setup([
+      jsonResponse(200, paused),
+      jsonResponse(200, message({ content: advisorBlocks, usage: advisorUsage })),
+    ]);
+    expect(await model(advisorRequest)).toMatchObject({ type: 'ok', advisor: { consulted: true } });
+    expect(sent).toHaveLength(2);
+    expect(sent[1].body.messages).toHaveLength(2);
+    expect(sent[1].body.messages[1]).toMatchObject({ role: 'assistant' });
+    expect(sent[1].body.tools).toHaveLength(1);
+  });
+
+  it('reports an advisor error while keeping the reading', async () => {
+    const blocks = [
+      { type: 'server_tool_use', id: 'srvtoolu_1', name: 'advisor', input: {} },
+      { type: 'advisor_tool_result', tool_use_id: 'srvtoolu_1', content: { type: 'advisor_tool_result_error', error_code: 'overloaded' } },
+      { type: 'text', text: JSON.stringify(sampleReading), citations: null },
+    ] as unknown as BetaMessage['content'];
+    const { model } = setup([jsonResponse(200, message({ content: blocks }))]);
+    expect(await model(advisorRequest)).toMatchObject({
+      type: 'ok',
+      advisor: { requested: true, consulted: false, errorCode: 'overloaded' },
+    });
   });
 });

@@ -20,6 +20,7 @@ function getHandler(): Handler {
         ? createAnthropicModel({
             apiKey: config.apiKey,
             model: config.model,
+            advisorModel: config.advisorModel,
             effort: config.effort,
             fallbacks: config.fallbacks,
           })

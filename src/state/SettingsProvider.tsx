@@ -7,6 +7,7 @@ import { readStorage, writeStorage } from '../lib/storage';
 import type { Language } from './types';
 
 const LANGUAGE_KEY = 'spirit.language';
+const ADVISOR_KEY = 'spirit.advisorMode';
 
 function isLanguage(value: unknown): value is Language {
   return typeof value === 'string' && (brand.languages as readonly string[]).includes(value);
@@ -31,6 +32,9 @@ export interface SettingsContextValue {
   /** Passcode gate state for this device. */
   unlocked: boolean;
   setUnlocked: (unlocked: boolean) => void;
+  /** Lab setting: new readings consult the advisor model. */
+  advisorMode: boolean;
+  setAdvisorMode: (enabled: boolean) => void;
 }
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -38,6 +42,7 @@ const SettingsContext = createContext<SettingsContextValue | null>(null);
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => detectLanguage());
   const [unlocked, setUnlocked] = useState(false);
+  const [advisorMode, setAdvisorModeState] = useState(() => readStorage(ADVISOR_KEY) === 'true');
 
   useEffect(() => {
     if (i18n.language !== language) void i18n.changeLanguage(language);
@@ -48,9 +53,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     writeStorage(LANGUAGE_KEY, next);
   }, []);
 
+  const setAdvisorMode = useCallback((enabled: boolean) => {
+    setAdvisorModeState(enabled);
+    writeStorage(ADVISOR_KEY, enabled ? 'true' : null);
+  }, []);
+
   const value = useMemo(
-    () => ({ language, setLanguage, unlocked, setUnlocked }),
-    [language, setLanguage, unlocked],
+    () => ({ language, setLanguage, unlocked, setUnlocked, advisorMode, setAdvisorMode }),
+    [language, setLanguage, unlocked, advisorMode, setAdvisorMode],
   );
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

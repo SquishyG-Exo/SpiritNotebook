@@ -8,6 +8,7 @@ import { useSettings } from '../../state';
 import { colors, fonts, gradients, layout, spacing } from '../../theme';
 import { AppText, Card, Icon, IconCircle, Screen, type IconName } from '../../ui';
 import { CornerButterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
+import { LabCard } from './LabCard';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ResetDemoButton } from './ResetDemoButton';
 
@@ -94,6 +95,10 @@ export function ProfileScreen() {
               {t('profile.languageHint')}
             </AppText>
           </Card>
+        </Reveal>
+
+        <Reveal order={2} style={styles.raised}>
+          <LabCard />
         </Reveal>
 
         <Reveal order={2}>

@@ -49,10 +49,18 @@ describe('POST /api/interpret', () => {
       ...sampleReading,
       language: 'en',
       model: 'claude-opus-5',
+      advisor: { requested: false, consulted: false },
+      duration_ms: expect.any(Number),
     });
     expect(model).toHaveBeenCalledOnce();
     expect(model).toHaveBeenCalledWith({
-      input: { text: validBody.text.trim(), category: 'animals', language: 'en', subcategory: undefined },
+      input: {
+        text: validBody.text.trim(),
+        category: 'animals',
+        language: 'en',
+        subcategory: undefined,
+        mode: 'standard',
+      },
       maxTokens: 1024,
       signal: expect.any(AbortSignal),
     });
@@ -290,5 +298,29 @@ describe('CORS on /api/interpret', () => {
     const response = await handler(new Request(ENDPOINT, { headers: { 'x-forwarded-for': IP } }));
     expect(response.status).toBe(405);
     expect(response.headers.get('allow')).toBe('POST, OPTIONS');
+  });
+});
+
+describe('advisor mode', () => {
+  it('passes the mode to the model and reports the advisor summary', async () => {
+    const advised: ModelOutcome = {
+      type: 'ok',
+      output: sampleReading,
+      model: 'claude-sonnet-5',
+      advisor: { requested: true, consulted: true, model: 'claude-opus-5', inputTokens: 900, outputTokens: 300 },
+      advice: 'Lead with the stillness.',
+    };
+    const { post, model } = setup({}, [advised]);
+    const response = await post({ ...validBody, mode: 'advisor' });
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      model: 'claude-sonnet-5',
+      advisor: { requested: true, consulted: true, model: 'claude-opus-5' },
+      advice: 'Lead with the stillness.',
+      duration_ms: expect.any(Number),
+    });
+    expect(model).toHaveBeenCalledWith(
+      expect.objectContaining({ input: expect.objectContaining({ mode: 'advisor' }) }),
+    );
   });
 });

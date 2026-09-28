@@ -13,5 +13,23 @@
   "resetLabel": "Reset demo data",
   "resetConfirm": "Tap again to restore the sample journal",
   "resetDone": "Sample journal restored",
-  "version": "Spirit Notebook preview · v{{version}}"
+  "version": "Spirit Notebook preview · v{{version}}",
+  "lab": {
+    "title": "Lab",
+    "subtitle": "Experimental settings for this preview.",
+    "toggle": "Advisor mode",
+    "toggleHint": "New readings are written by Sonnet after it consults an Opus advisor about the most meaningful angle. Richer and a little slower, at roughly five times the cost per reading.",
+    "sample": "The comparison uses the heron sample entry, so both readings start from the same words.",
+    "run": "Run a comparison",
+    "runningStandard": "Writing the standard reading…",
+    "runningAdvisor": "Consulting the advisor…",
+    "standard": "Standard",
+    "advisor": "With advisor",
+    "seconds": "{{seconds}} s",
+    "consulted": "Advisor consulted",
+    "notConsulted": "Advisor not consulted",
+    "advice": "What the advisor said",
+    "more": "Show more",
+    "less": "Show less"
+  }
 }

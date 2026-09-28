@@ -11,7 +11,7 @@ import {
 } from './http';
 import { GLOBAL_KEY, SCOPES, type RateLimiter } from './limiter';
 import { createMockModel, sleep, type Sleep } from './mock';
-import { UpstreamError, type ModelCall, type UpstreamFailure } from './model';
+import { UpstreamError, type AdvisorInfo, type ModelCall, type UpstreamFailure } from './model';
 import { hasValidPasscode } from './passcode';
 import {
   describeIssue,
@@ -48,6 +48,8 @@ const UPSTREAM_RESPONSES: Record<UpstreamFailure, { status: number; message: str
 export interface GeneratedReading {
   reading: Reading;
   model: string;
+  advisor?: AdvisorInfo;
+  advice?: string;
 }
 
 interface GenerateOptions {
@@ -76,7 +78,9 @@ export async function generateReading(
     }
     if (outcome.type === 'ok') {
       const parsed = ReadingSchema.safeParse(outcome.output);
-      if (parsed.success) return { reading: parsed.data, model: outcome.model };
+      if (parsed.success) {
+        return { reading: parsed.data, model: outcome.model, advisor: outcome.advisor, advice: outcome.advice };
+      }
       logger.warn('[interpret] reading failed validation', {
         attempt,
         issues: parsed.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`),
@@ -148,13 +152,25 @@ export function createInterpretHandler(deps: InterpretDeps): Handler {
       const limited = await reserveDaily(limiter, ip);
       if (limited) return limited;
 
+      const started = Date.now();
       try {
-        const { reading, model: servedBy } = await generateReading(model, input, {
+        const { reading, model: servedBy, advisor, advice } = await generateReading(model, input, {
           maxTokens: config.maxOutputTokens,
           signal: AbortSignal.timeout(MODEL_BUDGET_MS),
           logger,
         });
-        return json(200, { ...reading, language: input.language, model: servedBy });
+        return json(200, {
+          ...reading,
+          language: input.language,
+          model: servedBy,
+          advisor: {
+            requested: input.mode === 'advisor',
+            consulted: advisor?.consulted ?? false,
+            ...(advisor?.model ? { model: advisor.model } : {}),
+          },
+          ...(advice ? { advice } : {}),
+          duration_ms: Date.now() - started,
+        });
       } catch (error) {
         await releaseDaily(limiter, ip);
         if (!(error instanceof UpstreamError)) throw error;

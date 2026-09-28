@@ -5,8 +5,9 @@
  *
  *   POST /api/interpret
  *     headers: content-type: application/json, x-demo-passcode?: string
- *     body:    { text, category, subcategory?, language }
- *     200:     { kind: 'reading' | 'care', title, interpretation, reflection_question, language, model }
+ *     body:    { text, category, subcategory?, language, mode?: 'standard' | 'advisor' }
+ *     200:     { kind: 'reading' | 'care', title, interpretation, reflection_question, language, model,
+ *                advisor?: { requested, consulted, model? }, advice?: string, duration_ms?: number }
  *     4xx/5xx: { error: ErrorCode, message?: string, retryAfter?: number }
  *
  *   GET  /api/unlock          → { required: boolean }
@@ -14,7 +15,7 @@
  */
 import type { CategoryKey, LifeSituationKey } from '../../brand/categories';
 import { readStorage, writeStorage } from '../lib/storage';
-import type { Language, Reading } from '../state/types';
+import type { AdvisorSummary, Language, Reading, ReadingMode } from '../state/types';
 
 export type ApiErrorCode =
   | 'invalid_request'
@@ -44,6 +45,7 @@ export interface InterpretInput {
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   language: Language;
+  mode?: ReadingMode;
 }
 
 interface InterpretResponse {
@@ -53,6 +55,9 @@ interface InterpretResponse {
   reflection_question: string;
   language: Language;
   model?: string;
+  advisor?: AdvisorSummary;
+  advice?: string;
+  duration_ms?: number;
 }
 
 export function getStoredPasscode(): string | null {
@@ -102,6 +107,9 @@ export async function requestInterpretation(input: InterpretInput): Promise<Read
     reflectionQuestion: data.reflection_question,
     language: data.language ?? input.language,
     model: data.model,
+    advisor: data.advisor,
+    advice: data.advice,
+    durationMs: data.duration_ms,
   };
 }
 

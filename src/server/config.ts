@@ -15,6 +15,8 @@ export interface ServerConfig {
   /** Absent when ANTHROPIC_API_KEY is unset: /api/interpret then answers 503 not_configured. */
   apiKey?: string;
   model: string;
+  /** Advisor model for lab 'advisor' readings (the executor consults it before writing). */
+  advisorModel: string;
   effort: Effort;
   /** 'default' sends the server-side refusal fallback (`fallbacks: "default"`); 'off' omits it. See fallbacksFor. */
   fallbacks: 'default' | 'off';
@@ -69,6 +71,7 @@ export function readConfig(env: Env): ServerConfig {
   return {
     apiKey: text(env.ANTHROPIC_API_KEY),
     model,
+    advisorModel: text(env.ANTHROPIC_ADVISOR_MODEL) ?? 'claude-opus-5',
     effort: effort(env.ANTHROPIC_EFFORT),
     fallbacks: fallbacksFor(env.ANTHROPIC_FALLBACKS, model),
     passcode: text(env.DEMO_PASSCODE),

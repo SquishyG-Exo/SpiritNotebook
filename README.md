@@ -55,6 +55,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for 
    | `DEMO_PASSCODE` | no | When set, the app shows a passcode screen and the API refuses readings without it. |
    | `ANTHROPIC_MODEL` | no | Defaults to `claude-sonnet-5` (see `brand/config.ts`); `claude-opus-5` gives the richest prose at a slower, pricier call. |
    | `RATE_LIMIT_PER_IP_PER_MINUTE` / `RATE_LIMIT_PER_IP_PER_DAY` / `RATE_LIMIT_GLOBAL_PER_DAY` | no | Defaults 8 / 40 / 300. |
+   | `ANTHROPIC_ADVISOR_MODEL` | no | Advisor model for the Profile → Lab "advisor mode" readings (default `claude-opus-5`). |
    | `ANTHROPIC_EFFORT` | no | `low` (default), `medium` or `high`: how much the model thinks before writing. |
    | `ANTHROPIC_FALLBACKS` | no | The server-side refusal fallback beta: on by default for Opus / Fable models, off for others; `on` / `off` force it. If the account lacks the beta the function retries once without it. |
    | `ALLOWED_ORIGIN` | no | Extra origins allowed to call the API cross-site (localhost is always allowed for development). |
@@ -82,6 +83,10 @@ Everything brand-specific lives in `/brand`:
 - `voice.md` — the AI guide's system prompt.
 
 Fonts are loaded in `src/theme/fonts.ts` (Fraunces for display, DM Sans for body); icons are lucide line icons registered in `src/ui/icons.tsx`. App icons are generated from a single SVG design with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium).
+
+## Lab: advisor mode
+
+Profile → Lab has an **Advisor mode** switch and a **Run a comparison** button. With advisor mode on, each reading is produced by the executor model (Sonnet 5) after it consults a stronger advisor model (Opus 5 by default) through the Anthropic [advisor tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/advisor-tool): the advisor reads the entry and prompt, returns short strategic guidance, and the executor writes the reading. The comparison runs the same sample entry both ways and shows both readings with timings, whether the advisor was consulted, and the advice text when the advisor model returns it in plain text (Opus 4.8 does; Opus 5 returns it encrypted). Advisor readings cost roughly five times a standard one and take a few seconds longer; readings made this way carry an "Advisor" chip.
 
 ## Artwork
 

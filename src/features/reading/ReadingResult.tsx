@@ -136,6 +136,13 @@ export function ReadingResult({ entry, text, reading, note, onSave, onUpdateNote
             icon={<Icon name={def.icon} size={14} color={def.accent} strokeWidth={2} />}
           />
           {entry.isSample ? <Chip label={t('common.sample')} tone="lavender" /> : null}
+          {reading.advisor?.consulted ? (
+            <Chip
+              label={t('reading.advisorChip')}
+              tone="premium"
+              icon={<Icon name="Sparkles" size={13} color="#86591A" strokeWidth={2} />}
+            />
+          ) : null}
         </View>
         <AppText variant="caption" color={colors.muted}>
           {formatDate(new Date(entry.createdAt), language)}

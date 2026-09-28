@@ -10,7 +10,9 @@ import type { Reading } from './schema';
  *   mock:slow   a 6 second wait instead of 1.2 seconds
  */
 export const MOCK_MODEL = 'mock';
+export const MOCK_ADVISOR_MODEL = 'mock-advisor';
 export const MOCK_DELAY_MS = 1200;
+export const MOCK_ADVISOR_DELAY_MS = 2600;
 export const MOCK_SLOW_DELAY_MS = 6000;
 
 export type Sleep = (ms: number) => Promise<void>;
@@ -52,12 +54,27 @@ const CARE: Record<BrandLanguage, Reading> = {
   },
 };
 
+const ADVICE: Record<BrandLanguage, string> = {
+  en: 'Lead with the stillness of the moment rather than its symbolism; keep the tone warm and unhurried, and avoid predicting anything.',
+  es: 'Parte de la quietud del momento más que de su simbolismo; mantén un tono cálido y sin prisa, y evita predecir nada.',
+};
+
 export function createMockModel(wait: Sleep = sleep): ModelCall {
   return async ({ input }) => {
     const text = input.text.toLowerCase();
-    await wait(text.includes('mock:slow') ? MOCK_SLOW_DELAY_MS : MOCK_DELAY_MS);
+    const advisor = input.mode === 'advisor';
+    await wait(text.includes('mock:slow') ? MOCK_SLOW_DELAY_MS : advisor ? MOCK_ADVISOR_DELAY_MS : MOCK_DELAY_MS);
     if (text.includes('mock:error')) throw new UpstreamError('other', 'mock:error requested');
     const source = text.includes('mock:care') ? CARE : READINGS;
+    if (advisor) {
+      return {
+        type: 'ok',
+        output: source[input.language],
+        model: MOCK_MODEL,
+        advisor: { requested: true, consulted: true, model: MOCK_ADVISOR_MODEL },
+        advice: ADVICE[input.language],
+      };
+    }
     return { type: 'ok', output: source[input.language], model: MOCK_MODEL };
   };
 }

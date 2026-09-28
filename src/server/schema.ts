@@ -14,6 +14,9 @@ const lifeSituationKeys = lifeSituations.map((situation) => situation.key) as [
   ...LifeSituationKey[],
 ];
 
+export const READING_MODES = ['standard', 'advisor'] as const;
+export type ReadingMode = (typeof READING_MODES)[number];
+
 /** Body of POST /api/interpret. Length limits apply to the trimmed text. */
 export const InterpretRequestSchema = z.object(
   {
@@ -34,6 +37,11 @@ export const InterpretRequestSchema = z.object(
     language: z.enum(brand.languages, {
       error: `language must be one of: ${brand.languages.join(', ')}`,
     }),
+    /** 'advisor': the executor consults the advisor model before writing (lab setting). */
+    mode: z
+      .enum(READING_MODES, { error: 'mode must be standard or advisor' })
+      .nullish()
+      .transform((value) => value ?? 'standard'),
   },
   { error: 'Body must be a JSON object' },
 );
@@ -44,6 +52,7 @@ export interface InterpretInput {
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   language: BrandLanguage;
+  mode?: ReadingMode;
 }
 
 export function describeIssue(error: z.ZodError): string {

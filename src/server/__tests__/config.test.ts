@@ -10,6 +10,11 @@ describe('readConfig', () => {
     expect(config.effort).toBe('low');
   });
 
+  it('reads the advisor model with a default', () => {
+    expect(readConfig({}).advisorModel).toBe('claude-opus-5');
+    expect(readConfig({ ANTHROPIC_ADVISOR_MODEL: 'claude-opus-4-8' }).advisorModel).toBe('claude-opus-4-8');
+  });
+
   it('turns the refusal fallback on for the Opus / Fable tier', () => {
     expect(readConfig({ ANTHROPIC_MODEL: 'claude-opus-5' }).fallbacks).toBe('default');
     expect(readConfig({ ANTHROPIC_MODEL: 'claude-fable-5-1' }).fallbacks).toBe('default');

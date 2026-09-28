@@ -13,5 +13,23 @@
   "resetLabel": "Restablecer datos de la demo",
   "resetConfirm": "Toca de nuevo para restaurar el diario de ejemplo",
   "resetDone": "Diario de ejemplo restaurado",
-  "version": "Vista previa de Spirit Notebook · v{{version}}"
+  "version": "Vista previa de Spirit Notebook · v{{version}}",
+  "lab": {
+    "title": "Laboratorio",
+    "subtitle": "Ajustes experimentales de esta versión de prueba.",
+    "toggle": "Modo asesor",
+    "toggleHint": "Las nuevas lecturas las escribe Sonnet después de consultar a un asesor Opus sobre el enfoque más significativo. Más ricas y un poco más lentas, con un costo unas cinco veces mayor por lectura.",
+    "sample": "La comparación usa la entrada de ejemplo de la garza, así ambas lecturas parten de las mismas palabras.",
+    "run": "Comparar lecturas",
+    "runningStandard": "Escribiendo la lectura estándar…",
+    "runningAdvisor": "Consultando al asesor…",
+    "standard": "Estándar",
+    "advisor": "Con asesor",
+    "seconds": "{{seconds}} s",
+    "consulted": "Asesor consultado",
+    "notConsulted": "Asesor no consultado",
+    "advice": "Lo que dijo el asesor",
+    "more": "Ver más",
+    "less": "Ver menos"
+  }
 }

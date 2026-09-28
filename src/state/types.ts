@@ -4,6 +4,16 @@ export type Language = 'en' | 'es';
 
 export type ReadingKind = 'reading' | 'care';
 
+/** 'advisor': the executor model consults a stronger advisor model before writing (lab setting). */
+export type ReadingMode = 'standard' | 'advisor';
+
+export interface AdvisorSummary {
+  requested: boolean;
+  consulted: boolean;
+  /** Advisor model id, when one was configured. */
+  model?: string;
+}
+
 /** What the AI guide returns for one entry. */
 export interface Reading {
   kind: ReadingKind;
@@ -13,6 +23,11 @@ export interface Reading {
   language: Language;
   /** Model id that produced it (absent for sample content). */
   model?: string;
+  advisor?: AdvisorSummary;
+  /** The advisor's guidance, when the advisor model returns it in plain text. */
+  advice?: string;
+  /** Server-side time to produce the reading. */
+  durationMs?: number;
 }
 
 export interface EntryContent {

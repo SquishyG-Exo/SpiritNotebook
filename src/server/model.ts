@@ -11,9 +11,20 @@ export interface ModelRequest {
   signal?: AbortSignal;
 }
 
+/** What happened with the advisor tool on an 'advisor' reading. */
+export interface AdvisorInfo {
+  requested: boolean;
+  consulted: boolean;
+  model?: string;
+  inputTokens?: number;
+  outputTokens?: number;
+  /** Set when the advisor call failed (the executor continued without advice). */
+  errorCode?: string;
+}
+
 export type ModelOutcome =
   /** `output` is the parsed JSON object, not yet validated against ReadingSchema. */
-  | { type: 'ok'; output: unknown; model: string }
+  | { type: 'ok'; output: unknown; model: string; advisor?: AdvisorInfo; advice?: string }
   | { type: 'refusal'; category: string | null }
   /** Stopped at max_tokens: the JSON is incomplete. */
   | { type: 'truncated' }
