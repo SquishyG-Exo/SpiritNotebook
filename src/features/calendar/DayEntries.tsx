@@ -5,9 +5,12 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { formatLongDate, parseDateKey } from '../../lib/dates';
 import type { JournalEntry, Language } from '../../state';
-import { colors, radius, spacing } from '../../theme';
-import { AppText, Button, Icon, IconCircle, PressableScale } from '../../ui';
-import { EntryRow } from './EntryRow';
+import { colors, fonts, radius, spacing } from '../../theme';
+import { AppText, Button, Icon, PressableScale } from '../../ui';
+import { EmptyState, TextLink } from '../notebook/EmptyState';
+import { EntryCard } from '../notebook/EntryCard';
+import { glass, glassBlur } from '../notebook/glass';
+import { SectionHeader } from '../notebook/SectionHeader';
 
 export interface DayEntriesProps {
   dayKey: string;
@@ -22,7 +25,12 @@ export interface DayEntriesProps {
   onShowLatest?: () => void;
 }
 
-/** "Entries on …" heading plus the day's saved entries, or a gentle empty state. */
+/** Opens "What would you like to log?" with this day preselected for the composer. */
+function addEntryFor(dayKey: string) {
+  router.push({ pathname: '/explore', params: { date: dayKey } });
+}
+
+/** "Entries on …", the day's saved entries and "Add an entry for this day" (today and earlier only). */
 export function DayEntries({
   dayKey,
   todayKey,
@@ -35,105 +43,105 @@ export function DayEntries({
 }: DayEntriesProps) {
   const { t } = useTranslation();
   const date = formatLongDate(parseDateKey(dayKey), language);
+  const future = dayKey > todayKey;
 
   return (
     <View style={styles.section}>
-      <View style={styles.header}>
-        <AppText variant="subheading" style={styles.heading} accessibilityRole="header">
-          {t('calendar.entriesOn', { date })}
-        </AppText>
-        {entries.length > 0 ? (
-          <AppText variant="caption" color={colors.muted}>
-            {t('calendar.entryCount', { count: entries.length })}
-          </AppText>
-        ) : null}
-      </View>
+      <SectionHeader
+        title={t('calendar.entriesOn', { date })}
+        meta={entries.length > 0 ? t('calendar.entryCount', { count: entries.length }) : undefined}
+      />
 
       <Animated.View key={listKey} entering={FadeIn.duration(180)} style={styles.list}>
         {entries.length > 0 ? (
-          entries.map((entry, index) => (
-            <EntryRow
-              key={entry.id}
-              entry={entry}
-              language={language}
-              index={index}
-              highlightNonce={highlight?.id === entry.id ? highlight.nonce : undefined}
-              onHighlightPlayed={onHighlightPlayed}
+          <>
+            {entries.map((entry, index) => (
+              <EntryCard
+                key={entry.id}
+                entry={entry}
+                variant="compact"
+                index={index}
+                highlightNonce={highlight?.id === entry.id ? highlight.nonce : undefined}
+                onHighlightPlayed={onHighlightPlayed}
+                testID={`day-${entry.id}`}
+              />
+            ))}
+            <AddForDay onPress={() => addEntryFor(dayKey)} />
+          </>
+        ) : future ? (
+          <EmptyState icon="Moon" title={t('calendar.futureDay')} hint={t('calendar.futureDayHint')}>
+            <Button
+              label={t('calendar.addForDay')}
+              size="md"
+              fullWidth={false}
+              disabled
+              icon={<Icon name="Plus" size={18} color={colors.white} strokeWidth={2.2} />}
+              style={styles.button}
             />
-          ))
+            <AppText style={styles.futureNote} align="center">
+              {t('calendar.addFutureHint')}
+            </AppText>
+          </EmptyState>
         ) : (
-          <EmptyDay future={dayKey > todayKey} onShowLatest={onShowLatest} />
+          <EmptyState icon="PenLine" title={t('calendar.emptyDay')} hint={t('calendar.emptyDayHint')}>
+            <Button
+              label={t('calendar.addForDay')}
+              size="md"
+              fullWidth={false}
+              icon={<Icon name="Plus" size={18} color={colors.white} strokeWidth={2.2} />}
+              onPress={() => addEntryFor(dayKey)}
+              testID="calendar-add"
+              style={styles.button}
+            />
+            {onShowLatest ? <TextLink label={t('calendar.latestEntry')} onPress={onShowLatest} /> : null}
+          </EmptyState>
         )}
       </Animated.View>
     </View>
   );
 }
 
-function EmptyDay({ future, onShowLatest }: { future: boolean; onShowLatest?: () => void }) {
+/** Glass pill under a day's entries. */
+function AddForDay({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
   return (
-    <View style={styles.empty}>
-      <IconCircle name={future ? 'Moon' : 'PenLine'} size={48} tint={colors.roseSoft} color={colors.roseDeep} />
-      <View style={styles.emptyText}>
-        <AppText variant="bodyMedium" align="center">
-          {future ? t('calendar.futureDay') : t('calendar.emptyDay')}
-        </AppText>
-        <AppText variant="small" color={colors.muted} align="center">
-          {future ? t('calendar.futureDayHint') : t('calendar.emptyDayHint')}
-        </AppText>
+    <PressableScale
+      onPress={onPress}
+      scaleTo={0.97}
+      accessibilityRole="button"
+      accessibilityLabel={t('calendar.addForDay')}
+      testID="calendar-add"
+      style={[glass.card, glassBlur, styles.addPill]}>
+      <View style={styles.addIcon}>
+        <Icon name="Plus" size={16} color={colors.white} strokeWidth={2.4} />
       </View>
-      {future ? null : (
-        <Button
-          label={t('common.actions.newEntry')}
-          variant="secondary"
-          size="md"
-          fullWidth={false}
-          icon={<Icon name="Plus" size={18} color={colors.roseDeep} strokeWidth={2} />}
-          onPress={() => router.push('/explore')}
-          style={styles.emptyButton}
-        />
-      )}
-      {onShowLatest ? (
-        <PressableScale
-          onPress={onShowLatest}
-          scaleTo={0.96}
-          accessibilityRole="button"
-          hitSlop={8}
-          style={styles.latest}>
-          <AppText variant="smallMedium" color={colors.lavenderDeep}>
-            {t('calendar.latestEntry')}
-          </AppText>
-          <Icon name="ChevronRight" size={16} color={colors.lavenderDeep} strokeWidth={2} />
-        </PressableScale>
-      ) : null}
-    </View>
+      <AppText style={styles.addText}>{t('calendar.addForDay')}</AppText>
+    </PressableScale>
   );
 }
 
 const styles = StyleSheet.create({
   section: { marginTop: spacing.xxl, gap: spacing.md },
-  // The count sits beside the heading, or wraps beneath it when the date is long.
-  header: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
-    columnGap: spacing.md,
-    rowGap: 2,
-  },
-  heading: { flexShrink: 1 },
   list: { gap: spacing.md },
-  empty: {
+  button: { alignSelf: 'center', marginTop: spacing.xs },
+  futureNote: { fontFamily: fonts.body, fontSize: 13, lineHeight: 18, color: colors.muted },
+  addPill: {
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    paddingVertical: spacing.xxl,
-    paddingHorizontal: spacing.xl,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.hairline,
-    backgroundColor: colors.surfaceTint,
+    justifyContent: 'center',
+    gap: spacing.sm,
+    height: 50,
+    borderRadius: radius.pill,
+    borderStyle: 'dashed',
+    borderColor: colors.plum,
   },
-  emptyText: { gap: spacing.xs, maxWidth: 300 },
-  emptyButton: { alignSelf: 'center', marginTop: spacing.xs },
-  latest: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingVertical: spacing.xs },
+  addIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.plum,
+  },
+  addText: { fontFamily: fonts.bodySemiBold, fontSize: 15, lineHeight: 20, color: colors.plum },
 });

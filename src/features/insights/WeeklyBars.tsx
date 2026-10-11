@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 
 import type { Language } from '../../state';
-import { colors, fonts, spacing } from '../../theme';
+import { colors, fonts, spacing, withAlpha } from '../../theme';
 import { AppText } from '../../ui';
 import { formatWeekRange, type WeekBucket } from './insightsModel';
 
@@ -14,7 +14,7 @@ const ZERO_HEIGHT = 3;
 const MIN_HEIGHT = 8;
 
 /**
- * Entries per rolling week, emphasis form: the current week in the accent (rose),
+ * Entries per rolling week, emphasis form: the current week in the accent (gold),
  * earlier weeks in the context hue (lavender). Every bar carries its value on the
  * cap, which is also the contrast relief for the lighter fills.
  */
@@ -42,7 +42,7 @@ export function WeeklyBars({ weeks, language }: { weeks: WeekBucket[]; language:
               </AppText>
               <Bar
                 height={barHeight(week.count, max)}
-                color={week.isCurrent ? colors.roseDeep : colors.lavender}
+                color={week.isCurrent ? colors.gold : colors.lavender}
                 delay={120 + index * 90}
               />
             </View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     height: PLOT_HEIGHT + 24,
     borderBottomWidth: 1,
-    borderBottomColor: colors.hairline,
+    borderBottomColor: withAlpha(colors.plum, 0.14),
   },
   column: { flex: 1, alignItems: 'center', justifyContent: 'flex-end' },
   value: { marginBottom: spacing.xs, fontFamily: fonts.bodySemiBold },

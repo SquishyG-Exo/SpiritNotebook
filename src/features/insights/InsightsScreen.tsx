@@ -1,45 +1,38 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { insights } from '../../../brand/insights';
-import { localeFor } from '../../lib/dates';
 import { useJournal, useSettings } from '../../state';
-import { colors, fonts, gradients, layout, spacing , withAlpha } from '../../theme';
-import { AppText, Button, Card, Chip, Icon, IconCircle, Screen } from '../../ui';
-import { Butterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
+import { colors, fonts, radius, spacing, withAlpha } from '../../theme';
+import { AppText, Chip, Icon, IconCircle } from '../../ui';
+import { formatMonthName, monthOf } from '../calendar/calendarModel';
+import { glass, glassBlur } from '../notebook/glass';
+import { PremiumChip } from '../notebook/PremiumChip';
+import { SkyHeader } from '../notebook/SkyHeader';
+import { SkyPage, skyPage, useSkyPadding } from '../notebook/SkyPage';
 import { GlanceCard } from './GlanceCard';
 import { computeInsightStats } from './insightsModel';
 import { WeeklyBars } from './WeeklyBars';
 
-/** Night header that carries the title block; the glance card sits just below its fade. */
-const HERO_HEIGHT = 184;
-/** Top edge and right side only: the title block owns the upper left, and the
- * subtitle can run almost the full width (Spanish at 360 px). */
-const HERO_SPARKLES: SparkleSpec[] = [
-  { x: 0.6, y: 0.08, size: 8, delay: 0 },
-  { x: 0.74, y: 0.2, size: 10, delay: 800 },
-  { x: 0.94, y: 0.62, size: 8, delay: 1500 },
-];
-/** Night-sky scrim behind the text block, then a short tail that fades out above the sun. */
-const HERO_SCRIM_BODY = [withAlpha(colors.navyDeep, 0.55), withAlpha(colors.navyDeep, 0.46)] as const;
-const HERO_SCRIM_TAIL = [withAlpha(colors.navyDeep, 0.46), withAlpha(colors.navyDeep, 0)] as const;
-/** Night into cream through a lavender mist: a straight night-to-cream fade turns grey midway. */
-const HERO_FADE = [withAlpha(colors.lavenderSoft, 0), withAlpha(colors.lavenderSoft, 0.7), colors.cream] as const;
-/** Rose glow behind the "Patterns" card; it shows in the gutters and the gaps between cards. */
-const PATTERNS_GLOW = 500;
+/** Insights is reached from the Notebook's patterns card; a cold start goes back there. */
+function goBack() {
+  if (router.canGoBack()) router.back();
+  else router.replace('/notebook');
+}
 
 /** Premium Insights preview: computed counts from the journal plus mocked patterns from brand/insights.ts. */
 export function InsightsScreen() {
   const { t } = useTranslation();
   const { language } = useSettings();
   const { savedEntries } = useJournal();
+  const padding = useSkyPadding('stack');
   const [now] = useState(() => new Date());
   const stats = useMemo(() => computeInsightStats(savedEntries, now), [savedEntries, now]);
-  const monthName = new Intl.DateTimeFormat(localeFor(language), { month: 'long' }).format(now);
+  const monthName = formatMonthName(monthOf(now), language);
 
   const themes = insights.themes;
   const symbols = insights.symbols[language] ?? insights.symbols.en;
@@ -47,130 +40,89 @@ export function InsightsScreen() {
   const journey = insights.journey[language] ?? insights.journey.en;
 
   return (
-    <Screen scroll>
-      <DreamBanner
-        variant="night"
-        height={HERO_HEIGHT}
-        glow={false}
-        butterflies="none"
-        sparkles={false}
-        fadeTo={null}
-        style={styles.hero}
-        contentStyle={styles.heroContent}>
-        <LinearGradient pointerEvents="none" colors={HERO_FADE} locations={[0, 0.5, 1]} style={styles.heroFade} />
-        <View style={styles.heroText}>
-          {/* Deepens the sky (clouds, rays) behind the text so cream keeps AA contrast. It follows
-              the text block, so a wrapped subtitle stays covered, and ends before the sun. */}
-          <View pointerEvents="none" style={styles.heroScrim}>
-            <LinearGradient colors={HERO_SCRIM_BODY} style={styles.heroScrimBody} />
-            <LinearGradient colors={HERO_SCRIM_TAIL} style={styles.heroScrimTail} />
-          </View>
-          <View style={styles.titleRow}>
-            <AppText variant="title" color={colors.cream} accessibilityRole="header">
-              {t('insights.title')}
-            </AppText>
-            <Chip
-              label={t('common.premium')}
-              background={withAlpha(colors.white, 0.14)}
-              color={colors.cream}
-              icon={<Icon name="Sparkles" size={13} color={gradients.premium[0]} strokeWidth={2} />}
-              style={styles.heroChip}
-            />
-          </View>
-          <AppText variant="small" color={colors.cream}>
-            {t('insights.subtitle')}
-          </AppText>
-        </View>
-        <HeroDecor />
-      </DreamBanner>
+    <SkyPage>
+      <ScrollView
+        style={skyPage.scroll}
+        contentContainerStyle={[skyPage.content, padding]}
+        showsVerticalScrollIndicator={false}>
+        <SkyHeader
+          title={t('insights.title')}
+          subtitle={t('insights.subtitle')}
+          onBack={goBack}
+          badge={<PremiumChip onDark style={styles.badge} />}
+        />
 
-      <View style={styles.stack}>
-        {/* Above the Patterns glow, which would otherwise paint over its lower edge. */}
-        <Reveal order={0} style={styles.raised}>
-          <GlanceCard stats={stats} monthName={monthName} />
-        </Reveal>
+        <View style={styles.stack}>
+          <Reveal order={0}>
+            <GlanceCard stats={stats} monthName={monthName} />
+          </Reveal>
 
-        <Reveal order={1}>
-          <EnergyField size={PATTERNS_GLOW} color={colors.rose} intensity={0.42} style={styles.patternsGlow} />
-          <Card style={styles.card}>
-            <CardTitle icon="Waves" title={t('insights.patternsTitle')} />
-            <AppText variant="body" color={colors.inkSoft}>
-              {summary}
-            </AppText>
-            <View style={styles.chips}>
-              {themes.map((theme) => {
-                const label = theme.label[language] ?? theme.label.en;
-                return (
-                  <Chip
-                    key={theme.label.en}
-                    tone="lavender"
-                    label={t('insights.themeChip', { label, count: theme.count })}
-                    accessibilityLabel={t('insights.themeA11y', { label, count: theme.count })}
-                  />
-                );
-              })}
-            </View>
-          </Card>
-        </Reveal>
-
-        <Reveal order={2}>
-          <Card style={styles.card}>
-            <CardTitle
-              icon="CalendarDays"
-              title={t('insights.weeklyTitle')}
-              subtitle={t('insights.weeklySubtitle')}
-            />
-            <WeeklyBars weeks={stats.weeks} language={language} />
-          </Card>
-        </Reveal>
-
-        <Reveal order={3}>
-          <Card style={styles.card}>
-            <CardTitle icon="Gem" title={t('insights.symbolsTitle')} subtitle={t('insights.symbolsSubtitle')} />
-            <View style={styles.chips}>
-              {symbols.map((symbol) => (
-                <Chip key={symbol} tone="rose" label={symbol} />
-              ))}
-            </View>
-          </Card>
-        </Reveal>
-
-        <Reveal order={4}>
-          <Card style={styles.card}>
-            <CardTitle icon="Compass" title={t('insights.journeyTitle')} />
-            <View style={styles.quote}>
-              <AppText style={styles.quoteMark} color={colors.rose} accessibilityElementsHidden importantForAccessibility="no">
-                “
-              </AppText>
-              <AppText variant="quote" color={colors.ink} style={styles.quoteText}>
-                {journey}
-              </AppText>
-            </View>
-          </Card>
-        </Reveal>
-
-        <Reveal order={5}>
-          <Card tint={colors.surfaceTint} elevated={false} style={styles.card}>
-            <View style={styles.premiumRow}>
-              <IconCircle name="Sparkles" size={44} tint={colors.peachSoft} color={colors.gold} />
-              <View style={styles.premiumText}>
-                <AppText variant="subheading">{t('insights.premiumTitle')}</AppText>
-                <AppText variant="small" color={colors.inkSoft}>
-                  {t('insights.premiumNote')}
-                </AppText>
+          <Reveal order={1}>
+            <GlassCard>
+              <CardTitle icon="Waves" title={t('insights.patternsTitle')} />
+              <AppText style={styles.body}>{summary}</AppText>
+              <View style={styles.chips}>
+                {themes.map((theme) => {
+                  const label = theme.label[language] ?? theme.label.en;
+                  return (
+                    <Chip
+                      key={theme.label.en}
+                      background={withAlpha(colors.lavenderSoft, 0.9)}
+                      color={colors.plum}
+                      label={t('insights.themeChip', { label, count: theme.count })}
+                      accessibilityLabel={t('insights.themeA11y', { label, count: theme.count })}
+                    />
+                  );
+                })}
               </View>
-            </View>
-            <Button
-              label={t('insights.premiumCta')}
-              variant="secondary"
-              size="md"
-              disabled
-              icon={<Icon name="Check" size={18} color={colors.roseDeep} strokeWidth={2} />}
-            />
-          </Card>
-        </Reveal>
-      </View>
-    </Screen>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={2}>
+            <GlassCard>
+              <CardTitle icon="CalendarDays" title={t('insights.weeklyTitle')} subtitle={t('insights.weeklySubtitle')} />
+              <WeeklyBars weeks={stats.weeks} language={language} />
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={3}>
+            <GlassCard>
+              <CardTitle icon="Gem" title={t('insights.symbolsTitle')} subtitle={t('insights.symbolsSubtitle')} />
+              <View style={styles.chips}>
+                {symbols.map((symbol) => (
+                  <Chip key={symbol} background={withAlpha(colors.roseSoft, 0.9)} color={colors.roseDeep} label={symbol} />
+                ))}
+              </View>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={4}>
+            <GlassCard>
+              <CardTitle icon="Compass" title={t('insights.journeyTitle')} />
+              <AppText style={styles.journey}>{journey}</AppText>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={5}>
+            <GlassCard>
+              <View style={styles.premiumRow}>
+                <IconCircle name="Sparkles" size={44} tint={withAlpha(colors.goldLight, 0.32)} color={colors.gold} />
+                <View style={styles.premiumText}>
+                  <AppText style={styles.premiumTitle}>{t('insights.premiumTitle')}</AppText>
+                  <AppText style={styles.body}>{t('insights.premiumNote')}</AppText>
+                </View>
+              </View>
+              <View style={styles.included} accessible accessibilityLabel={t('insights.premiumCta')}>
+                <View>
+                  <Icon name="Check" size={16} color={colors.goldDeep} strokeWidth={2.2} />
+                </View>
+                <AppText style={styles.includedText}>{t('insights.premiumCta')}</AppText>
+              </View>
+            </GlassCard>
+          </Reveal>
+        </View>
+      </ScrollView>
+    </SkyPage>
   );
 }
 
@@ -182,31 +134,16 @@ function Reveal({ order, children, style }: { order: number; children: ReactNode
   );
 }
 
-/** Sparkles and two tiny butterflies at the edges of the night scene. Never takes touches. */
-function HeroDecor() {
-  return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-      <Sparkles sparkles={HERO_SPARKLES} />
-      <Butterfly size={26} rotation={-14} colorA={colors.peach} colorB={colors.rose} style={styles.heroButterflyTop} />
-      <Butterfly
-        size={20}
-        rotation={24}
-        delay={1200}
-        colorA={colors.peach}
-        colorB={colors.rose}
-        opacity={0.85}
-        style={styles.heroButterflyLow}
-      />
-    </View>
-  );
+function GlassCard({ children }: { children: ReactNode }) {
+  return <View style={[glass.card, glassBlur, styles.card]}>{children}</View>;
 }
 
 function CardTitle({ icon, title, subtitle }: { icon: string; title: string; subtitle?: string }) {
   return (
     <View style={styles.cardTitle}>
-      <IconCircle name={icon} size={34} tint={colors.lavenderSoft} color={colors.lavenderDeep} />
+      <IconCircle name={icon} size={36} tint={withAlpha(colors.goldLight, 0.3)} color={colors.gold} />
       <View style={styles.cardTitleText}>
-        <AppText variant="heading" accessibilityRole="header" style={styles.cardHeading}>
+        <AppText style={styles.cardHeading} accessibilityRole="header">
           {title}
         </AppText>
         {subtitle ? (
@@ -220,37 +157,28 @@ function CardTitle({ icon, title, subtitle }: { icon: string; title: string; sub
 }
 
 const styles = StyleSheet.create({
-  // Full-bleed: undo the Screen gutter.
-  hero: { marginHorizontal: -layout.gutter },
-  heroContent: { justifyContent: 'flex-start' },
-  // Text stays in the upper, darker part of the scene, above the fade.
-  heroText: { paddingTop: spacing.xxl + spacing.xs, paddingHorizontal: layout.gutter, gap: spacing.xs },
-  heroScrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: -spacing.xxl },
-  heroScrimBody: { flex: 1 },
-  heroScrimTail: { height: spacing.xxl },
-  heroChip: { borderWidth: 1, borderColor: withAlpha(colors.white, 0.28) },
-  heroButterflyTop: { position: 'absolute', right: 22, top: 18 },
-  heroButterflyLow: { position: 'absolute', left: 16, bottom: 60 },
-  // Same height as the banner's own fade, which this replaces.
-  heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 96 },
-  titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, flexWrap: 'wrap' },
-  stack: { gap: spacing.lg },
-  raised: { zIndex: 1 },
-  patternsGlow: { left: '50%', top: '50%', marginLeft: -PATTERNS_GLOW / 2, marginTop: -PATTERNS_GLOW / 2 },
-  card: { gap: spacing.lg },
+  badge: { alignSelf: 'center' },
+  stack: { gap: spacing.lg, marginTop: spacing.xxl },
+  card: { padding: spacing.xl, gap: spacing.lg },
   cardTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   cardTitleText: { flex: 1 },
-  cardHeading: { fontSize: 19, lineHeight: 24 },
+  cardHeading: { fontFamily: fonts.display, fontSize: 22, lineHeight: 27, color: colors.plumDeep },
+  body: { fontFamily: fonts.body, fontSize: 15, lineHeight: 23, color: colors.inkSoft },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  quote: { paddingLeft: spacing.xs },
-  quoteMark: {
-    fontFamily: fonts.display,
-    fontSize: 48,
-    lineHeight: 40,
-    height: 26,
-    marginBottom: spacing.xs,
-  },
-  quoteText: { fontSize: 17, lineHeight: 26 },
+  journey: { fontFamily: fonts.displayItalic, fontSize: 20, lineHeight: 29, color: colors.plumDeep },
   premiumRow: { flexDirection: 'row', gap: spacing.md, alignItems: 'flex-start' },
   premiumText: { flex: 1, gap: spacing.xs },
+  premiumTitle: { fontFamily: fonts.display, fontSize: 22, lineHeight: 27, color: colors.plumDeep },
+  included: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.sm,
+    height: 46,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: withAlpha(colors.gold, 0.55),
+    backgroundColor: withAlpha(colors.goldLight, 0.18),
+  },
+  includedText: { fontFamily: fonts.bodySemiBold, fontSize: 15, lineHeight: 20, color: colors.goldDeep },
 });

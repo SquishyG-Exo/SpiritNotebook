@@ -5,8 +5,9 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { formatLongDate, formatMonthYear, weekdayInitials } from '../../lib/dates';
 import type { JournalEntry, Language } from '../../state';
-import { colors, fonts, radius, shadow, spacing } from '../../theme';
+import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
 import { AppText, Icon, PressableScale } from '../../ui';
+import { glass, glassBlur } from '../notebook/glass';
 import {
   buildMonthGrid,
   capitalizeFirst,
@@ -29,7 +30,7 @@ export interface MonthCalendarProps {
   onChangeMonth: (delta: -1 | 1) => void;
 }
 
-/** Month navigator, weekday initials and a fixed 6 × 7 day grid, in one card. */
+/** Month navigator, weekday initials and a fixed 6 × 7 day grid, in one glass card (Design 4). */
 export function MonthCalendar({
   month,
   language,
@@ -46,12 +47,11 @@ export function MonthCalendar({
   const title = capitalizeFirst(formatMonthYear(firstOfMonth(month), language));
 
   return (
-    <View style={styles.card}>
+    <View style={[glass.firm, glassBlur, styles.card]}>
       <View style={styles.nav}>
         <NavButton icon="ChevronLeft" label={t('calendar.previousMonth')} onPress={() => onChangeMonth(-1)} />
         <Animated.View key={`title-${key}`} entering={FadeIn.duration(240)} style={styles.navTitle}>
           <AppText
-            variant="heading"
             align="center"
             numberOfLines={1}
             adjustsFontSizeToFit
@@ -113,7 +113,7 @@ function NavButton({ icon, label, onPress }: { icon: 'ChevronLeft' | 'ChevronRig
       accessibilityRole="button"
       accessibilityLabel={label}
       style={styles.navButton}>
-      <Icon name={icon} size={20} color={colors.ink} strokeWidth={2} />
+      <Icon name={icon} size={20} color={colors.plum} strokeWidth={2} />
     </PressableScale>
   );
 }
@@ -128,14 +128,8 @@ interface DayButtonProps {
 }
 
 const DayButton = memo(function DayButton({ cell, count, selected, isToday, label, onSelect }: DayButtonProps) {
-  const textColor = selected
-    ? colors.cream
-    : !cell.inMonth
-      ? colors.faint
-      : isToday
-        ? colors.lavenderDeep
-        : colors.ink;
-  const dotColor = selected ? colors.rose : cell.inMonth ? colors.roseDeep : colors.rose;
+  const textColor = selected ? colors.white : !cell.inMonth ? colors.faint : isToday ? colors.goldDeep : colors.ink;
+  const dotColor = selected ? colors.goldLight : cell.inMonth ? colors.gold : withAlpha(colors.gold, 0.5);
 
   return (
     <PressableScale
@@ -172,14 +166,10 @@ const DayButton = memo(function DayButton({ cell, count, selected, isToday, labe
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
     borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.hairline,
     paddingHorizontal: spacing.md,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
-    ...shadow.card,
   },
   nav: {
     flexDirection: 'row',
@@ -188,16 +178,17 @@ const styles = StyleSheet.create({
   },
   navTitle: { flex: 1, paddingHorizontal: spacing.xs },
   // Sized so "Septiembre de 2026" fits on a 360 px screen.
-  monthTitle: { fontSize: 19, lineHeight: 24 },
+  monthTitle: { fontFamily: fonts.display, fontSize: 23, lineHeight: 28, color: colors.plumDeep, fontVariant: ['lining-nums'] },
   navButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.surfaceTint,
+    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: colors.hairline,
+    borderColor: withAlpha(colors.plum, 0.14),
+    ...shadow.card,
   },
   weekdays: {
     flexDirection: 'row',
@@ -219,15 +210,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  entryDisc: { backgroundColor: colors.roseSoft },
-  entryDiscMuted: { backgroundColor: colors.surfaceTint },
+  entryDisc: { backgroundColor: withAlpha(colors.rose, 0.3) },
+  entryDiscMuted: { backgroundColor: withAlpha(colors.rose, 0.12) },
   todayRing: {
     borderWidth: 1.5,
-    borderColor: colors.lavender,
+    borderColor: colors.gold,
   },
   selectedDisc: {
-    backgroundColor: colors.ink,
-    ...shadow.soft,
+    backgroundColor: colors.plum,
+    ...shadow.glow,
   },
   dayNumber: { fontSize: 15, lineHeight: 18 },
   dayNumberStrong: { fontFamily: fonts.bodySemiBold },

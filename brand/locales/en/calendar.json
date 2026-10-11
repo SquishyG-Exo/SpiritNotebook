@@ -1,5 +1,5 @@
 {
-  "title": "Calendar & Journal",
+  "title": "Calendar",
   "monthSummary_zero": "No entries yet this month",
   "monthSummary_one": "{{count}} entry this month",
   "monthSummary_other": "{{count}} entries this month",
@@ -22,6 +22,6 @@
   "dayA11y_one": "{{date}}, {{count}} entry",
   "dayA11y_other": "{{date}}, {{count}} entries",
   "todayA11y": "{{label}}, today",
-  "untitled": "Untitled entry",
-  "openEntry": "{{title}}, {{time}}, {{category}}"
+  "addForDay": "Add an entry for this day",
+  "addFutureHint": "Entries can be added for today or earlier days."
 }

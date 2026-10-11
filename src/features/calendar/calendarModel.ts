@@ -86,15 +86,6 @@ export function capitalizeFirst(text: string): string {
   return text.charAt(0).toLocaleUpperCase() + text.slice(1);
 }
 
-/** Title for an entry row: the reading title, else the start of the text. */
-export function excerpt(text: string, max = 40): string {
-  const clean = text.replace(/\s+/g, ' ').trim();
-  if (clean.length <= max) return clean;
-  const cut = clean.slice(0, max);
-  const lastSpace = cut.lastIndexOf(' ');
-  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:]+$/, '')}…`;
-}
-
 /** First value of a route param that may arrive as an array. */
 export function firstParam(value: string | string[] | undefined): string | undefined {
   const first = Array.isArray(value) ? value[0] : value;

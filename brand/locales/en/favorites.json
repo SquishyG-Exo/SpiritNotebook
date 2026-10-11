@@ -1,1 +1,19 @@
-{}
+{
+  "title": "Saved",
+  "subtitle": "Your favorite entries, meanings and insights",
+  "entriesTitle": "Favorite entries",
+  "whispersTitle": "Saved whispers",
+  "count": "{{count}}",
+  "inSpiritOf": "In the spirit of {{author}}",
+  "unsaveEntry": "Remove “{{title}}” from Saved",
+  "unsaveWhisper": "Remove this whisper from Saved",
+  "openWhisper": "Opens it in Whispers of Wisdom",
+  "noEntries": "Tap the heart on a reading to keep the entry here.",
+  "noWhispers": "Tap the heart on a whisper to keep its words here.",
+  "readWhisper": "Read today’s whisper",
+  "emptyTitle": "Nothing saved yet",
+  "emptyIntro": "The heart keeps what speaks to you, all in one place.",
+  "emptyReading": "On a reading, it saves the entry and its meaning.",
+  "emptyWhisper": "On a whisper, it keeps the words for the days you need them.",
+  "openNotebook": "Open my notebook"
+}

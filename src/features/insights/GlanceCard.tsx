@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { categoryByKey } from '../../../brand/categories';
-import { colors, fonts, gradients, radius, shadow, spacing , withAlpha } from '../../theme';
+import { colors, fonts, gradients, radius, shadow, spacing, withAlpha } from '../../theme';
 import { AppText, Icon, IconCircle } from '../../ui';
 import { categoryLabel } from '../../lib/categoryCopy';
 import { type InsightStats } from './insightsModel';
@@ -23,8 +23,8 @@ export function GlanceCard({ stats, monthName }: { stats: InsightStats; monthNam
         style={StyleSheet.absoluteFill}
       />
       <View style={styles.heading}>
-        <Icon name="Sparkles" size={16} color={colors.ink} strokeWidth={2} />
-        <AppText variant="overline" color={colors.ink} accessibilityRole="header">
+        <Icon name="Sparkles" size={16} color={colors.plumDeep} strokeWidth={2} />
+        <AppText variant="overline" color={colors.plumDeep} accessibilityRole="header">
           {t('insights.glanceTitle')}
         </AppText>
       </View>
@@ -119,7 +119,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     padding: spacing.lg,
     gap: spacing.md,
-    ...shadow.soft,
+    borderWidth: 1,
+    borderColor: colors.glassBorder,
+    ...shadow.tile,
   },
   heading: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingHorizontal: spacing.xs },
   row: { flexDirection: 'row', gap: spacing.md },
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.bodySemiBold,
     fontSize: 34,
     lineHeight: 40,
-    color: colors.ink,
+    color: colors.plumDeep,
     marginTop: spacing.xs,
   },
   hint: { marginTop: 'auto' },
@@ -145,6 +147,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.bodySemiBold,
     fontSize: 19,
     lineHeight: 24,
-    color: colors.ink,
+    color: colors.plumDeep,
   },
 });

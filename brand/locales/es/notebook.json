@@ -1,1 +1,31 @@
-{}
+{
+  "title": "Mi cuaderno",
+  "count_zero": "Aún no hay entradas",
+  "count_one": "{{count}} entrada",
+  "count_other": "{{count}} entradas",
+  "searchPlaceholder": "Busca sueños, señales, notas…",
+  "monthCount_one": "{{count}} entrada",
+  "monthCount_other": "{{count}} entradas",
+  "patterns": {
+    "title": "Tus patrones",
+    "subtitle": "Temas, símbolos y ritmos de tu cuaderno"
+  },
+  "filters": {
+    "label": "Filtrar entradas",
+    "all": "Todo",
+    "notes": "Notas"
+  },
+  "card": {
+    "favorite": "En Guardados",
+    "openHint": "Abre la entrada"
+  },
+  "empty": {
+    "title": "Tu cuaderno te espera",
+    "hint": "Anota un sueño, una señal o un momento de gratitud, y aquí se quedará.",
+    "filterTitle": "Aún no hay nada en {{filter}}",
+    "filterHint": "Cuando algo así te encuentre, anótalo y aparecerá aquí.",
+    "logCategory": "Anotar una ahora",
+    "notesTitle": "Aún no hay notas",
+    "notesHint": "Después de una interpretación, agrega lo que piensas y la entrada aparecerá aquí."
+  }
+}

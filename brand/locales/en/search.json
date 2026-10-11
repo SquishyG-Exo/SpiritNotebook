@@ -1,1 +1,28 @@
-{}
+{
+  "title": "Search",
+  "subtitle": "Find your past dreams, signs, notes and more",
+  "placeholder": "Search your notebook",
+  "fieldLabel": "Search your notebook",
+  "clear": "Clear search",
+  "resultsTitle": "Results from your Notebook",
+  "resultCount_zero": "No results",
+  "resultCount_one": "{{count}} result",
+  "resultCount_other": "{{count}} results",
+  "browseTitle": "{{filter}} in your Notebook",
+  "entryCount_one": "{{count}} entry",
+  "entryCount_other": "{{count}} entries",
+  "suggestionsTitle": "Try searching for",
+  "suggestionsHint": "Search looks through your titles, entries, notes and readings.",
+  "suggestions": [
+    "blue boat",
+    "11:11",
+    "heron",
+    "feather"
+  ],
+  "suggestionA11y": "Search for {{query}}",
+  "recentTitle": "Recent entries",
+  "noResultsTitle": "Nothing found for “{{query}}”",
+  "noResultsHint": "Try fewer words or another spelling. Everything you save becomes searchable.",
+  "noResultsInFilter": "Nothing in {{filter}} matches, but other entries do.",
+  "searchAll": "Search all categories"
+}

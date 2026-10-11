@@ -1,1 +1,19 @@
-{}
+{
+  "title": "Guardados",
+  "subtitle": "Las entradas, significados y reflexiones que más quieres",
+  "entriesTitle": "Entradas favoritas",
+  "whispersTitle": "Susurros guardados",
+  "count": "{{count}}",
+  "inSpiritOf": "Inspirado en {{author}}",
+  "unsaveEntry": "Quitar “{{title}}” de Guardados",
+  "unsaveWhisper": "Quitar este susurro de Guardados",
+  "openWhisper": "Lo abre en Susurros de sabiduría",
+  "noEntries": "Toca el corazón en una interpretación para guardar la entrada aquí.",
+  "noWhispers": "Toca el corazón en un susurro para guardar sus palabras aquí.",
+  "readWhisper": "Leer el susurro de hoy",
+  "emptyTitle": "Aún no has guardado nada",
+  "emptyIntro": "El corazón guarda lo que te habla, todo en un solo lugar.",
+  "emptyReading": "En una interpretación, guarda la entrada y su significado.",
+  "emptyWhisper": "En un susurro, guarda las palabras para los días en que las necesites.",
+  "openNotebook": "Abrir mi cuaderno"
+}

@@ -1,14 +1,15 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { dateKey } from '../../lib/dates';
 import { useJournal, useSettings } from '../../state';
-import { colors, layout, radius, shadow, spacing } from '../../theme';
-import { AppText, Icon, PressableScale, Screen } from '../../ui';
-import { Butterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
+import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
+import { AppText, Icon, PressableScale } from '../../ui';
+import { ProfileButton, SkyHeader } from '../notebook/SkyHeader';
+import { SkyPage, skyPage, useSkyPadding } from '../notebook/SkyPage';
 import {
   countInMonth,
   firstOfMonth,
@@ -28,35 +29,26 @@ import { MonthCalendar } from './MonthCalendar';
 
 type CalendarParams = { date?: string; highlight?: string };
 
-/** Header art: a slim dawn strip; the title block sits on its faded lower part. */
-const BANNER_HEIGHT = 136;
-/** Kept to the upper band and the right edge, clear of the title and the Today pill. */
-const BANNER_SPARKLES: SparkleSpec[] = [
-  { x: 0.08, y: 0.16, size: 10, delay: 0 },
-  { x: 0.46, y: 0.12, size: 8, delay: 900 },
-  { x: 0.93, y: 0.52, size: 9, delay: 1600 },
-];
-/** Soft lavender glow the month card floats on (static: it sits behind a card). */
-const MONTH_GLOW = 640;
-
 /**
- * Calendar & Journal tab.
+ * Calendar tab (Design 4): the month in a glass card, then the selected day's
+ * entries and a way to add one for that day.
  *
  * Route params (sent by the Reading screen after saving):
  *   date=YYYY-MM-DD  shows that month and selects that day
- *   highlight=<id>   briefly highlights that entry's row
+ *   highlight=<id>   briefly highlights that entry's card
  * They are re-applied whenever their values change, even while this tab stays mounted.
  */
 export function CalendarScreen() {
   const { t } = useTranslation();
   const { language } = useSettings();
   const { savedEntries, getEntry } = useJournal();
+  const padding = useSkyPadding('tab');
 
   const params = useLocalSearchParams<CalendarParams>();
   const rawDate = firstParam(params.date);
   const highlightParam = firstParam(params.highlight);
   const highlightEntry = highlightParam ? getEntry(highlightParam) : undefined;
-  // `date` wins; a bare `highlight` falls back to the day that entry was written.
+  // `date` wins; a bare `highlight` falls back to the day that entry happened.
   const targetDay = isDateKey(rawDate)
     ? rawDate
     : highlightEntry
@@ -132,35 +124,16 @@ export function CalendarScreen() {
   };
 
   return (
-    <Screen scroll>
-      <DreamBanner
-        variant="dawn"
-        height={BANNER_HEIGHT}
-        butterflies="none"
-        sparkles={false}
-        style={styles.banner}>
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <Sparkles sparkles={BANNER_SPARKLES} />
-          <Butterfly size={46} rotation={-16} style={styles.butterflyLarge} />
-          <Butterfly
-            size={28}
-            rotation={22}
-            delay={900}
-            colorA={colors.peach}
-            colorB={colors.rose}
-            opacity={0.75}
-            style={styles.butterflySmall}
-          />
-        </View>
-        <View style={styles.header}>
-          <AppText variant="title" accessibilityRole="header" numberOfLines={1}>
-            {t('calendar.title')}
-          </AppText>
-          <View style={styles.subRow}>
-            <AppText variant="small" color={colors.inkSoft} style={styles.summary} numberOfLines={1}>
-              {summary}
-            </AppText>
-            {selectedKey !== todayKey ? (
+    <SkyPage>
+      <ScrollView
+        style={skyPage.scroll}
+        contentContainerStyle={[skyPage.content, padding]}
+        showsVerticalScrollIndicator={false}>
+        <SkyHeader
+          title={t('calendar.title')}
+          subtitle={summary}
+          left={
+            selectedKey !== todayKey ? (
               <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(150)}>
                 <PressableScale
                   onPress={goToToday}
@@ -168,83 +141,60 @@ export function CalendarScreen() {
                   hitSlop={6}
                   accessibilityRole="button"
                   accessibilityLabel={t('calendar.goToToday')}
+                  testID="calendar-today"
                   style={styles.todayPill}>
-                  <Icon name="CalendarDays" size={14} color={colors.lavenderDeep} strokeWidth={2} />
-                  <AppText variant="caption" color={colors.lavenderDeep}>
-                    {t('calendar.today')}
-                  </AppText>
+                  <View>
+                    <Icon name="CalendarDays" size={15} color={colors.plum} strokeWidth={1.9} />
+                  </View>
+                  <AppText style={styles.todayText}>{t('calendar.today')}</AppText>
                 </PressableScale>
               </Animated.View>
-            ) : null}
-          </View>
+            ) : null
+          }
+          right={<ProfileButton />}
+        />
+
+        <View style={styles.month}>
+          <MonthCalendar
+            month={visibleMonth}
+            language={language}
+            selectedKey={selectedKey}
+            todayKey={todayKey}
+            entriesByDay={entriesByDay}
+            onSelectDay={selectDay}
+            onChangeMonth={changeMonth}
+          />
         </View>
-      </DreamBanner>
 
-      <View>
-        <EnergyField
-          size={MONTH_GLOW}
-          color={colors.lavender}
-          intensity={0.3}
-          animated={false}
-          style={styles.monthGlow}
-        />
-        <MonthCalendar
-          month={visibleMonth}
-          language={language}
-          selectedKey={selectedKey}
+        <DayEntries
+          dayKey={selectedKey}
           todayKey={todayKey}
-          entriesByDay={entriesByDay}
-          onSelectDay={selectDay}
-          onChangeMonth={changeMonth}
+          entries={dayEntries}
+          language={language}
+          listKey={`${selectedKey}:${applied.nonce}`}
+          highlight={highlight}
+          onHighlightPlayed={onHighlightPlayed}
+          onShowLatest={showLatest}
         />
-        <Butterfly
-          size={30}
-          rotation={-28}
-          opacity={0.55}
-          animated={false}
-          colorA={colors.lavender}
-          colorB={colors.rose}
-          style={styles.restingButterfly}
-        />
-      </View>
-
-      <DayEntries
-        dayKey={selectedKey}
-        todayKey={todayKey}
-        entries={dayEntries}
-        language={language}
-        listKey={`${selectedKey}:${applied.nonce}`}
-        highlight={highlight}
-        onHighlightPlayed={onHighlightPlayed}
-        onShowLatest={showLatest}
-      />
-    </Screen>
+      </ScrollView>
+    </SkyPage>
   );
 }
 
 const styles = StyleSheet.create({
-  // Full-bleed (undo the Screen gutter), and above the month glow so it never tints the title.
-  banner: { marginHorizontal: -layout.gutter, zIndex: 1 },
-  butterflyLarge: { position: 'absolute', right: 18, top: 12 },
-  butterflySmall: { position: 'absolute', left: '58%', top: 14 },
-  header: { paddingHorizontal: layout.gutter, paddingBottom: spacing.md },
-  // Fixed height so the Today pill can come and go without moving the page.
-  subRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, minHeight: 32 },
-  summary: { flex: 1 },
-  // White on the artwork so it reads as a control, not part of the scenery.
+  month: { marginTop: spacing.xxl },
+  // Glass on the violet band, the same family as the header buttons.
   todayPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs + 1,
-    height: 30,
-    paddingHorizontal: spacing.md,
+    gap: spacing.xs + 2,
+    height: 36,
+    paddingHorizontal: spacing.md + 2,
     borderRadius: radius.pill,
-    backgroundColor: colors.surface,
+    backgroundColor: withAlpha(colors.white, 0.62),
     borderWidth: 1,
-    borderColor: colors.lavenderSoft,
-    ...shadow.card,
+    borderColor: colors.glassBorder,
+    ...shadow.tile,
   },
-  monthGlow: { left: '50%', top: '50%', marginLeft: -MONTH_GLOW / 2, marginTop: -MONTH_GLOW / 2 },
-  // Resting on the card's bottom-right corner, clear of the day grid.
-  restingButterfly: { position: 'absolute', right: -6, bottom: -14 },
+  todayText: { fontFamily: fonts.bodySemiBold, fontSize: 14, lineHeight: 18, color: colors.plum },
 });

@@ -1,1 +1,28 @@
-{}
+{
+  "title": "Buscar",
+  "subtitle": "Encuentra tus sueños, señales, notas y más",
+  "placeholder": "Busca en tu cuaderno",
+  "fieldLabel": "Buscar en tu cuaderno",
+  "clear": "Borrar la búsqueda",
+  "resultsTitle": "Resultados de tu cuaderno",
+  "resultCount_zero": "Sin resultados",
+  "resultCount_one": "{{count}} resultado",
+  "resultCount_other": "{{count}} resultados",
+  "browseTitle": "{{filter}} en tu cuaderno",
+  "entryCount_one": "{{count}} entrada",
+  "entryCount_other": "{{count}} entradas",
+  "suggestionsTitle": "Intenta buscar",
+  "suggestionsHint": "La búsqueda revisa tus títulos, entradas, notas e interpretaciones.",
+  "suggestions": [
+    "barca azul",
+    "11:11",
+    "garza",
+    "pluma"
+  ],
+  "suggestionA11y": "Buscar {{query}}",
+  "recentTitle": "Entradas recientes",
+  "noResultsTitle": "No encontramos nada para “{{query}}”",
+  "noResultsHint": "Prueba con menos palabras o escríbelo de otra forma. Todo lo que guardas se puede buscar.",
+  "noResultsInFilter": "Nada en {{filter}} coincide, pero sí hay otras entradas.",
+  "searchAll": "Buscar en todas las categorías"
+}

@@ -1,1 +1,31 @@
-{}
+{
+  "title": "My Notebook",
+  "count_zero": "No entries yet",
+  "count_one": "{{count}} entry",
+  "count_other": "{{count}} entries",
+  "searchPlaceholder": "Search dreams, signs, notes…",
+  "monthCount_one": "{{count}} entry",
+  "monthCount_other": "{{count}} entries",
+  "patterns": {
+    "title": "Your patterns",
+    "subtitle": "Themes, symbols and rhythms in your notebook"
+  },
+  "filters": {
+    "label": "Filter entries",
+    "all": "All",
+    "notes": "Notes"
+  },
+  "card": {
+    "favorite": "In Saved",
+    "openHint": "Opens the entry"
+  },
+  "empty": {
+    "title": "Your notebook is waiting",
+    "hint": "Log a dream, a sign or a moment of gratitude, and it will live here.",
+    "filterTitle": "Nothing in {{filter}} yet",
+    "filterHint": "When something like this finds you, write it down and it will appear here.",
+    "logCategory": "Log one now",
+    "notesTitle": "No notes yet",
+    "notesHint": "After a reading, add your own thoughts and the entry will appear here."
+  }
+}
