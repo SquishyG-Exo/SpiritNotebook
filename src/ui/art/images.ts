@@ -35,6 +35,7 @@ export const categoryThumbs: Record<CategoryKey, ImageRequireSource> = {
 /** Sample entries that carry their own "photo" (the demo's attached pictures). */
 const SAMPLE_PHOTOS: Record<string, ImageRequireSource> = {
   'sample-blue-boat': require('../../../assets/art/photos/blue-boat.webp'),
+  'sample-saw-blue-boat': require('../../../assets/art/photos/harbor-boat.webp'),
 };
 
 export function entryImage(entry: Pick<JournalEntry, 'id' | 'category'>): ImageRequireSource {

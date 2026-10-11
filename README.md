@@ -6,18 +6,23 @@ A clickable, phone-first demo of a spiritual journaling app: notice a sign, writ
 
 ## What the demo shows
 
+The look follows the client's approved "Design 4": a watercolor sunset sky over the sea, a watercolor lotus with gold accents, "Spirit Notebook" in a plum serif, translucent glass tiles with gold line icons, and a dark plum tab bar with a raised gold "+". A faint calligraphic "SN" monogram sits in the background of Home, Profile and the passcode screen.
+
 | Screen | What happens |
 | --- | --- |
-| **Home** | Dusk hero, name + tagline, latest reflection, **Log a New Entry**. Tabs: Home · Calendar · Insights · Profile. |
-| **Explore** | 12 categories (Dreams, Numbers, Signs & Symbols, Life Situations, People, Places & Travel, Repeated Words, Animals, Objects, Body Signs, Spiritual Questions, Synchronicities). |
-| **Life Situations** | 15 situations (Love & Relationships, Breakups & Separation, Family, … Something I Can't Explain). |
-| **New Entry** | Text entry with the category preselected, hints, a UI-only photo attachment, character cap. |
-| **Your Interpretation** | **Live AI reading**: title, 120–180-word interpretation, a reflection question. *Save to Notebook* / *Journal My Thoughts*. Graceful loading, error and crisis ("care") states. |
-| **Calendar & Journal** | Month view with dots on days that have entries; tap a day to see its entries; newly saved entries appear here. |
-| **Insights** | Believable pattern summary computed from the sample journal, labelled **Premium**. |
-| **Profile** | English / Español switch (UI strings and AI answers), disclaimer, reset demo data. |
+| **Home** | The lotus, name, tagline ("Follow the signs. Discover the path your soul already knows.") and the client's twelve buttons in her order: Dreams, Numbers, Everyday Signs, Animals, Life Situations, Repeated Words, Spiritual Questions, Daily Gratitude, Whispers of Wisdom, Calendar, Search, Saved. The gear and avatar open Profile. Tabs: Home · Notebook · **+** · Calendar · Favorites. |
+| **+ (new entry)** | The eight entry categories as glass tiles; Life Situations opens its list of 15 situations. |
+| **New Entry** | Optional title (e.g. "Blue boat"), the date it happened (today or a past day, from a small calendar) and an optional time, the entry text with prompts, a UI-only photo attachment. Daily Gratitude and Everyday Signs have their own copy. |
+| **Your Interpretation** | **Live AI reading**: title, interpretation, reflection question, shown under the entry's painting with the reader's own title. *Save to Notebook* (then the Calendar opens on the entry's day), *Journal My Thoughts*, and a heart to keep it in Favorites. Daily Gratitude gets a warm reflection instead of a symbolic reading. Graceful loading, error and crisis ("care") states. |
+| **Search** | Finds past entries by their title and words, including notes and readings, ignoring case and accents; every word must match. Filter chips by category or notes. Results show date, category, title and an excerpt with the match highlighted, and open the full entry. Try "blue boat". |
+| **Notebook** | Every entry by month, with category filters, a search shortcut and a Premium "patterns" card that opens Insights. |
+| **Calendar** | Month view with dots on days that have entries; tap a day to see them, or add an entry for that day. |
+| **Favorites** (the "Saved" button) | Hearted entries and saved whispers. |
+| **Whispers of Wisdom** | An uplifting message for the day, another one on request, save or share. The messages are original; some are written "in the spirit of" a teacher from the reading list, never as quotes. |
+| **Insights** | A believable pattern summary computed from the sample journal, labelled **Premium**. |
+| **Profile** | English / Español (UI strings and AI answers), what the app offers, the Lab (advisor mode), the disclaimer, reset demo data. |
 
-The journal is preloaded with six sample entries spread across the current month. State is in memory: reloading the page restores the samples.
+The journal is preloaded with nine sample entries, including the client's own search example: a dream titled "Blue boat" on May 17, and an Everyday Sign weeks later, "Saw a blue boat". State is in memory: reloading the page restores the samples.
 
 ## Stack
 
@@ -42,7 +47,7 @@ EXPO_PUBLIC_API_BASE_URL=http://localhost:3000 npm run web
 
 Alternative: `npx vercel dev` runs the static app and the functions together on one port (requires the Vercel CLI and `vercel link`).
 
-Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for all three) and `npm run export` to produce `dist/`.
+Checks: `npm run typecheck`, `npm run lint`, `npm test` (or `npm run check` for all three) and `npm run export` to produce `dist/`. Tests cover the API internals, journal search, the composer's date and time model, whisper picking and the sample journal.
 
 ## Deploy to Vercel
 
@@ -70,6 +75,9 @@ Or from the command line: `npx vercel` (preview) / `npx vercel --prod`.
 - **Voice**: `brand/voice.md` is the system prompt — a gentle, uplifting, non-dogmatic guide; never medical, legal, psychological or financial advice. If an entry suggests crisis or self-harm, the guide does not give a reading: it answers with care and points to **988** (US). The app renders that as a distinct "care" screen with tappable call/text buttons.
 - **Shape**: the model returns `{ kind, title, interpretation, reflection_question }` through structured output; the function validates it with zod before returning it, and the client validates again.
 - **Language**: the request carries `language: "en" | "es"`, and the reading comes back in that language.
+- **Title**: the reader's own title travels with the entry (`title`, up to 120 characters), and the guide reads it as part of the entry.
+- **Everyday Signs** replaced Body Signs at the client's request. Body sensations ("my left palm itches") are read only as folklore, never as health information, and the guide says gently that a doctor is the right person when something sounds like a health concern. **Daily Gratitude** gets a warm 80–130-word reflection rather than a symbolic reading.
+- **Reading list**: the client's books shape the voice ("Wellsprings" in `brand/voice.md`). The guide paraphrases their ideas, names at most one teacher per reading, and never quotes them or invents quotations.
 - **Cost**: well under a cent per reading at Sonnet 5 prices with a ~1,100-token prompt and a short answer (roughly 1–2¢ on Opus 5); the global daily cap bounds the worst case. When a per-IP or global daily cap is reached the API answers `429` with a `Retry-After` of up to a day and the app asks the reader to come back tomorrow. Rate limits are kept in memory per serverless instance — good enough for a private demo, and the limiter sits behind a small interface so Redis (e.g. Upstash) can replace it without touching the handler.
 
 ## Re-skinning
@@ -77,12 +85,12 @@ Or from the command line: `npx vercel` (preview) / `npx vercel --prod`.
 Everything brand-specific lives in `/brand`:
 
 - `config.ts` — name, palette, gradients, font names, crisis links and AI input limits (model choices stay server-side).
-- `categories.ts` — the category grid and Life Situations list (keys, icons, tints).
+- `categories.ts` — the eight entry categories, the four feature buttons, the twelve-tile Home order and the Life Situations list (keys, icons, tints).
 - `locales/en/*.json`, `locales/es/*.json` — every UI string, one file per screen.
-- `sample-entries.ts` — the preloaded journal (both languages), `insights.ts` — the mocked Premium copy.
+- `sample-entries.ts` — the preloaded journal (both languages), `insights.ts` — the mocked Premium copy, `whispers.ts` — Whispers of Wisdom.
 - `voice.md` — the AI guide's system prompt.
 
-Fonts are loaded in `src/theme/fonts.ts` (Fraunces for display, DM Sans for body); icons are lucide line icons registered in `src/ui/icons.tsx`. App icons are generated from a single SVG design with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium).
+Fonts are loaded in `src/theme/fonts.ts` (Cormorant Garamond for display, DM Sans for body); icons are lucide line icons plus two custom ones (Butterfly, Lotus), registered in `src/ui/icons.tsx`. App and PWA icons are composed from the watercolor lotus and sky with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium), then compressed to 256-colour PNGs with libimagequant (the pngquant engine).
 
 ## Lab: advisor mode
 
@@ -90,23 +98,25 @@ Profile → Lab has an **Advisor mode** switch and a **Run a comparison** button
 
 ## Artwork
 
-The dreamscapes, butterflies, energy fields and sparkles are vector components in `src/ui/art/` (no image files): `Dreamscape` (sky, horizon glow, light rays, energy rings, cloud fields, misty hills; `dusk` / `dawn` / `night`), `DreamBanner` (a scene with glow, butterflies, sparkles and a fade into the page, used for screen headers and the reading banner), `Butterfly` (gradient wings with a soft wing-beat and drift), `EnergyField` (breathing radial glow) and `Sparkles`. They are crisp at any size, animate with Reanimated, never intercept touches, and respect reduced motion where the screen exposes it. The desktop backdrop behind the phone frame is `public/art/desktop-backdrop.svg`.
-
-`DreamBanner` also accepts a bundled image (`source`) so painterly artwork can replace the vector scene per banner without touching the screens.
+- **Painted art** lives in `assets/art/` as WebP and is registered in `src/ui/art/images.ts`: the Home sky (a calm watercolor sunset over the sea), a second sky for other screens, the watercolor lotus with gold accents (transparent), one square painting per category (used on entry cards and the reading banner) and a sample photo for the "Blue boat" entry. They were generated with an image model to match Design 4 and resized for phones. Swap a file and keep its name to re-skin.
+- **The "SN" monogram** (`src/ui/art/Monogram.tsx`) is one vector path made from the "S" and "N" of Rouge Script (SIL Open Font License; credit in the file) with a hand-drawn swash, shown at 10–13% opacity in plum. No font file ships.
+- **Vector pieces** (`Dreamscape`, `DreamBanner`, `Butterfly`, `EnergyField`, `Sparkles`) remain available for headers and edges. They never intercept touches and respect reduced motion where the screen exposes it.
+- The desktop backdrop behind the phone frame is `public/art/sky-dusk.webp`.
 
 ## Project structure
 
 ```
 api/            Vercel serverless functions (interpret, unlock)
-brand/          brand config, copy, sample content, AI voice prompt
+brand/          brand config, categories, copy, sample content, whispers, AI voice prompt
 public/         root HTML template, PWA manifest, icons, robots.txt
 scripts/        local API dev server, icon generator
 src/app/        Expo Router routes (thin)
 src/features/   screen implementations by feature
 src/ui/         shared primitives (Screen, AppText, Button, Card, Chip, Header, Icon…)
-src/ui/art/     vector artwork (Dreamscape, DreamBanner, Butterfly, EnergyField, Sparkles)
+src/ui/art/     painted art registry (images.ts), monogram, sky backdrop, lotus, vector art
 src/theme/      design tokens and fonts
 src/state/      in-memory journal + settings providers
+src/lib/        pure helpers: dates, journal search, category copy
 src/i18n/       i18next setup
 src/api/        client for /api (request/response contract)
 src/server/     serverless internals (prompt, schema, limiter, passcode) + tests

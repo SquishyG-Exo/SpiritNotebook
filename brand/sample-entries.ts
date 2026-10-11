@@ -266,6 +266,7 @@ export const sampleEntries: SampleEntry[] = [
     id: 'sample-saw-blue-boat',
     daysAgo: 45,
     category: 'signs',
+    hasPhoto: true,
     content: {
       en: {
         title: 'Saw a blue boat',
