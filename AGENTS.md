@@ -65,6 +65,7 @@ This is a clickable proof of concept: mocked journal state in memory, a real AI 
 - Dates: use `src/lib/dates.ts` with the current language from `useSettings()`; never hand-format. An entry's `createdAt` is when it happened; show its time only when `entry.hasTime` is true.
 - Titles: show `entryTitle(entry, language)` (the reader's own title, then the reading's, then the first words).
 - Entry lists use the shared `EntryCard` (`src/features/notebook/EntryCard.tsx`). Tab screens end their scroll content with at least `TAB_SCENE_CLEARANCE` (from `src/ui/TabBar.tsx`) so the raised "+" never covers the last item.
+- Touch targets: aim for 44px. Give a small control a `hitSlop`; react-native-web ignores it, so `PressableScale` adds a `HitSlopArea` for you, and a plain `Pressable` needs `<HitSlopArea hitSlop={…} />` as its first child.
 - Icons: `<Icon name="Moon" />` with lucide names (plus the custom `Butterfly` and `Lotus`) registered in `src/ui/icons.tsx`.
 - Reanimated shared values: `.get()` / `.set()` (the `.value` setter trips the React Compiler lint rule).
 - Animations should be subtle: fade/slide-in on mount, spring scale on press, one gentle looping element at most per screen.

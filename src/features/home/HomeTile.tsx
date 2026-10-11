@@ -15,10 +15,10 @@ export const TILE_MIN_HEIGHT = 122;
 const TILE_RADIUS = 18;
 const ICON_SIZE = 34;
 /**
- * The custom line icons (src/ui/customIcons.tsx) fill less of their 24-unit
- * grid than lucide's; scale them so every tile's icon reads at the same size.
+ * The custom icons (src/ui/customIcons.tsx) already zoom to lucide's optical size;
+ * the butterfly's wide, short shape still reads a touch small at tile size.
  */
-const ICON_SCALE: Record<string, number> = { Butterfly: 1.3, Lotus: 1.22 };
+const ICON_SCALE: Record<string, number> = { Butterfly: 1.08 };
 
 export interface HomeTileProps {
   /** Gold line icon (a name registered in src/ui/icons.tsx). */

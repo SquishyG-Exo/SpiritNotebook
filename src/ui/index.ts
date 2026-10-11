@@ -5,6 +5,7 @@ export { Chip, type ChipProps, type ChipTone } from './Chip';
 export { Header, goBackOrHome, type HeaderProps } from './Header';
 export { Icon, ICONS, isIconName, type IconName, type IconProps } from './icons';
 export { IconCircle, type IconCircleProps } from './IconCircle';
+export { HitSlopArea, type HitSlop } from './HitSlopArea';
 export { PressableScale, type PressableScaleProps } from './PressableScale';
 export { Screen, type ScreenProps } from './Screen';
 export { TabBar } from './TabBar';

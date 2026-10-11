@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { categoryByKey, lifeSituations } from '../../../brand/categories';
 import { categoryLabel, situationLabel } from '../../lib/categoryCopy';
 import { colors, spacing } from '../../theme';
-import { AppText, Icon, IconCircle } from '../../ui';
+import { AppText, HitSlopArea, Icon, IconCircle } from '../../ui';
 import type { ComposerTopic } from './params';
 import { glass, glassBlur } from './scenery';
 
@@ -50,6 +50,7 @@ export function TopicRow({ category, subcategory, date }: TopicRowProps) {
         hitSlop={10}
         testID="entry-change-topic"
         style={({ pressed }) => [styles.change, pressed ? styles.pressed : null]}>
+        <HitSlopArea hitSlop={10} />
         <AppText variant="smallMedium" color={colors.plum}>
           {t('entry.change')}
         </AppText>

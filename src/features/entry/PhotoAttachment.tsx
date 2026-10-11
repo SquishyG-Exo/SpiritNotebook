@@ -5,7 +5,7 @@ import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
 import type { CategoryKey } from '../../../brand/categories';
 import { colors, radius, spacing } from '../../theme';
-import { AppText, Icon } from '../../ui';
+import { AppText, HitSlopArea, Icon } from '../../ui';
 import { categoryThumbs } from '../../ui/art/images';
 import { glass, glassBlur } from './scenery';
 
@@ -48,6 +48,7 @@ export function PhotoAttachment({ hasPhoto, onChange, category }: PhotoAttachmen
           hitSlop={10}
           testID="entry-remove-photo"
           style={styles.remove}>
+          <HitSlopArea hitSlop={10} />
           <Icon name="X" size={12} color={colors.white} strokeWidth={2.5} />
         </Pressable>
       </Animated.View>
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     gap: spacing.sm,
+    minHeight: 44,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.sm + 2,
   },

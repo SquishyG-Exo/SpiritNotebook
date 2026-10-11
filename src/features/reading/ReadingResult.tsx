@@ -6,7 +6,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { formatDate, formatTime } from '../../lib/dates';
 import { useSettings, type EntryContent, type JournalEntry, type Reading } from '../../state';
 import { colors, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Icon } from '../../ui';
+import { AppText, Button, HitSlopArea, Icon } from '../../ui';
 import { glass, glassBlur } from '../entry/scenery';
 import { EntryQuote } from './EntryQuote';
 import { NoteEditor } from './NoteEditor';
@@ -104,6 +104,7 @@ function SavedThoughts({ note, onUpdateNote }: { note?: string; onUpdateNote: (n
             accessibilityRole="button"
             hitSlop={10}
             style={({ pressed }) => (pressed ? styles.pressed : null)}>
+            <HitSlopArea hitSlop={10} />
             <AppText variant="smallMedium" color={colors.plum}>
               {t('reading.editThought')}
             </AppText>

@@ -25,6 +25,7 @@ export function SearchSuggestions({ suggestions, onPick }: { suggestions: string
             scaleTo={0.95}
             accessibilityRole="button"
             accessibilityLabel={t('search.suggestionA11y', { query: suggestion })}
+            hitSlop={SUGGESTION_SLOP}
             style={[styles.chip, glassBlur]}>
             <View>
               <Icon name="Search" size={14} color={colors.gold} strokeWidth={2} />
@@ -66,6 +67,9 @@ export function NoResults({ query, filterName, onWiden }: NoResultsProps) {
     </EmptyState>
   );
 }
+
+/** 3px past the 38px chip (after its 1px border) on each side: 44px targets that never overlap the 8px row gap. */
+const SUGGESTION_SLOP = { top: 4, bottom: 4 };
 
 const styles = StyleSheet.create({
   block: { gap: spacing.sm },

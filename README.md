@@ -90,7 +90,7 @@ Everything brand-specific lives in `/brand`:
 - `sample-entries.ts` — the preloaded journal (both languages), `insights.ts` — the mocked Premium copy, `whispers.ts` — Whispers of Wisdom.
 - `voice.md` — the AI guide's system prompt.
 
-Fonts are loaded in `src/theme/fonts.ts` (Cormorant Garamond for display, DM Sans for body); icons are lucide line icons plus two custom ones (Butterfly, Lotus), registered in `src/ui/icons.tsx`. App and PWA icons are composed from the watercolor lotus and sky with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium), then compressed to 256-colour PNGs with libimagequant (the pngquant engine).
+Fonts are loaded in `src/theme/fonts.ts` (Cormorant Garamond for display, DM Sans for body). Cormorant ships subset to the Latin range by `scripts/fonts/subset-cormorant.sh`, about 70% smaller, because the app waits for its fonts before the first paint; icons are lucide line icons plus two custom ones (Butterfly, Lotus), registered in `src/ui/icons.tsx`. App and PWA icons are composed from the watercolor lotus and sky with `NODE_PATH=$(npm root -g) node scripts/icons/make-icons.cjs` (needs Playwright + Chromium), then compressed to 256-colour PNGs with libimagequant (the pngquant engine).
 
 ## Lab: advisor mode
 

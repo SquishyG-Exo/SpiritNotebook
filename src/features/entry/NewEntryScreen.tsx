@@ -19,7 +19,7 @@ import { firstParam, parseComposerTopic } from './params';
 import { PhotoAttachment } from './PhotoAttachment';
 import { glass, HEADER_TEXT, HEADER_TEXT_SOFT, SkyBackground, TopBar, useLightStatusBar } from './scenery';
 import { TopicRow } from './TopicRow';
-import { combineDayAndTime, parseDayParam, timeOf, type TimeOfDay } from './when';
+import { combineDayAndTime, notAfterNow, parseDayParam, timeOf, type TimeOfDay } from './when';
 
 const enter = (delay: number) => FadeInUp.delay(delay).duration(450);
 
@@ -79,6 +79,7 @@ export function NewEntryScreen() {
     setDay(next);
     // Until the reader sets a time themselves, follow the default: a time for today, none for earlier days.
     if (!timeTouched) setTime(isSameDay(next, now) ? timeOf(new Date()) : null);
+    else setTime((current) => current && notAfterNow(next, current, new Date()));
     setChoosingDate(false);
   };
 
@@ -89,7 +90,7 @@ export function NewEntryScreen() {
 
   const changeTime = (next: TimeOfDay) => {
     setTimeTouched(true);
-    setTime(next);
+    setTime(notAfterNow(day, next, new Date()));
   };
 
   const submit = () => {
@@ -101,7 +102,7 @@ export function NewEntryScreen() {
       category,
       subcategory,
       hasPhoto,
-      date: combineDayAndTime(day, time),
+      date: combineDayAndTime(day, time && notAfterNow(day, time, new Date())),
       hasTime: time !== null,
     });
     router.push(`/entry/${draft.id}`);

@@ -3,7 +3,7 @@ import { Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-nat
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, layout, shadow, spacing , withAlpha } from '../../theme';
-import { AppText, goBackOrHome, Icon } from '../../ui';
+import { AppText, goBackOrHome, HitSlopArea, Icon } from '../../ui';
 import { DreamBanner, type DreamBannerProps } from '../../ui/art';
 
 /** Frosted glass for the back button over the artwork; the backdrop blur is a web-only nicety. */
@@ -47,6 +47,7 @@ export function ScreenBanner({ height, title, butterflies = 'few', sparkles = tr
             accessibilityLabel={t('common.actions.back')}
             hitSlop={8}
             style={({ pressed }) => [styles.back, glassBlur, pressed ? styles.pressed : null]}>
+            <HitSlopArea hitSlop={8} />
             <Icon name="ChevronLeft" size={24} color={colors.ink} strokeWidth={2} style={styles.chevron} />
           </Pressable>
         </View>

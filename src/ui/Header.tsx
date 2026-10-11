@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { colors, spacing } from '../theme';
 import { AppText } from './AppText';
+import { HitSlopArea } from './HitSlopArea';
 import { Icon } from './icons';
 
 export interface HeaderProps {
@@ -34,6 +35,7 @@ export function Header({ title, onBack, hideBack, right, color = colors.ink, bac
             accessibilityLabel={backLabel}
             hitSlop={12}
             style={({ pressed }) => [styles.back, pressed ? styles.pressed : null]}>
+            <HitSlopArea hitSlop={12} />
             <Icon name="ChevronLeft" size={26} color={color} strokeWidth={2} />
           </Pressable>
         )}

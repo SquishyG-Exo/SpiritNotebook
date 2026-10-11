@@ -56,6 +56,13 @@ export function setPm(time: TimeOfDay, pm: boolean): TimeOfDay {
   return { ...time, hour: fromTwelveHour(hour12, pm) };
 }
 
+/** On today, a time later than now moves back to now: an entry records something that already happened. */
+export function notAfterNow(day: Date, time: TimeOfDay, now: Date): TimeOfDay {
+  if (!isSameDay(day, now)) return time;
+  const current = timeOf(now);
+  return time.hour * 60 + time.minute > current.hour * 60 + current.minute ? current : time;
+}
+
 /** The moment to store: the chosen day at the chosen time, or that day's local noon when there is no time. */
 export function combineDayAndTime(day: Date, time: TimeOfDay | null): Date {
   return new Date(day.getFullYear(), day.getMonth(), day.getDate(), time ? time.hour : 12, time ? time.minute : 0);

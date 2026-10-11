@@ -6,7 +6,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import { formatDate, formatTime } from '../../lib/dates';
 import type { Language } from '../../state';
 import { colors, fonts, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, IconCircle } from '../../ui';
+import { AppText, HitSlopArea, Icon, IconCircle } from '../../ui';
 import { glass, glassBlur } from './scenery';
 import { TimePicker } from './TimePicker';
 import { Toggle } from './Toggle';
@@ -124,8 +124,10 @@ export function DetailsCard({
             accessibilityLabel={t('entry.when.adjustTime', { time: timeText })}
             accessibilityState={{ expanded: pickerOpen }}
             aria-expanded={pickerOpen}
+            hitSlop={ROW_SLOP}
             testID="entry-time-edit"
             style={({ pressed }) => [styles.body, pressed ? styles.pressed : null]}>
+            <HitSlopArea hitSlop={ROW_SLOP} />
             <AppText variant="overline" color={colors.goldDeep}>
               {t('entry.when.timeLabel')}
             </AppText>
@@ -142,7 +144,9 @@ export function DetailsCard({
             onPress={toggleTime}
             accessible={false}
             aria-hidden
+            hitSlop={ROW_SLOP}
             style={({ pressed }) => [styles.body, pressed ? styles.pressed : null]}>
+            <HitSlopArea hitSlop={ROW_SLOP} />
             <AppText variant="bodyMedium" color={colors.inkSoft}>
               {t('entry.when.addTime')}
             </AppText>
@@ -156,6 +160,7 @@ export function DetailsCard({
           aria-checked={!!time}
           hitSlop={8}
           testID="entry-time-toggle">
+          <HitSlopArea hitSlop={8} />
           <Toggle value={!!time} />
         </Pressable>
       </View>
@@ -168,6 +173,9 @@ export function DetailsCard({
     </View>
   );
 }
+
+/** The time presses reach across the row's vertical padding, so the whole row height is tappable. */
+const ROW_SLOP = { top: spacing.md, bottom: spacing.md };
 
 function RowIcon({ name }: { name: string }) {
   return <IconCircle name={name} size={36} tint={withAlpha(colors.white, 0.85)} color={colors.gold} strokeWidth={1.7} />;

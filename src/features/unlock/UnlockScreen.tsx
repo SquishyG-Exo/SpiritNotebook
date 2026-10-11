@@ -21,7 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError, unlockWithPasscode } from '../../api/client';
 import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Icon } from '../../ui';
+import { AppText, Button, HitSlopArea, Icon } from '../../ui';
 import { LotusMark, Monogram, SkyBackdrop } from '../../ui/art';
 
 const MAX_LENGTH = 32;
@@ -153,6 +153,7 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
                     accessibilityRole="button"
                     accessibilityLabel={revealed ? t('unlock.hide') : t('unlock.show')}
                     style={({ pressed }) => [styles.eye, pressed ? styles.pressed : null]}>
+                    <HitSlopArea hitSlop={10} />
                     {revealed ? (
                       <Icon name="EyeOff" size={20} color={colors.muted} strokeWidth={1.75} />
                     ) : (

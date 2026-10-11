@@ -4,6 +4,7 @@ import {
   buildMonthGrid,
   combineDayAndTime,
   isAfterToday,
+  notAfterNow,
   parseDayParam,
   relativeDay,
   setPm,
@@ -45,6 +46,14 @@ describe('the moment to store', () => {
     expect([withTime.getFullYear(), withTime.getMonth(), withTime.getDate()]).toEqual([2026, 4, 18]);
     expect([withTime.getHours(), withTime.getMinutes()]).toEqual([21, 15]);
     expect(combineDayAndTime(new Date(2026, 4, 18), null).getHours()).toBe(12);
+  });
+
+  it('never stores a time later than now for today', () => {
+    const today = new Date(2026, 9, 11);
+    expect(notAfterNow(today, { hour: 21, minute: 0 }, NOW)).toEqual({ hour: 9, minute: 41 });
+    expect(notAfterNow(today, { hour: 9, minute: 41 }, NOW)).toEqual({ hour: 9, minute: 41 });
+    expect(notAfterNow(today, { hour: 7, minute: 5 }, NOW)).toEqual({ hour: 7, minute: 5 });
+    expect(notAfterNow(new Date(2026, 9, 10), { hour: 21, minute: 0 }, NOW)).toEqual({ hour: 21, minute: 0 });
   });
 });
 

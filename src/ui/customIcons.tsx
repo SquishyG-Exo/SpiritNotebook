@@ -4,7 +4,15 @@ import Svg, { Path } from 'react-native-svg';
 /**
  * Line icons lucide does not ship, drawn on the same 24×24 grid with round
  * caps and joins so they sit naturally next to lucide icons.
+ *
+ * Their drawings fill less of the grid than lucide's (about 18 units instead of
+ * 20), so they are shown through a viewBox zoomed in by OPTICAL_ZOOM, with the
+ * stroke divided by the same factor to keep lucide's line weight.
  */
+const OPTICAL_ZOOM = 1.2;
+const VIEW = 24 / OPTICAL_ZOOM;
+const VIEW_BOX = `${12 - VIEW / 2} ${12 - VIEW / 2} ${VIEW} ${VIEW}`;
+
 function LineIcon({
   size = 24,
   color = 'currentColor',
@@ -12,13 +20,13 @@ function LineIcon({
   paths,
 }: Pick<LucideProps, 'size' | 'color' | 'strokeWidth'> & { paths: string[] }) {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Svg width={size} height={size} viewBox={VIEW_BOX} fill="none">
       {paths.map((d) => (
         <Path
           key={d}
           d={d}
           stroke={color}
-          strokeWidth={strokeWidth}
+          strokeWidth={Number(strokeWidth) / OPTICAL_ZOOM}
           strokeLinecap="round"
           strokeLinejoin="round"
           fill="none"

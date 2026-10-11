@@ -7,7 +7,7 @@ import { sampleEntries } from '../../../brand/sample-entries';
 import { ApiError, requestInterpretation } from '../../api/client';
 import { useSettings, type Reading, type ReadingMode } from '../../state';
 import { colors, radius, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Chip, Icon } from '../../ui';
+import { AppText, Button, Chip, HitSlopArea, Icon } from '../../ui';
 import { GlassCard, SectionTitle } from './GlassCard';
 
 const VARIANTS: readonly ReadingMode[] = ['standard', 'advisor'];
@@ -147,6 +147,7 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
           ))}
           {paragraphs.length > 1 ? (
             <Pressable onPress={() => setExpanded((value) => !value)} hitSlop={8}>
+              <HitSlopArea hitSlop={8} />
               <AppText variant="smallMedium" color={colors.plum}>
                 {t(expanded ? 'profile.lab.less' : 'profile.lab.more')}
               </AppText>
@@ -181,6 +182,7 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (next: b
     <Pressable
       accessibilityRole="switch"
       accessibilityState={{ checked: value }}
+      aria-checked={value}
       accessibilityLabel={label}
       hitSlop={8}
       onPress={() => {
@@ -189,6 +191,7 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (next: b
         onChange(next);
       }}
       style={[styles.track, value ? styles.trackOn : null]}>
+      <HitSlopArea hitSlop={8} />
       <Animated.View style={[styles.knob, knobStyle]} />
     </Pressable>
   );

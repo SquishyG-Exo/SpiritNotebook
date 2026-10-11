@@ -62,7 +62,9 @@ export function FilterChips({ options, value, onChange }: FilterChipsProps) {
             scaleTo={0.94}
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
+            aria-pressed={active}
             accessibilityLabel={option.label}
+            hitSlop={CHIP_SLOP}
             testID={`filter-${option.key}`}
             style={[styles.chip, active ? styles.chipActive : null]}>
             <AppText style={[styles.label, active ? styles.labelActive : null]} numberOfLines={1}>
@@ -75,10 +77,14 @@ export function FilterChips({ options, value, onChange }: FilterChipsProps) {
   );
 }
 
+/** 5 = 4px past the chip plus its 1px border, filling the row's padding: 44px touch targets. */
+const CHIP_SLOP = { top: 5, bottom: 5 };
+
 const styles = StyleSheet.create({
   // Bleeds into the page gutter so chips scroll from edge to edge.
   scroller: { marginHorizontal: -layout.gutter, flexGrow: 0 },
-  row: { gap: spacing.sm, paddingHorizontal: layout.gutter, paddingVertical: 2 },
+  // Vertical padding leaves room inside the scroller for the chips' 4px hit slop (44px targets).
+  row: { gap: spacing.sm, paddingHorizontal: layout.gutter, paddingVertical: 4 },
   chip: {
     height: 36,
     paddingHorizontal: spacing.lg,
