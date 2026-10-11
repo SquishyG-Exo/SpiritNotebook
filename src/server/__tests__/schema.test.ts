@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { brand } from '../../../brand/config';
-import { describeIssue, InterpretRequestSchema, ReadingSchema } from '../schema';
+import { describeIssue, InterpretRequestSchema, MAX_TITLE_CHARS, ReadingSchema } from '../schema';
 import { sampleReading, validBody } from './helpers';
 
 function issueFor(body: unknown): string {
@@ -62,6 +62,30 @@ describe('InterpretRequestSchema', () => {
       'subcategory is not a known life situation',
     );
     expect(InterpretRequestSchema.parse({ ...validBody, subcategory: null }).subcategory).toBeUndefined();
+  });
+
+  it("trims the reader's title and treats an empty or null title as absent", () => {
+    expect(InterpretRequestSchema.parse({ ...validBody, title: '  Blue boat  ' }).title).toBe('Blue boat');
+    expect(InterpretRequestSchema.parse({ ...validBody, title: '   ' }).title).toBeUndefined();
+    expect(InterpretRequestSchema.parse({ ...validBody, title: null }).title).toBeUndefined();
+  });
+
+  it('rejects a title that is too long or not a string', () => {
+    const longest = 'a'.repeat(MAX_TITLE_CHARS);
+    expect(InterpretRequestSchema.safeParse({ ...validBody, title: longest }).success).toBe(true);
+    expect(issueFor({ ...validBody, title: `${longest}a` })).toBe(
+      `title must be at most ${MAX_TITLE_CHARS} characters`,
+    );
+    expect(issueFor({ ...validBody, title: 7 })).toBe('title must be a string');
+  });
+
+  it('accepts the current categories and rejects the removed ones', () => {
+    for (const category of ['dreams', 'numbers', 'signs', 'animals', 'life', 'words', 'questions', 'gratitude']) {
+      expect(InterpretRequestSchema.safeParse({ ...validBody, category }).success).toBe(true);
+    }
+    for (const category of ['body', 'synchronicities', 'people', 'places', 'objects']) {
+      expect(issueFor({ ...validBody, category })).toBe('category is not a known category');
+    }
   });
 
   it('rejects a body that is not an object', () => {

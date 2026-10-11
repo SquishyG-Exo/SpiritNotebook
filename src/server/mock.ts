@@ -37,6 +37,24 @@ const READINGS: Record<BrandLanguage, Reading> = {
   },
 };
 
+/** Daily gratitude gets a warm reflection rather than a symbolic reading (see brand/voice.md). */
+const GRATITUDE: Record<BrandLanguage, Reading> = {
+  en: {
+    kind: 'reading',
+    title: 'The Quiet Gifts of Today',
+    interpretation:
+      'What a lovely set of gifts to notice. Each one you named is small enough to slip past on a busy day, and yet together they hold the shape of a day that has been kind to you. Gratitude like this is a way of looking rather than a list: it lets the ordinary shine a little, and it reminds you how much is already holding you. Let yourself linger on the one that made you smile as you wrote it.\n\nThe more gently you notice what is already good, the more of it seems to come into view. Today you chose to see it, and that choice is a gift too.',
+    reflection_question: "Which of today's gifts would you like to carry with you into tomorrow?",
+  },
+  es: {
+    kind: 'reading',
+    title: 'Los regalos sencillos de hoy',
+    interpretation:
+      'Qué hermoso conjunto de regalos para notar. Cada uno de los que nombraste es lo bastante pequeño como para pasar desapercibido en un día ajetreado, y sin embargo juntos dibujan un día que ha sido amable contigo. La gratitud así es una forma de mirar más que una lista: deja que lo cotidiano brille un poco y te recuerda cuánto te sostiene ya. Quédate un momento con el que te hizo sonreír mientras lo escribías.\n\nCuanto más suavemente notas lo que ya es bueno, más parece aparecer ante ti. Hoy elegiste verlo, y esa elección también es un regalo.',
+    reflection_question: '¿Cuál de los regalos de hoy te gustaría llevar contigo a mañana?',
+  },
+};
+
 const CARE: Record<BrandLanguage, Reading> = {
   en: {
     kind: 'care',
@@ -65,7 +83,7 @@ export function createMockModel(wait: Sleep = sleep): ModelCall {
     const advisor = input.mode === 'advisor';
     await wait(text.includes('mock:slow') ? MOCK_SLOW_DELAY_MS : advisor ? MOCK_ADVISOR_DELAY_MS : MOCK_DELAY_MS);
     if (text.includes('mock:error')) throw new UpstreamError('other', 'mock:error requested');
-    const source = text.includes('mock:care') ? CARE : READINGS;
+    const source = text.includes('mock:care') ? CARE : input.category === 'gratitude' ? GRATITUDE : READINGS;
     if (advisor) {
       return {
         type: 'ok',

@@ -48,12 +48,13 @@ This is a clickable proof of concept: mocked journal state in memory, a real AI 
 
 ### Layout
 
-- `brand/` — everything a re-skin touches: `config.ts` (name, palette, fonts, AI limits), `categories.ts`, `locales/<lang>/<namespace>.json` (all UI copy), `sample-entries.ts`, `insights.ts`, `voice.md` (AI system prompt). No React Native imports in `brand/config.ts` or `brand/categories.ts`: the API imports them too.
-- `src/app/` — Expo Router routes only. Screen logic lives in `src/features/<feature>/`.
-- `src/ui/art/` — vector artwork (`DreamBanner`, `Dreamscape`, `Butterfly`, `EnergyField`, `Sparkles`). Use them for headers, banners and edge decoration; keep animated elements per screen modest (≤ 8) and never place art over text or inputs.
+- `brand/` — everything a re-skin touches: `config.ts` (name, palette, fonts, AI limits), `categories.ts` (the 8 entry categories, the 4 feature tiles and the 12-tile Home order), `locales/<lang>/<namespace>.json` (all UI copy), `sample-entries.ts`, `insights.ts`, `whispers.ts` (Whispers of Wisdom), `voice.md` (AI system prompt). No React Native imports in `brand/config.ts` or `brand/categories.ts`: the API imports them too. AI model names stay server-side (`src/server/config.ts`), never in `brand/`.
+- `src/app/` — Expo Router routes only. Screen logic lives in `src/features/<feature>/`. Tabs: Home · Notebook · [+] · Calendar · Favorites (the centre "+" opens `/explore`). Stack screens: `search`, `whispers`, `insights`, `profile`, `explore/*`, `entry/*`.
+- `src/ui/art/` — artwork. `images.ts` registers the painted watercolor art in `assets/art/` (`art.skyHome`, `art.skyDusk`, `art.lotus`, `categoryThumbs`, `entryImage(entry)`). The vector pieces (`Monogram`, `DreamBanner`, `Dreamscape`, `Butterfly`, `EnergyField`, `Sparkles`) decorate headers and edges. Keep animated elements per screen modest (≤ 8) and never place art over text or inputs; the "SN" monogram stays faint (it is background, "not in your face").
 - `src/ui/` — shared primitives (`Screen`, `AppText`, `Button`, `Card`, `Chip`, `IconCircle`, `Header`, `Icon`, `PressableScale`, `TabBar`). Use them before writing new styled views.
-- `src/theme/` — tokens (`colors`, `gradients`, `fonts`, `type`, `spacing`, `radius`, `shadow`, `layout`). Never hard-code colors or font names in features.
-- `src/state/` — `useJournal()` (entries, drafts, save, notes, reset) and `useSettings()` (language, unlock). Journal state is in memory on purpose.
+- `src/theme/` — tokens (`colors`, `gradients`, `fonts`, `type`, `spacing`, `radius`, `shadow`, `layout`) and `withAlpha`. Never hard-code colors or font names in features. Display type is Cormorant Garamond, body type DM Sans.
+- `src/state/` — `useJournal()` (entries, drafts, save, notes, titles, favorites, saved whispers, reset) and `useSettings()` (language, unlock). Journal state is in memory on purpose.
+- `src/lib/` — pure helpers: `dates.ts`, `search.ts` (journal search), `categoryCopy.ts` (category and feature copy with English fallbacks).
 - `src/i18n/` — i18next. Strings are `t('namespace.key')`; add keys to BOTH `brand/locales/en/<namespace>.json` and `brand/locales/es/<namespace>.json`.
 - `src/api/client.ts` — the only place that talks to `/api`. The request/response contract is documented at the top of the file.
 - `api/` — Vercel serverless functions (Node, Web-standard `Request`/`Response`). `src/server/` holds their testable internals.
@@ -61,10 +62,14 @@ This is a clickable proof of concept: mocked journal state in memory, a real AI 
 
 ### Rules of thumb
 
-- Dates: use `src/lib/dates.ts` with the current language from `useSettings()`; never hand-format.
-- Icons: `<Icon name="Moon" />` with lucide names registered in `src/ui/icons.tsx`.
+- Dates: use `src/lib/dates.ts` with the current language from `useSettings()`; never hand-format. An entry's `createdAt` is when it happened; show its time only when `entry.hasTime` is true.
+- Titles: show `entryTitle(entry, language)` (the reader's own title, then the reading's, then the first words).
+- Icons: `<Icon name="Moon" />` with lucide names (plus the custom `Butterfly` and `Lotus`) registered in `src/ui/icons.tsx`.
 - Reanimated shared values: `.get()` / `.set()` (the `.value` setter trips the React Compiler lint rule).
 - Animations should be subtle: fade/slide-in on mount, spring scale on press, one gentle looping element at most per screen.
 - Sample entries are resolved per language with `resolveContent(entry, language)`.
+- Never show AI model names in the UI or in API responses.
+- Body Signs was removed at the client's request. Body sensations appear only as folk signs under Everyday Signs, and the guide never treats them as health information.
+- Whispers are original text. Show `inspiredBy` as "In the spirit of <author>", never as a quotation.
 - In this sandbox `npx expo install` cannot reach the Expo API. Install with `npm install <pkg>@<version>` using versions from `node_modules/expo/bundledNativeModules.json`.
 - Before finishing: `npm run typecheck && npm run lint && npm test`, and `npm run export` when you touched anything that bundles.

@@ -261,6 +261,12 @@ describe('MOCK_AI=true', () => {
     expect(model).not.toHaveBeenCalled();
   });
 
+  it('answers a gratitude entry with a gratitude reflection', async () => {
+    const { post } = mockSetup();
+    const response = await post({ ...validBody, category: 'gratitude', text: 'My sister called, the sun came out and the coffee was perfect.' });
+    expect(await response.json()).toMatchObject({ kind: 'reading', title: 'The Quiet Gifts of Today', language: 'en' });
+  });
+
   it('supports the mock:care, mock:error and mock:slow triggers', async () => {
     const { post, sleep } = mockSetup();
 
