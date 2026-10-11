@@ -22,13 +22,15 @@ export function CareResult({ reading, onHome }: { reading: Reading; onHome: () =
   const { tel, sms } = brand.links.crisisLine;
 
   return (
-    <View style={styles.root}>
+    <View style={styles.root} testID="reading-care">
       <Animated.View entering={enter(0)} style={styles.panel}>
         <CareBanner fadeTo={colors.lavenderSoft} style={styles.art} />
         <AppText variant="overline" color={colors.roseDeep} style={styles.eyebrow}>
           {t('reading.care.eyebrow')}
         </AppText>
-        <AppText variant="title">{reading.title}</AppText>
+        <AppText variant="title" color={colors.plum}>
+          {reading.title}
+        </AppText>
         <View style={styles.paragraphs}>
           {paragraphs.map((paragraph, index) => (
             <AppText key={index} variant="body" color={colors.inkSoft}>
@@ -49,10 +51,10 @@ export function CareResult({ reading, onHome }: { reading: Reading; onHome: () =
           testID="care-call"
         />
         <Button
-          variant="secondary"
+          variant="light"
           label={t('reading.care.text')}
           onPress={() => openExternal(sms)}
-          icon={<Icon name="MessageSquare" size={18} color={colors.roseDeep} />}
+          icon={<Icon name="MessageSquare" size={18} color={colors.plum} />}
           testID="care-text"
         />
         <AppText variant="small" color={colors.muted} align="center">
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xs,
   },
   closing: {
+    fontVariant: ['lining-nums'],
     fontSize: 17,
     lineHeight: 26,
     paddingHorizontal: spacing.lg,

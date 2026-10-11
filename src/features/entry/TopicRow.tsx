@@ -3,55 +3,57 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { categoryByKey, lifeSituations } from '../../../brand/categories';
-import { colors, radius, spacing , withAlpha } from '../../theme';
+import { categoryLabel, situationLabel } from '../../lib/categoryCopy';
+import { colors, spacing } from '../../theme';
 import { AppText, Icon, IconCircle } from '../../ui';
-import { categoryLabel, situationColors, situationLabel } from '../../lib/categoryCopy';
 import type { ComposerTopic } from './params';
+import { glass, glassBlur } from './scenery';
 
-/** The chosen category (and life situation) as a soft chip, with a way to change it. */
-export function TopicRow({ category, subcategory }: ComposerTopic) {
+export interface TopicRowProps extends ComposerTopic {
+  /** 'YYYY-MM-DD' to carry back to the chooser when the reader picked another day. */
+  date?: string;
+}
+
+/** The chosen category (and life situation) on a glass pill, with a way to change it. */
+export function TopicRow({ category, subcategory, date }: TopicRowProps) {
   const { t } = useTranslation();
   const def = categoryByKey(category);
   const situation = subcategory ? lifeSituations.find((s) => s.key === subcategory) : undefined;
-  const palette = situation ? situationColors(situation.key) : def;
+
+  // Back to the "+" chooser, keeping the chosen day; replaces the composer when the chooser is not in the stack.
+  const change = () => router.dismissTo(date ? { pathname: '/explore', params: { date } } : '/explore');
 
   return (
-    <View style={styles.row}>
-      <View style={[styles.chip, { backgroundColor: palette.tint }]}>
-        <IconCircle
-          name={situation?.icon ?? def.icon}
-          size={36}
-          tint={withAlpha(colors.white, 0.7)}
-          color={palette.accent}
-        />
-        <View style={styles.chipText}>
-          {situation ? (
-            <>
-              <AppText variant="overline" color={palette.accent} numberOfLines={1}>
-                {categoryLabel(t, category)}
-              </AppText>
-              <AppText variant="smallMedium" numberOfLines={1}>
-                {situationLabel(t, situation.key)}
-              </AppText>
-            </>
-          ) : (
-            <AppText variant="bodyMedium" numberOfLines={1}>
+    <View style={[glass.pill, glassBlur, styles.row]}>
+      <IconCircle name={situation?.icon ?? def.icon} size={38} tint={colors.white} color={colors.gold} strokeWidth={1.6} />
+      <View style={styles.text}>
+        {situation ? (
+          <>
+            <AppText variant="overline" color={colors.goldDeep} numberOfLines={1}>
               {categoryLabel(t, category)}
             </AppText>
-          )}
-        </View>
+            <AppText variant="smallMedium" numberOfLines={1}>
+              {situationLabel(t, situation.key)}
+            </AppText>
+          </>
+        ) : (
+          <AppText variant="subheading" numberOfLines={1}>
+            {categoryLabel(t, category)}
+          </AppText>
+        )}
       </View>
 
       <Pressable
-        onPress={() => router.dismissTo('/explore')}
+        onPress={change}
         accessibilityRole="button"
         accessibilityLabel={t('entry.changeHint')}
         hitSlop={10}
+        testID="entry-change-topic"
         style={({ pressed }) => [styles.change, pressed ? styles.pressed : null]}>
-        <AppText variant="smallMedium" color={colors.roseDeep}>
+        <AppText variant="smallMedium" color={colors.plum}>
           {t('entry.change')}
         </AppText>
-        <Icon name="ChevronRight" size={16} color={colors.roseDeep} strokeWidth={2} />
+        <Icon name="ChevronRight" size={16} color={colors.plum} strokeWidth={2} />
       </Pressable>
     </View>
   );
@@ -61,21 +63,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     gap: spacing.md,
-  },
-  chip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm + 2,
-    paddingLeft: spacing.xs,
+    paddingVertical: spacing.sm - 2,
+    paddingLeft: spacing.sm - 2,
     paddingRight: spacing.lg,
-    paddingVertical: spacing.xs,
-    borderRadius: radius.pill,
-    flexShrink: 1,
   },
-  chipText: {
-    flexShrink: 1,
+  text: {
+    flex: 1,
+    minWidth: 0,
   },
   change: {
     flexDirection: 'row',

@@ -1,1 +1,12 @@
-{}
+{
+  "title": "Susurros de sabiduría",
+  "subtitle": "Un mensaje amable o una pequeña guía para tu camino de hoy.",
+  "inSpiritOf": "Inspirado en {{author}}",
+  "another": "Otro susurro",
+  "save": "Guardar este susurro",
+  "unsave": "Quitar de los susurros guardados",
+  "saved": "Susurro guardado",
+  "removed": "Susurro quitado de guardados",
+  "savedNote": "Susurro guardado",
+  "share": "Compartir este susurro"
+}

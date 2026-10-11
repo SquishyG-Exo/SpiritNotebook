@@ -3,28 +3,38 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
-import { categoryByKey } from '../../../brand/categories';
-import { formatDate } from '../../lib/dates';
-import { useSettings, type JournalEntry, type Reading } from '../../state';
-import { colors, spacing } from '../../theme';
-import { AppText, Button, Card, Chip, Icon } from '../../ui';
-import { entryTopicLabel } from '../../lib/categoryCopy';
+import { formatDate, formatTime } from '../../lib/dates';
+import { useSettings, type EntryContent, type JournalEntry, type Reading } from '../../state';
+import { colors, spacing, withAlpha } from '../../theme';
+import { AppText, Button, Icon } from '../../ui';
+import { glass, glassBlur } from '../entry/scenery';
 import { EntryQuote } from './EntryQuote';
 import { NoteEditor } from './NoteEditor';
 import { splitParagraphs } from './paragraphs';
-import { ReadingBanner } from './ReadingBanner';
+import { PhotoChip, ReadingBanner } from './ReadingBanner';
+import { readingEyebrow } from './readingCopy';
 
 const enter = (step: number) => FadeInUp.delay(60 + step * 90).duration(550);
 
 export interface ReadingResultProps {
   entry: JournalEntry;
-  text: string;
+  /** The entry's content in the current language. */
+  content: EntryContent;
   reading: Reading;
   note?: string;
   /** Draft only: save, optionally with a note, then leave. */
   onSave: (note?: string) => void;
   /** Saved entries: add, edit or clear the note in place. */
   onUpdateNote: (note: string) => void;
+}
+
+/** "Oct 11, 2026 · 9:41 AM"; the time only when the reader gave one. */
+export function useEntryDateLine(entry: JournalEntry): string {
+  const { t } = useTranslation();
+  const { language } = useSettings();
+  const when = new Date(entry.createdAt);
+  const date = formatDate(when, language);
+  return entry.hasTime ? t('reading.dateTime', { date, time: formatTime(when, language) }) : date;
 }
 
 function DraftActions({ onSave }: { onSave: (note?: string) => void }) {
@@ -50,10 +60,10 @@ function DraftActions({ onSave }: { onSave: (note?: string) => void }) {
         testID="reading-save"
       />
       <Button
-        variant="secondary"
+        variant="light"
         label={t('reading.journal')}
         onPress={() => setJournaling(true)}
-        icon={<Icon name="PenLine" size={18} color={colors.roseDeep} />}
+        icon={<Icon name="PenLine" size={18} color={colors.plum} />}
         testID="reading-journal"
       />
     </View>
@@ -81,11 +91,11 @@ function SavedThoughts({ note, onUpdateNote }: { note?: string; onUpdateNote: (n
 
   if (note) {
     return (
-      <Card>
+      <View style={[glass.card, glassBlur, styles.thoughts]}>
         <View style={styles.thoughtsHeader}>
           <View style={styles.inline}>
-            <Icon name="PenLine" size={15} color={colors.roseDeep} />
-            <AppText variant="overline" color={colors.roseDeep}>
+            <Icon name="PenLine" size={15} color={colors.gold} />
+            <AppText variant="overline" color={colors.goldDeep}>
               {t('reading.myThoughts')}
             </AppText>
           </View>
@@ -94,87 +104,91 @@ function SavedThoughts({ note, onUpdateNote }: { note?: string; onUpdateNote: (n
             accessibilityRole="button"
             hitSlop={10}
             style={({ pressed }) => (pressed ? styles.pressed : null)}>
-            <AppText variant="smallMedium" color={colors.roseDeep}>
+            <AppText variant="smallMedium" color={colors.plum}>
               {t('reading.editThought')}
             </AppText>
           </Pressable>
         </View>
-        <AppText variant="quote" color={colors.ink} style={styles.note}>
+        <AppText variant="quote" color={colors.ink} style={[styles.note, glass.lining]}>
           {note}
         </AppText>
-      </Card>
+      </View>
     );
   }
 
   return (
     <Button
-      variant="ghost"
+      variant="light"
       label={t('reading.addThought')}
       onPress={() => setEditing(true)}
-      icon={<Icon name="PenLine" size={18} color={colors.inkSoft} />}
+      icon={<Icon name="PenLine" size={18} color={colors.plum} />}
       testID="reading-add-thought"
     />
   );
 }
 
-/** A finished reading: banner, title, interpretation, reflection, then save or journal actions. */
-export function ReadingResult({ entry, text, reading, note, onSave, onUpdateNote }: ReadingResultProps) {
+/**
+ * A finished reading: the entry's painting, the reader's own title, the
+ * reading, its reflection question, then save / journal actions (drafts) or
+ * the reader's words and thoughts (saved entries).
+ */
+export function ReadingResult({ entry, content, reading, note, onSave, onUpdateNote }: ReadingResultProps) {
   const { t } = useTranslation();
-  const { language } = useSettings();
-  const def = categoryByKey(entry.category);
   const isDraft = entry.status === 'draft';
   const paragraphs = splitParagraphs(reading.interpretation);
+  const ownTitle = content.title?.trim();
+  const dateLine = useEntryDateLine(entry);
 
   return (
     <View style={styles.root}>
-      <Animated.View entering={enter(0)} style={styles.meta}>
-        <View style={styles.chips}>
-          <Chip
-            label={entryTopicLabel(t, entry.category, entry.subcategory)}
-            background={def.tint}
-            color={def.accent}
-            icon={<Icon name={def.icon} size={14} color={def.accent} strokeWidth={2} />}
-          />
-          {entry.isSample ? <Chip label={t('common.sample')} tone="lavender" /> : null}
-          {reading.advisor?.consulted ? (
-            <Chip
-              label={t('reading.advisorChip')}
-              tone="premium"
-              icon={<Icon name="Sparkles" size={13} color="#86591A" strokeWidth={2} />}
-            />
-          ) : null}
-        </View>
-        <AppText variant="caption" color={colors.muted}>
-          {formatDate(new Date(entry.createdAt), language)}
+      <Animated.View entering={enter(0)}>
+        <ReadingBanner
+          entry={entry}
+          extra={reading.advisor?.consulted ? <PhotoChip icon="Sparkles" label={t('reading.advisorChip')} /> : null}
+        />
+      </Animated.View>
+
+      <Animated.View entering={enter(1)} style={styles.heading}>
+        <AppText variant="title" color={colors.plum} accessibilityRole="header" style={glass.lining} testID="reading-heading">
+          {ownTitle || reading.title}
         </AppText>
-      </Animated.View>
-
-      <Animated.View entering={enter(1)}>
-        <ReadingBanner def={def} hasPhoto={entry.hasPhoto} />
-      </Animated.View>
-
-      <Animated.View entering={enter(2)} style={styles.body}>
-        <AppText variant="title">{reading.title}</AppText>
-        {paragraphs.map((paragraph, index) => (
-          <AppText key={index} variant="body" color={colors.inkSoft}>
-            {paragraph}
+        <View style={styles.inline}>
+          <Icon name={entry.hasTime ? 'Clock' : 'CalendarDays'} size={14} color={colors.gold} strokeWidth={2} />
+          <AppText variant="caption" color={colors.muted} testID="reading-date">
+            {dateLine}
           </AppText>
-        ))}
+        </View>
+      </Animated.View>
+
+      <Animated.View entering={enter(2)} style={[glass.solid, glassBlur, styles.reading]}>
+        <AppText variant="overline" color={colors.goldDeep}>
+          {readingEyebrow(t, entry.category)}
+        </AppText>
+        {ownTitle ? (
+          <AppText variant="heading" color={colors.ink} style={glass.lining} testID="reading-title">
+            {reading.title}
+          </AppText>
+        ) : null}
+        <View style={styles.paragraphs}>
+          {paragraphs.map((paragraph, index) => (
+            <AppText key={index} variant="body" color={colors.inkSoft}>
+              {paragraph}
+            </AppText>
+          ))}
+        </View>
       </Animated.View>
 
       {reading.reflectionQuestion ? (
-        <Animated.View entering={enter(3)}>
-          <Card tint={colors.lavenderSoft} elevated={false} style={styles.reflection}>
-            <View style={styles.inline}>
-              <Icon name="Sparkles" size={15} color={colors.lavenderDeep} />
-              <AppText variant="overline" color={colors.lavenderDeep}>
-                {t('reading.reflection')}
-              </AppText>
-            </View>
-            <AppText variant="quote" color={colors.ink} style={styles.question}>
-              {reading.reflectionQuestion}
+        <Animated.View entering={enter(3)} style={[glass.card, glassBlur, styles.reflection]}>
+          <View style={styles.inline}>
+            <Icon name="Sparkles" size={15} color={colors.gold} />
+            <AppText variant="overline" color={colors.goldDeep}>
+              {t('reading.reflection')}
             </AppText>
-          </Card>
+          </View>
+          <AppText variant="quote" color={colors.plum} style={[styles.question, glass.lining]}>
+            {reading.reflectionQuestion}
+          </AppText>
         </Animated.View>
       ) : null}
 
@@ -183,8 +197,8 @@ export function ReadingResult({ entry, text, reading, note, onSave, onUpdateNote
           <DraftActions onSave={onSave} />
         ) : (
           <>
-            {/* The banner already carries the photo badge. */}
-            <EntryQuote text={text} />
+            {/* The banner already carries the photo chip. */}
+            <EntryQuote text={content.text} title={ownTitle} />
             <SavedThoughts note={note} onUpdateNote={onUpdateNote} />
           </>
         )}
@@ -198,24 +212,21 @@ const styles = StyleSheet.create({
     gap: spacing.xl,
     paddingTop: spacing.xs,
   },
-  meta: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  heading: {
+    gap: spacing.xs + 2,
+    paddingHorizontal: spacing.xs,
+  },
+  reading: {
+    padding: spacing.xl,
     gap: spacing.sm,
   },
-  chips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    flexShrink: 1,
-  },
-  body: {
+  paragraphs: {
     gap: spacing.md,
+    marginTop: spacing.xs,
   },
   reflection: {
-    borderColor: colors.lavenderSoft,
+    padding: spacing.xl,
+    backgroundColor: withAlpha(colors.lavenderSoft, 0.82),
   },
   inline: {
     flexDirection: 'row',
@@ -230,6 +241,9 @@ const styles = StyleSheet.create({
   },
   actions: {
     gap: spacing.md,
+  },
+  thoughts: {
+    padding: spacing.xl,
   },
   thoughtsHeader: {
     flexDirection: 'row',

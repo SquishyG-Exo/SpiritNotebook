@@ -32,6 +32,7 @@ export function useInterpretation(entry: JournalEntry | undefined, language: Lan
   const id = entry?.id;
   const pending = !!entry && entry.status === 'draft' && !entry.content.reading;
   const text = entry?.content.text ?? '';
+  const title = entry?.content.title;
   const category = entry?.category;
   const subcategory = entry?.subcategory;
 
@@ -43,6 +44,7 @@ export function useInterpretation(entry: JournalEntry | undefined, language: Lan
 
     requestInterpretation({
       text,
+      title,
       category,
       subcategory,
       language,
@@ -56,7 +58,7 @@ export function useInterpretation(entry: JournalEntry | undefined, language: Lan
             : { code: 'unknown' },
         );
       });
-  }, [pending, id, attempt, text, category, subcategory, language, advisorMode]);
+  }, [pending, id, attempt, text, title, category, subcategory, language, advisorMode]);
 
   const retry = useCallback(() => {
     setError(null);

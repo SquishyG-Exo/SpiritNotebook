@@ -1,95 +1,139 @@
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import type { CategoryDef } from '../../../brand/categories';
-import { colors, radius, spacing , withAlpha } from '../../theme';
-import { AppText, Icon, IconCircle, type IconName } from '../../ui';
+import { categoryByKey } from '../../../brand/categories';
+import { entryTopicLabel } from '../../lib/categoryCopy';
+import type { JournalEntry } from '../../state';
+import { colors, radius, shadow, spacing, withAlpha } from '../../theme';
+import { AppText, Icon, IconCircle } from '../../ui';
 import { DreamBanner } from '../../ui/art';
+import { entryImage } from '../../ui/art/images';
+import { glassBlur } from '../entry/scenery';
 
-/** An icon on a translucent white disc inside a soft ring, so it reads over the artwork. */
-function Emblem({ icon, color, size }: { icon: IconName | string; color: string; size: number }) {
-  const ring = Math.round(size * 1.56);
-  const disc = Math.round(size * 1.25);
+const BANNER_HEIGHT = 196;
+
+/** A small frosted chip that stays legible over the painting. */
+export function PhotoChip({ icon, label }: { icon: string; label: string }) {
   return (
-    <View style={[styles.ring, { width: ring, height: ring, borderRadius: ring / 2 }]}>
-      <View style={[styles.disc, { width: disc, height: disc, borderRadius: disc / 2 }]}>
-        <IconCircle name={icon} size={size} tint={withAlpha(colors.white, 0.84)} color={color} strokeWidth={1.5} />
+    <View style={[styles.chip, glassBlur]}>
+      <Icon name={icon} size={14} color={colors.gold} strokeWidth={2} />
+      <AppText variant="caption" color={colors.ink} numberOfLines={1}>
+        {label}
+      </AppText>
+    </View>
+  );
+}
+
+export interface ReadingBannerProps {
+  entry: JournalEntry;
+  /** Extra chips (e.g. the lab's advisor marker). */
+  extra?: ReactNode;
+}
+
+/**
+ * Photo-led header for a reading (Design 4): the entry's painting, or its
+ * sample photo, rounded, with a soft dusk overlay and the topic chips.
+ */
+export function ReadingBanner({ entry, extra }: ReadingBannerProps) {
+  const { t } = useTranslation();
+  const def = categoryByKey(entry.category);
+
+  return (
+    <View style={styles.banner} testID="reading-banner">
+      <Image
+        source={entryImage(entry)}
+        style={StyleSheet.absoluteFill}
+        contentFit="cover"
+        transition={300}
+        accessible={false}
+        alt=""
+      />
+      <LinearGradient
+        colors={[withAlpha(colors.navDark, 0), withAlpha(colors.navDark, 0.42)]}
+        start={{ x: 0, y: 0.35 }}
+        end={{ x: 0, y: 1 }}
+        style={[StyleSheet.absoluteFill, styles.passive]}
+      />
+      <View style={styles.chips}>
+        <PhotoChip icon={def.icon} label={entryTopicLabel(t, entry.category, entry.subcategory)} />
+        {entry.hasPhoto ? <PhotoChip icon="Image" label={t('reading.photoAttached')} /> : null}
+        {entry.isSample ? <PhotoChip icon="Sparkle" label={t('common.sample')} /> : null}
+        {extra}
       </View>
     </View>
   );
 }
 
-/** Header art for a reading: a dusk dreamscape with the category's icon glowing in the middle. */
-export function ReadingBanner({ def, hasPhoto }: { def: CategoryDef; hasPhoto?: boolean }) {
-  const { t } = useTranslation();
-  return (
-    <DreamBanner
-      variant="dusk"
-      height={170}
-      rounded
-      fadeTo={null}
-      butterflies="few"
-      sparkles
-      glow
-      contentStyle={styles.centered}>
-      <Emblem icon={def.icon} color={def.accent} size={72} />
-      {hasPhoto ? (
-        <View style={styles.badge}>
-          <Icon name="Image" size={13} color={colors.inkSoft} />
-          <AppText variant="caption" color={colors.inkSoft}>
-            {t('reading.photoAttached')}
-          </AppText>
-        </View>
-      ) : null}
-    </DreamBanner>
-  );
-}
-
 /**
- * The care result's calmer header: a dawn scene with no butterflies or
- * sparkles, fading into the panel it opens, with the heart in the middle.
+ * The care result's calm header: a still dawn scene with no butterflies,
+ * sparkles or glow, fading into the panel it opens, with the heart in the middle.
  */
 export function CareBanner({ fadeTo, style }: { fadeTo: string; style?: StyleProp<ViewStyle> }) {
   return (
     <DreamBanner
       variant="dawn"
-      height={128}
+      height={120}
       fadeTo={fadeTo}
       butterflies="none"
       sparkles={false}
+      glow={false}
       style={style}
       contentStyle={styles.centered}>
-      <Emblem icon="Heart" color={colors.roseDeep} size={56} />
+      <View style={styles.ring}>
+        <IconCircle name="Heart" size={56} tint={withAlpha(colors.white, 0.84)} color={colors.roseDeep} strokeWidth={1.5} />
+      </View>
     </DreamBanner>
   );
 }
 
 const styles = StyleSheet.create({
+  passive: {
+    pointerEvents: 'none',
+  },
+  banner: {
+    height: BANNER_HEIGHT,
+    borderRadius: radius.xl,
+    overflow: 'hidden',
+    backgroundColor: colors.lavenderSoft,
+    borderWidth: 1,
+    borderColor: withAlpha(colors.white, 0.8),
+    ...shadow.tile,
+  },
+  chips: {
+    position: 'absolute',
+    left: spacing.md,
+    right: spacing.md,
+    bottom: spacing.md,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs + 2,
+  },
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs + 1,
+    paddingHorizontal: spacing.sm + 3,
+    paddingVertical: spacing.xs + 1,
+    borderRadius: radius.pill,
+    backgroundColor: withAlpha(colors.white, 0.86),
+    maxWidth: '100%',
+  },
   centered: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   ring: {
+    width: 86,
+    height: 86,
+    borderRadius: 43,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: withAlpha(colors.white, 0.6),
-  },
-  disc: {
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: withAlpha(colors.white, 0.3),
   },
-  badge: {
-    position: 'absolute',
-    left: spacing.md,
-    bottom: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    paddingHorizontal: spacing.sm + 2,
-    paddingVertical: spacing.xs,
-    borderRadius: radius.pill,
-    backgroundColor: withAlpha(colors.white, 0.82),
-  },
 });
+

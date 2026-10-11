@@ -1,1 +1,12 @@
-{}
+{
+  "title": "Whispers of Wisdom",
+  "subtitle": "A gentle message or a little guidance for your journey today.",
+  "inSpiritOf": "In the spirit of {{author}}",
+  "another": "Another whisper",
+  "save": "Save this whisper",
+  "unsave": "Remove from saved whispers",
+  "saved": "Whisper saved",
+  "removed": "Whisper removed from saved",
+  "savedNote": "Whisper saved",
+  "share": "Share this whisper"
+}

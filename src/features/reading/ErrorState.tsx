@@ -3,15 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
+import type { CategoryKey } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
-import { AppText, Button, Card, Icon, IconCircle } from '../../ui';
+import { AppText, Button, Icon, IconCircle } from '../../ui';
+import { glass, glassBlur } from '../entry/scenery';
 import { EntryQuote } from './EntryQuote';
 import { errorMessage, isDailyLimit } from './errorCopy';
+import { errorTitle } from './readingCopy';
 import type { InterpretationError } from './useInterpretation';
 
 export interface ErrorStateProps {
   error: InterpretationError;
+  category: CategoryKey;
   text: string;
+  title?: string;
   hasPhoto?: boolean;
   onRetry: () => void;
   onBack: () => void;
@@ -29,7 +34,7 @@ function useCountdown(seconds: number | undefined) {
   return remaining;
 }
 
-export function ErrorState({ error, text, hasPhoto, onRetry, onBack }: ErrorStateProps) {
+export function ErrorState({ error, category, text, title, hasPhoto, onRetry, onBack }: ErrorStateProps) {
   const { t } = useTranslation();
   const daily = isDailyLimit(error);
   // Only a short burst limit gets a live countdown; a daily cap just says "come back tomorrow".
@@ -41,42 +46,40 @@ export function ErrorState({ error, text, hasPhoto, onRetry, onBack }: ErrorStat
       : t('reading.error.retryIn', { count: remaining });
 
   return (
-    <View style={styles.root}>
-      <Animated.View entering={FadeInUp.duration(450)}>
-        <Card style={styles.card}>
-          <IconCircle name="CircleAlert" size={52} tint={colors.roseSoft} color={colors.roseDeep} />
-          <AppText variant="heading" align="center">
-            {t('reading.error.title')}
+    <View style={styles.root} testID="reading-error">
+      <Animated.View entering={FadeInUp.duration(450)} style={[glass.solid, glassBlur, styles.card]}>
+        <IconCircle name="CircleAlert" size={52} tint={colors.roseSoft} color={colors.roseDeep} />
+        <AppText variant="heading" color={colors.plum} align="center">
+          {errorTitle(t, category)}
+        </AppText>
+        <AppText variant="body" color={colors.inkSoft} align="center">
+          {errorMessage(t, error)}
+        </AppText>
+        {remaining > 0 ? (
+          <AppText variant="caption" color={colors.muted} align="center" accessibilityLiveRegion="polite">
+            {wait}
           </AppText>
-          <AppText variant="body" color={colors.inkSoft} align="center">
-            {errorMessage(t, error)}
-          </AppText>
-          {remaining > 0 ? (
-            <AppText variant="caption" color={colors.muted} align="center" accessibilityLiveRegion="polite">
-              {wait}
-            </AppText>
-          ) : null}
-          <View style={styles.actions}>
-            {daily ? (
-              <Button variant="secondary" label={t('common.actions.back')} onPress={onBack} />
-            ) : (
-              <>
-                <Button
-                  label={t('common.actions.retry')}
-                  onPress={onRetry}
-                  disabled={remaining > 0}
-                  icon={<Icon name="RotateCcw" size={18} color={colors.white} />}
-                  testID="reading-retry"
-                />
-                <Button variant="ghost" label={t('common.actions.back')} onPress={onBack} />
-              </>
-            )}
-          </View>
-        </Card>
+        ) : null}
+        <View style={styles.actions}>
+          {daily ? (
+            <Button variant="light" label={t('common.actions.back')} onPress={onBack} />
+          ) : (
+            <>
+              <Button
+                label={t('common.actions.retry')}
+                onPress={onRetry}
+                disabled={remaining > 0}
+                icon={<Icon name="RotateCcw" size={18} color={colors.white} />}
+                testID="reading-retry"
+              />
+              <Button variant="ghost" label={t('common.actions.back')} onPress={onBack} />
+            </>
+          )}
+        </View>
       </Animated.View>
 
       <Animated.View entering={FadeInUp.delay(150).duration(450)}>
-        <EntryQuote text={text} hasPhoto={hasPhoto} maxLines={6} />
+        <EntryQuote text={text} title={title} hasPhoto={hasPhoto} maxLines={6} />
       </Animated.View>
     </View>
   );
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.md,
     paddingVertical: spacing.xxl,
+    paddingHorizontal: spacing.xl,
   },
   actions: {
     alignSelf: 'stretch',

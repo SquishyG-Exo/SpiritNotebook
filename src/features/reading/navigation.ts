@@ -4,7 +4,8 @@ import { Linking, Platform } from 'react-native';
 import { dateKey } from '../../lib/dates';
 
 /**
- * After saving, show the entry in the Calendar tab.
+ * After saving, show the entry in the Calendar tab, on the day it belongs to
+ * (today, unless the reader picked an earlier day in the composer).
  * Contract with the Calendar screen: `date` = 'YYYY-MM-DD' (local) selects
  * that day, `highlight` = entry id to emphasise.
  *
@@ -13,8 +14,8 @@ import { dateKey } from '../../lib/dates';
  * tabs are not in the stack, e.g. after a deep link), so no stale composer is
  * left behind for the back button.
  */
-export function openInCalendar(entryId: string, savedAt: Date) {
-  router.dismissTo({ pathname: '/calendar', params: { date: dateKey(savedAt), highlight: entryId } });
+export function openInCalendar(entryId: string, day: Date) {
+  router.dismissTo({ pathname: '/calendar', params: { date: dateKey(day), highlight: entryId } });
 }
 
 /** Back to the Home tab, unwinding the flow's stack when there is one. */

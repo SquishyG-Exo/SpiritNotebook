@@ -2,6 +2,54 @@
   "title": "New Entry",
   "change": "Change",
   "changeHint": "Choose a different category",
+  "prompt": {
+    "dreams": "What did you dream?",
+    "numbers": "Which number keeps finding you?",
+    "signs": "What did you notice?",
+    "animals": "Which animal crossed your path?",
+    "life": "What is happening in your life?",
+    "words": "Which words keep finding you?",
+    "questions": "What is on your heart?",
+    "gratitude": "What are you grateful for today?",
+    "gratitudePast": "What were you grateful for?"
+  },
+  "intro": {
+    "dreams": "Write it down while it is still close: the places, the people, the feeling it left.",
+    "numbers": "Note the number and where it showed up: a clock, a receipt, a license plate.",
+    "signs": "A coincidence, a found object, or a folk sign like an itchy palm: all are welcome here.",
+    "animals": "Tell the notebook which animal it was, where you met, and what it was doing.",
+    "life": "Share what happened in your own words, and how it is sitting with you.",
+    "words": "Write the word or phrase, and where you have been hearing or seeing it.",
+    "questions": "Ask it in whatever words come. There is no wrong way to wonder.",
+    "gratitude": "Big or small, name what felt like a gift."
+  },
+  "titleField": {
+    "label": "Give it a title",
+    "optional": "Optional",
+    "a11y": "Title for this entry, optional"
+  },
+  "when": {
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "addTime": "Add a time",
+    "adjustTime": "Time: {{time}}. Adjust the time",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "relative": "{{label}} · {{date}}",
+    "changeDate": "Date: {{date}}. Change the date",
+    "sheetTitle": "When did it happen?",
+    "close": "Close",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "futureDay": "{{date}}, not available yet",
+    "hour": "Hour",
+    "minute": "Minutes",
+    "laterHour": "Later hour",
+    "earlierHour": "Earlier hour",
+    "laterMinute": "Later minutes",
+    "earlierMinute": "Earlier minutes",
+    "period": "AM or PM"
+  },
   "hintsTitle": "On this path",
   "genericHints": [
     "What you saw, heard or felt",
@@ -13,7 +61,10 @@
   "counter": "{{count}}/{{max}}",
   "addPhoto": "Add a photo",
   "removePhoto": "Remove photo",
+  "photoAdded": "Photo added",
   "photoNote": "Photos are illustrative in this preview.",
   "interpret": "Interpret this entry",
-  "tooShort": "A few more words will help your reading."
+  "interpretGratitude": "Reflect on my gratitude",
+  "tooShort": "A few more words will help your reading.",
+  "tooShortGratitude": "A few more words will help your reflection."
 }

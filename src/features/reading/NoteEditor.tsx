@@ -4,8 +4,9 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { brand } from '../../../brand/config';
-import { colors, radius, shadow, spacing, type } from '../../theme';
+import { colors, spacing, type } from '../../theme';
 import { AppText, Button } from '../../ui';
+import { glass, glassBlur } from '../entry/scenery';
 
 export interface NoteEditorProps {
   initialValue?: string;
@@ -16,7 +17,7 @@ export interface NoteEditorProps {
   requireText?: boolean;
 }
 
-/** Inline "journal my thoughts" editor under a reading. */
+/** Inline "journal my thoughts" editor under a reading. Opened by a tap, so it takes focus. */
 export function NoteEditor({ initialValue = '', submitLabel, onSubmit, onCancel, requireText = true }: NoteEditorProps) {
   const { t } = useTranslation();
   const [note, setNote] = useState(initialValue);
@@ -24,8 +25,8 @@ export function NoteEditor({ initialValue = '', submitLabel, onSubmit, onCancel,
 
   return (
     <Animated.View entering={FadeInUp.duration(400)} style={styles.root}>
-      <View style={[styles.card, shadow.card]}>
-        <AppText variant="overline" color={colors.roseDeep}>
+      <View style={[glass.solid, glassBlur, styles.card]}>
+        <AppText variant="overline" color={colors.goldDeep}>
           {t('reading.noteLabel')}
         </AppText>
         <TextInput
@@ -36,7 +37,7 @@ export function NoteEditor({ initialValue = '', submitLabel, onSubmit, onCancel,
           maxLength={brand.ai.maxInputChars}
           placeholder={t('reading.notePlaceholder')}
           placeholderTextColor={colors.faint}
-          selectionColor={colors.roseDeep}
+          selectionColor={colors.plum}
           accessibilityLabel={t('reading.noteLabel')}
           testID="reading-note-input"
           style={styles.input}
@@ -58,16 +59,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.hairline,
     padding: spacing.lg,
     marginBottom: spacing.sm,
   },
   input: {
     ...type.quote,
-    fontSize: 17,
+    fontSize: 18,
     lineHeight: 26,
     color: colors.ink,
     minHeight: 120,

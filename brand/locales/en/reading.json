@@ -1,12 +1,22 @@
 {
   "title": "Your Interpretation",
+  "titleGratitude": "Your Reflection",
+  "eyebrow": "Your interpretation",
+  "eyebrowGratitude": "Your gratitude reflection",
   "loading": [
     "Listening to your sign…",
     "Finding the thread…",
     "Weaving the meaning…",
     "Almost there…"
   ],
+  "loadingGratitude": [
+    "Gathering your blessings…",
+    "Savoring the good…",
+    "Writing your reflection…",
+    "Almost there…"
+  ],
   "loadingCaption": "Usually takes a few seconds",
+  "dateTime": "{{date}} · {{time}}",
   "youWrote": "What you wrote",
   "photoAttached": "Photo attached",
   "reflection": "Reflection for you",
@@ -19,6 +29,12 @@
   "addThought": "Add a thought",
   "editThought": "Edit",
   "saveThought": "Save thought",
+  "favorite": {
+    "add": "Add to Favorites",
+    "remove": "Remove from Favorites",
+    "added": "Added to Favorites",
+    "removed": "Removed from Favorites"
+  },
   "missing": {
     "title": "This entry drifted away",
     "body": "Unsaved drafts only last for this visit. Your saved entries are safe.",
@@ -26,6 +42,7 @@
   },
   "error": {
     "title": "The reading didn’t come through",
+    "titleGratitude": "The reflection didn’t come through",
     "retryIn_one": "You can try again in {{count}} second.",
     "retryIn_other": "You can try again in {{count}} seconds.",
     "retryInMinutes_one": "You can try again in about {{count}} minute.",

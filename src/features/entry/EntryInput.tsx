@@ -1,22 +1,26 @@
-import { useState } from 'react';
+import { useState, type Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { brand } from '../../../brand/config';
-import { colors, radius, shadow, spacing, type } from '../../theme';
+import { colors, spacing, type } from '../../theme';
 import { AppText } from '../../ui';
+import { glass, glassBlur } from './scenery';
 
-const MIN_HEIGHT = 170;
-const MAX_HEIGHT = 340;
+const MIN_HEIGHT = 150;
+const MAX_HEIGHT = 320;
 
 export interface EntryInputProps {
   value: string;
   onChangeText: (text: string) => void;
   placeholder: string;
+  /** Shown under the text while it is still shorter than the minimum. */
+  tooShortHint: string;
+  inputRef?: Ref<TextInput>;
 }
 
-/** The composer's writing surface: a calm white card that grows with the text, with a live counter. */
-export function EntryInput({ value, onChangeText, placeholder }: EntryInputProps) {
+/** The composer's writing surface: a frosted card that grows with the text, with a live counter. */
+export function EntryInput({ value, onChangeText, placeholder, tooShortHint, inputRef }: EntryInputProps) {
   const { t } = useTranslation();
   const [height, setHeight] = useState(MIN_HEIGHT);
   const max = brand.ai.maxInputChars;
@@ -24,15 +28,16 @@ export function EntryInput({ value, onChangeText, placeholder }: EntryInputProps
   const tooShort = trimmed > 0 && trimmed < brand.ai.minInputChars;
 
   return (
-    <View style={[styles.card, shadow.card]}>
+    <View style={[glass.card, glassBlur, styles.card]}>
       <TextInput
+        ref={inputRef}
         value={value}
         onChangeText={onChangeText}
         multiline
         maxLength={max}
         placeholder={placeholder}
         placeholderTextColor={colors.faint}
-        selectionColor={colors.roseDeep}
+        selectionColor={colors.plum}
         accessibilityLabel={t('entry.inputLabel')}
         testID="entry-input"
         onContentSizeChange={(event) =>
@@ -41,10 +46,10 @@ export function EntryInput({ value, onChangeText, placeholder }: EntryInputProps
         style={[styles.input, { height }]}
       />
       <View style={styles.footer}>
-        <AppText variant="caption" color={colors.muted} style={styles.hint}>
-          {tooShort ? t('entry.tooShort') : ''}
+        <AppText variant="caption" color={colors.muted} style={styles.hint} accessibilityLiveRegion="polite">
+          {tooShort ? tooShortHint : ''}
         </AppText>
-        <AppText variant="caption" color={value.length >= max ? colors.roseDeep : colors.faint}>
+        <AppText variant="caption" color={value.length >= max ? colors.roseDeep : colors.muted}>
           {t('entry.counter', { count: value.length, max })}
         </AppText>
       </View>
@@ -54,10 +59,6 @@ export function EntryInput({ value, onChangeText, placeholder }: EntryInputProps
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.hairline,
     paddingTop: spacing.lg,
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.md,

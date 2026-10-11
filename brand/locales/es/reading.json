@@ -1,12 +1,22 @@
 {
   "title": "Tu interpretación",
+  "titleGratitude": "Tu reflexión",
+  "eyebrow": "Tu interpretación",
+  "eyebrowGratitude": "Tu reflexión de gratitud",
   "loading": [
     "Escuchando tu señal…",
     "Buscando el hilo…",
     "Tejiendo el significado…",
     "Ya casi…"
   ],
+  "loadingGratitude": [
+    "Reuniendo tus bendiciones…",
+    "Saboreando lo bueno…",
+    "Escribiendo tu reflexión…",
+    "Ya casi…"
+  ],
   "loadingCaption": "Suele tardar unos segundos",
+  "dateTime": "{{date}} · {{time}}",
   "youWrote": "Lo que escribiste",
   "photoAttached": "Foto adjunta",
   "reflection": "Una reflexión para ti",
@@ -19,6 +29,12 @@
   "addThought": "Agregar un pensamiento",
   "editThought": "Editar",
   "saveThought": "Guardar pensamiento",
+  "favorite": {
+    "add": "Agregar a Favoritos",
+    "remove": "Quitar de Favoritos",
+    "added": "Se agregó a Favoritos",
+    "removed": "Se quitó de Favoritos"
+  },
   "missing": {
     "title": "Esta entrada se desvaneció",
     "body": "Los borradores sin guardar solo duran esta visita. Tus entradas guardadas están a salvo.",
@@ -26,6 +42,7 @@
   },
   "error": {
     "title": "La lectura no llegó",
+    "titleGratitude": "La reflexión no llegó",
     "retryIn_one": "Puedes volver a intentarlo en {{count}} segundo.",
     "retryIn_other": "Puedes volver a intentarlo en {{count}} segundos.",
     "retryInMinutes_one": "Puedes volver a intentarlo en aproximadamente {{count}} minuto.",

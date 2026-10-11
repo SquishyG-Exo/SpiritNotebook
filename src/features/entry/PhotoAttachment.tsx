@@ -1,21 +1,25 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
-import { colors, gradients, radius, spacing , withAlpha } from '../../theme';
+import type { CategoryKey } from '../../../brand/categories';
+import { colors, radius, spacing } from '../../theme';
 import { AppText, Icon } from '../../ui';
+import { categoryThumbs } from '../../ui/art/images';
+import { glass, glassBlur } from './scenery';
 
 export interface PhotoAttachmentProps {
   hasPhoto: boolean;
   onChange: (hasPhoto: boolean) => void;
+  category: CategoryKey;
 }
 
 /**
- * UI-only photo attachment for the proof of concept: toggles an illustrative
- * gradient thumbnail instead of opening the camera roll.
+ * UI-only photo attachment for the proof of concept: shows an illustrative
+ * painting instead of opening the camera roll.
  */
-export function PhotoAttachment({ hasPhoto, onChange }: PhotoAttachmentProps) {
+export function PhotoAttachment({ hasPhoto, onChange, category }: PhotoAttachmentProps) {
   const { t } = useTranslation();
 
   if (!hasPhoto) {
@@ -24,8 +28,8 @@ export function PhotoAttachment({ hasPhoto, onChange }: PhotoAttachmentProps) {
         onPress={() => onChange(true)}
         accessibilityRole="button"
         testID="entry-add-photo"
-        style={({ pressed }) => [styles.chip, pressed ? styles.chipPressed : null]}>
-        <Icon name="Camera" size={18} color={colors.roseDeep} />
+        style={({ pressed }) => [glass.pill, glassBlur, styles.chip, pressed ? styles.pressed : null]}>
+        <Icon name="Camera" size={18} color={colors.gold} strokeWidth={1.9} />
         <AppText variant="smallMedium" color={colors.inkSoft}>
           {t('entry.addPhoto')}
         </AppText>
@@ -36,24 +40,21 @@ export function PhotoAttachment({ hasPhoto, onChange }: PhotoAttachmentProps) {
   return (
     <View style={styles.attached}>
       <Animated.View entering={ZoomIn.duration(320)} style={styles.thumbWrap}>
-        <LinearGradient
-          colors={gradients.sky}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.thumb}>
-          <View style={styles.thumbSun} />
-          <Icon name="Image" size={18} color={colors.white} />
-        </LinearGradient>
+        <Image source={categoryThumbs[category]} style={styles.thumb} contentFit="cover" accessible={false} />
         <Pressable
           onPress={() => onChange(false)}
           accessibilityRole="button"
           accessibilityLabel={t('entry.removePhoto')}
           hitSlop={10}
+          testID="entry-remove-photo"
           style={styles.remove}>
           <Icon name="X" size={12} color={colors.white} strokeWidth={2.5} />
         </Pressable>
       </Animated.View>
       <Animated.View entering={FadeIn.duration(320)} style={styles.noteWrap}>
+        <AppText variant="smallMedium" color={colors.ink}>
+          {t('entry.photoAdded')}
+        </AppText>
         <AppText variant="caption" color={colors.muted}>
           {t('entry.photoNote')}
         </AppText>
@@ -72,13 +73,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.sm + 2,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.hairline,
-    backgroundColor: colors.surface,
   },
-  chipPressed: {
-    backgroundColor: colors.surfaceTint,
+  pressed: {
+    opacity: 0.75,
   },
   attached: {
     flexDirection: 'row',
@@ -93,18 +90,8 @@ const styles = StyleSheet.create({
     width: THUMB,
     height: THUMB,
     borderRadius: radius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  thumbSun: {
-    position: 'absolute',
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    bottom: 10,
-    right: 8,
-    backgroundColor: withAlpha(colors.cream, 0.55),
+    borderWidth: 2,
+    borderColor: colors.white,
   },
   remove: {
     position: 'absolute',
@@ -115,11 +102,12 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.ink,
+    backgroundColor: colors.plum,
     borderWidth: 2,
     borderColor: colors.cream,
   },
   noteWrap: {
     flex: 1,
+    gap: 2,
   },
 });
