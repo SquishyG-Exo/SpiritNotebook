@@ -5,8 +5,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { brand } from '../../../brand/config';
 import { colors, spacing, type } from '../../theme';
-import { AppText, Button } from '../../ui';
-import { glass, glassBlur } from '../entry/scenery';
+import { AppText, Button, glass, glassBlur } from '../../ui';
 
 export interface NoteEditorProps {
   initialValue?: string;

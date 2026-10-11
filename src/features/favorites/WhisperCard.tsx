@@ -6,8 +6,7 @@ import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
 import type { Whisper } from '../../../brand/whispers';
 import { useSettings } from '../../state';
 import { colors, fonts, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
-import { glass, glassBlur } from '../notebook/glass';
+import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
 import { HeartButton } from '../notebook/HeartButton';
 
 export interface WhisperCardProps {

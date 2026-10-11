@@ -5,9 +5,8 @@ import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
 import type { CategoryKey } from '../../../brand/categories';
 import { colors, radius, spacing } from '../../theme';
-import { AppText, HitSlopArea, Icon } from '../../ui';
+import { AppText, glass, glassBlur, HitSlopArea, Icon } from '../../ui';
 import { categoryThumbs } from '../../ui/art/images';
-import { glass, glassBlur } from './scenery';
 
 export interface PhotoAttachmentProps {
   hasPhoto: boolean;

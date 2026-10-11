@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, fonts, gradients, spacing } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
-import { glass, glassBlur } from './glass';
+import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
 import { PremiumChip } from './PremiumChip';
 
 const BADGE = 48;

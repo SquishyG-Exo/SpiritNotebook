@@ -1,8 +1,7 @@
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { spacing } from '../../theme';
-import { AppText } from '../../ui';
-import { glass } from './glass';
+import { AppText, glass } from '../../ui';
 
 export interface SectionHeaderProps {
   title: string;

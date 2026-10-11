@@ -6,10 +6,9 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import { formatLongDate, parseDateKey } from '../../lib/dates';
 import type { JournalEntry, Language } from '../../state';
 import { colors, fonts, radius, spacing } from '../../theme';
-import { AppText, Button, Icon, PressableScale } from '../../ui';
+import { AppText, Button, glass, glassBlur, Icon, PressableScale } from '../../ui';
 import { EmptyState, TextLink } from '../notebook/EmptyState';
 import { EntryCard } from '../notebook/EntryCard';
-import { glass, glassBlur } from '../notebook/glass';
 import { SectionHeader } from '../notebook/SectionHeader';
 
 export interface DayEntriesProps {

@@ -2,8 +2,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, fonts, radius, spacing } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
-import { glass, glassBlur } from './glass';
+import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
 
 /** Looks like the search field; opens Search. */
 export function SearchPill({ label }: { label: string }) {

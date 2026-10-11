@@ -8,10 +8,10 @@ import Animated, { FadeInUp, useAnimatedStyle, useReducedMotion, useSharedValue,
 import { whispers } from '../../../brand/whispers';
 import { useJournal, useSettings } from '../../state';
 import { colors, fonts, layout, radius, spacing, withAlpha } from '../../theme';
-import { AppText, Button, goBackOrHome, Icon, Screen } from '../../ui';
+import { AppText, Button, glass, glassBlur, GlassIconButton, goBackOrHome, Icon, Screen } from '../../ui';
 import { art } from '../../ui/art/images';
 import { firstParam } from '../entry/params';
-import { glass, glassBlur, RoundButton, SkyBackground, TopBar } from '../entry/scenery';
+import { SkyBackground, TopBar } from '../entry/scenery';
 import { LotusGlow } from './LotusGlow';
 import { pickAnother, resolveWhisper } from './whisperModel';
 
@@ -136,7 +136,7 @@ export function WhispersScreen() {
           </Animated.View>
 
           <Animated.View entering={FadeInUp.delay(220).duration(550)} style={styles.actions}>
-            <RoundButton
+            <GlassIconButton
               icon="Heart"
               size={54}
               label={saved ? t('whispers.unsave') : t('whispers.save')}
@@ -155,7 +155,7 @@ export function WhispersScreen() {
               testID="whisper-another"
             />
             {canShare ? (
-              <RoundButton icon="Share2" size={54} label={t('whispers.share')} onPress={share} testID="whisper-share" />
+              <GlassIconButton icon="Share2" size={54} label={t('whispers.share')} onPress={share} testID="whisper-share" />
             ) : null}
           </Animated.View>
 

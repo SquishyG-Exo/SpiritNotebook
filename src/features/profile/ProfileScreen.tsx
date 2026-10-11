@@ -7,9 +7,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSettings } from '../../state';
 import { colors, fonts, gradients, layout, spacing, withAlpha } from '../../theme';
-import { AppText, goBackOrHome, Icon, type IconName } from '../../ui';
+import { AppText, GLASS_BUTTON_SIZE, GlassIconButton, goBackOrHome, Icon, type IconName } from '../../ui';
 import { Monogram, SkyBackdrop } from '../../ui/art';
-import { GLASS_BUTTON_SIZE, GlassIconButton } from '../home/GlassIconButton';
 import { GlassCard, SectionTitle } from './GlassCard';
 import { LabCard } from './LabCard';
 import { LanguageSwitch } from './LanguageSwitch';

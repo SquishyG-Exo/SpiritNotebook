@@ -6,9 +6,9 @@ import { AccessibilityInfo, StyleSheet, View } from 'react-native';
 import { categoryByKey } from '../../../brand/categories';
 import { resolveContent, useJournal, useSettings, type JournalEntry } from '../../state';
 import { colors, layout } from '../../theme';
-import { goBackOrHome, Screen } from '../../ui';
+import { GlassIconButton, goBackOrHome, Screen, useLightStatusBar } from '../../ui';
 import { firstParam } from '../entry/params';
-import { RoundButton, SkyBackground, TopBar, useLightStatusBar } from '../entry/scenery';
+import { SkyBackground, TopBar } from '../entry/scenery';
 import { CareResult } from './CareResult';
 import { EntryQuote } from './EntryQuote';
 import { ErrorState } from './ErrorState';
@@ -121,7 +121,7 @@ export function ReadingScreen() {
   }
 
   const heart = canFavorite ? (
-    <RoundButton
+    <GlassIconButton
       icon="Heart"
       label={favorite ? t('reading.favorite.remove') : t('reading.favorite.add')}
       onPress={toggleHeart}

@@ -6,8 +6,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import { formatLongDate, formatMonthYear, weekdayInitials } from '../../lib/dates';
 import type { JournalEntry, Language } from '../../state';
 import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
-import { glass, glassBlur } from '../notebook/glass';
+import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
 import {
   buildMonthGrid,
   capitalizeFirst,

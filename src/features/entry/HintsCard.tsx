@@ -4,8 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import type { CategoryKey } from '../../../brand/categories';
 import { categoryBullets } from '../../lib/categoryCopy';
 import { colors, spacing } from '../../theme';
-import { AppText, Icon } from '../../ui';
-import { glass, glassBlur } from './scenery';
+import { AppText, glass, glassBlur, Icon } from '../../ui';
 
 function asList(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : [];

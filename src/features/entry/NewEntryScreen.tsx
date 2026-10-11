@@ -9,7 +9,7 @@ import { categoryPlaceholder, categoryTitlePlaceholder, situationPlaceholder } f
 import { dateKey, isSameDay, startOfDay } from '../../lib/dates';
 import { useJournal, useSettings } from '../../state';
 import { colors, fonts, layout, spacing } from '../../theme';
-import { AppText, Button, goBackOrHome, Icon, Screen } from '../../ui';
+import { AppText, Button, glass, goBackOrHome, HEADER_TEXT, HEADER_TEXT_SOFT, Icon, Screen, useLightStatusBar } from '../../ui';
 import { composerIntro, composerPrompt, submitLabel, tooShortHint } from './composerCopy';
 import { DateSheet } from './DateSheet';
 import { DetailsCard } from './DetailsCard';
@@ -17,7 +17,7 @@ import { EntryInput } from './EntryInput';
 import { HintsCard } from './HintsCard';
 import { firstParam, parseComposerTopic } from './params';
 import { PhotoAttachment } from './PhotoAttachment';
-import { glass, HEADER_TEXT, HEADER_TEXT_SOFT, SkyBackground, TopBar, useLightStatusBar } from './scenery';
+import { SkyBackground, TopBar } from './scenery';
 import { TopicRow } from './TopicRow';
 import { combineDayAndTime, notAfterNow, parseDayParam, timeOf, type TimeOfDay } from './when';
 

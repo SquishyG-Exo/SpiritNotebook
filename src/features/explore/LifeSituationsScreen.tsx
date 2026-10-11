@@ -7,9 +7,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { lifeSituations, type LifeSituationDef } from '../../../brand/categories';
 import { lifeIntro, lifeTitle, situationLabel } from '../../lib/categoryCopy';
 import { colors, fonts, layout, radius, shadow, spacing, withAlpha } from '../../theme';
-import { AppText, goBackOrHome, Icon } from '../../ui';
+import { AppText, GlassIconButton, goBackOrHome, Icon } from '../../ui';
 import { SkyBackdrop } from '../../ui/art';
-import { GlassIconButton } from '../home/GlassIconButton';
 import { DateChip } from './DateChip';
 import { dateParam, withDate } from './params';
 

@@ -4,8 +4,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 
 import { brand } from '../../../brand/config';
 import { colors, spacing, type } from '../../theme';
-import { AppText } from '../../ui';
-import { glass, glassBlur } from './scenery';
+import { AppText, glass, glassBlur } from '../../ui';
 
 const MIN_HEIGHT = 150;
 const MAX_HEIGHT = 320;

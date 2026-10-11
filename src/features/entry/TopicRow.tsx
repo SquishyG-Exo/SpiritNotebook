@@ -5,9 +5,8 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { categoryByKey, lifeSituations } from '../../../brand/categories';
 import { categoryLabel, situationLabel } from '../../lib/categoryCopy';
 import { colors, spacing } from '../../theme';
-import { AppText, HitSlopArea, Icon, IconCircle } from '../../ui';
+import { AppText, glass, glassBlur, HitSlopArea, Icon, IconCircle } from '../../ui';
 import type { ComposerTopic } from './params';
-import { glass, glassBlur } from './scenery';
 
 export interface TopicRowProps extends ComposerTopic {
   /** 'YYYY-MM-DD' to carry back to the chooser when the reader picked another day. */

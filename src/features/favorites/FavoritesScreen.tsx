@@ -7,10 +7,9 @@ import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanim
 import { whisperById, type Whisper } from '../../../brand/whispers';
 import { entryTitle, useJournal, useSettings } from '../../state';
 import { colors, fonts, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Icon } from '../../ui';
+import { AppText, Button, glass, glassBlur, Icon } from '../../ui';
 import { EmptyState, TextLink } from '../notebook/EmptyState';
 import { EntryCard } from '../notebook/EntryCard';
-import { glass, glassBlur } from '../notebook/glass';
 import { HeartButton } from '../notebook/HeartButton';
 import { SectionHeader } from '../notebook/SectionHeader';
 import { ProfileButton, SkyHeader } from '../notebook/SkyHeader';

@@ -5,8 +5,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import type { CategoryKey } from '../../../brand/categories';
 import { colors, spacing } from '../../theme';
-import { AppText, Button, Icon, IconCircle } from '../../ui';
-import { glass, glassBlur } from '../entry/scenery';
+import { AppText, Button, glass, glassBlur, Icon, IconCircle } from '../../ui';
 import { EntryQuote } from './EntryQuote';
 import { errorMessage, isDailyLimit } from './errorCopy';
 import { errorTitle } from './readingCopy';

@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, spacing } from '../../theme';
-import { AppText, Icon } from '../../ui';
-import { glass, glassBlur } from '../entry/scenery';
+import { AppText, glass, glassBlur, Icon } from '../../ui';
 
 export interface EntryQuoteProps {
   text: string;

@@ -19,9 +19,8 @@ import { formatDate, formatTime } from '../../lib/dates';
 import type { HighlightRange } from '../../lib/search';
 import { entryTitle, resolveContent, useSettings, type JournalEntry } from '../../state';
 import { colors, fonts, radius, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
+import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
 import { entryImage } from '../../ui/art/images';
-import { glass, glassBlur } from './glass';
 import { HighlightedText } from './HighlightedText';
 
 export interface EntryExcerpt {

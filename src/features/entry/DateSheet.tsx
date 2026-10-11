@@ -7,8 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addDays, dateKey, formatLongDate, formatMonthYear, startOfDay, weekdayInitials } from '../../lib/dates';
 import type { Language } from '../../state';
 import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, PressableScale } from '../../ui';
-import { pressedProp, RoundButton } from './scenery';
+import { AppText, GlassIconButton, Icon, PressableScale } from '../../ui';
 import {
   buildMonthGrid,
   capitalizeFirst,
@@ -93,7 +92,7 @@ export function DateSheet({ value, now, language, onSelect, onClose }: DateSheet
           <AppText variant="heading" color={colors.plum} accessibilityRole="header" style={styles.headerTitle}>
             {t('entry.when.sheetTitle')}
           </AppText>
-          <RoundButton icon="X" label={t('entry.when.close')} onPress={onClose} size={38} testID="date-sheet-close" />
+          <GlassIconButton icon="X" label={t('entry.when.close')} onPress={onClose} size={38} testID="date-sheet-close" />
         </View>
 
         <View style={styles.quick}>
@@ -165,7 +164,7 @@ function QuickChip({ label, selected, onPress, testID }: { label: string; select
       onPress={onPress}
       accessibilityRole="button"
       accessibilityState={{ selected }}
-      {...pressedProp(selected)}
+      aria-pressed={selected}
       testID={testID}
       style={({ pressed }) => [styles.chip, selected ? styles.chipOn : null, pressed ? styles.pressed : null]}>
       <AppText variant="smallMedium" color={selected ? colors.white : colors.plum}>
@@ -212,7 +211,7 @@ const DayButton = memo(function DayButton({ cell, selected, isToday, label, onSe
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected, disabled }}
-      {...pressedProp(selected)}
+      aria-pressed={selected}
       testID={`date-day-${cell.key}`}
       style={styles.cell}>
       <View style={[styles.disc, isToday && !selected ? styles.todayRing : null, selected ? styles.selectedDisc : null]}>

@@ -8,10 +8,9 @@ import { useSafeAreaInsets, type EdgeInsets } from 'react-native-safe-area-conte
 import { categoryByKey, featureByKey, homeTiles, type HomeTileDef } from '../../../brand/categories';
 import { tileCopy } from '../../lib/categoryCopy';
 import { colors, fonts, layout, spacing, withAlpha } from '../../theme';
-import { AppText } from '../../ui';
+import { AppText, GlassIconButton } from '../../ui';
 import { LotusMark, Monogram, SkyBackdrop } from '../../ui/art';
 import { TAB_BAR_OVERLAP, TAB_SCENE_CLEARANCE, tabBarHeightFor } from '../../ui/TabBar';
-import { GlassIconButton } from './GlassIconButton';
 import { HomeTile, TILE_GAP, TILE_MIN_HEIGHT, TileGrid } from './HomeTile';
 
 const LOTUS_MIN = 96;

@@ -1,22 +1,11 @@
-import { setStatusBarStyle } from 'expo-status-bar';
-import { useFocusEffect } from 'expo-router';
-import { useCallback, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, layout, spacing } from '../../theme';
+import { useLightStatusBar } from '../../ui';
 import { SkyBackdrop } from '../../ui/art';
 import { TAB_SCENE_CLEARANCE } from '../../ui/TabBar';
-
-/** Light status bar text over the violet header band (no-op on web). */
-function useLightStatusBar() {
-  useFocusEffect(
-    useCallback(() => {
-      setStatusBarStyle('light', true);
-      return () => setStatusBarStyle('dark', true);
-    }, []),
-  );
-}
 
 /**
  * Journal screens (Search, Notebook, Calendar, Saved, Insights): the

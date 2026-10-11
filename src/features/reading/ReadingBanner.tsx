@@ -8,10 +8,9 @@ import { categoryByKey } from '../../../brand/categories';
 import { entryTopicLabel } from '../../lib/categoryCopy';
 import type { JournalEntry } from '../../state';
 import { colors, radius, shadow, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, IconCircle } from '../../ui';
+import { AppText, glassBlur, Icon, IconCircle } from '../../ui';
 import { DreamBanner } from '../../ui/art';
 import { entryImage } from '../../ui/art/images';
-import { glassBlur } from '../entry/scenery';
 
 const BANNER_HEIGHT = 196;
 

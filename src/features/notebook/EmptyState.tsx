@@ -3,8 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { colors, fonts, spacing, withAlpha } from '../../theme';
-import { AppText, Icon, IconCircle, PressableScale } from '../../ui';
-import { glass, glassBlur } from './glass';
+import { AppText, glass, glassBlur, Icon, IconCircle, PressableScale } from '../../ui';
 
 export interface EmptyStateProps {
   icon: string;

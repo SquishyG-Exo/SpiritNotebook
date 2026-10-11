@@ -4,9 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { colors, fonts, radius, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Icon, PressableScale } from '../../ui';
+import { AppText, Button, glassBlur, Icon, PressableScale } from '../../ui';
 import { EmptyState, TextLink } from '../notebook/EmptyState';
-import { glassBlur } from '../notebook/glass';
 import { SectionHeader } from '../notebook/SectionHeader';
 
 /** Before typing: example queries drawn from this journal, as tappable chips. */

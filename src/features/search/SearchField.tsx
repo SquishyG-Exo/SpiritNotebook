@@ -2,8 +2,7 @@ import type { RefObject } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { colors, fonts, radius, spacing, withAlpha } from '../../theme';
-import { Icon, PressableScale } from '../../ui';
-import { glass, glassBlur } from '../notebook/glass';
+import { glass, glassBlur, Icon, PressableScale } from '../../ui';
 
 export interface SearchFieldProps {
   value: string;
