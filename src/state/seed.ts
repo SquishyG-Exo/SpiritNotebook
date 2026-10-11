@@ -2,17 +2,17 @@ import { sampleEntries } from '../../brand/sample-entries';
 import { addDays, startOfDay } from '../lib/dates';
 import type { JournalEntry, SampleEntry } from './types';
 
-/** The most recent `MM-DD` on or before `now` (this year, else last year). */
-function lastOccurrence(monthDay: string, now: Date): Date {
+/** The most recent `MM-DD` at least `minDaysAgo` days before `now` (this year, else last year). */
+export function lastOccurrence(monthDay: string, now: Date, minDaysAgo = 0): Date {
   const [month, day] = monthDay.split('-').map(Number);
   const candidate = new Date(now.getFullYear(), (month ?? 1) - 1, day ?? 1);
-  if (candidate > startOfDay(now)) candidate.setFullYear(now.getFullYear() - 1);
+  if (candidate > addDays(startOfDay(now), -minDaysAgo)) candidate.setFullYear(now.getFullYear() - 1);
   return candidate;
 }
 
 function toEntry(sample: SampleEntry, now: Date): JournalEntry {
   const day = sample.monthDay
-    ? lastOccurrence(sample.monthDay, now)
+    ? lastOccurrence(sample.monthDay, now, sample.minDaysAgo)
     : addDays(startOfDay(now), -(sample.daysAgo ?? 0));
   const hasTime = Boolean(sample.time);
   if (sample.time) {

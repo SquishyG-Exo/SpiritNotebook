@@ -69,6 +69,8 @@ export interface SampleEntry {
   daysAgo?: number;
   /** Fixed calendar day 'MM-DD': resolves to its most recent occurrence on or before today. */
   monthDay?: string;
+  /** With `monthDay`: use last year's date while this year's is fewer than this many days ago (keeps related samples in order). */
+  minDaysAgo?: number;
   /** Local time of day, 'HH:mm'. Omit for a date-only entry. */
   time?: string;
   category: CategoryKey;

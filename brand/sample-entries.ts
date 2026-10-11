@@ -1,19 +1,55 @@
 /**
- * Preloaded demo journal. Dates are relative to "today" (daysAgo) so the
- * calendar always looks current. Each entry ships in every language.
+ * Preloaded demo journal. Dates are relative to "today" (daysAgo, or monthDay
+ * for a fixed calendar day) so the calendar always looks current. Each entry
+ * ships in every language. `title` is the reader's own title; the feather and
+ * the sea-door dream are left untitled on purpose, so the app falls back to
+ * the reading's title.
  *
- * One person's month, newest first: a flower shop she worked at for eleven
- * years closes, and the signs around it keep returning to the same images.
- * Recurring motifs (keep brand/insights.ts in sync when editing):
- *   light         sea-door, last-day, heron, lighthouse
- *   doors         sea-door, feather, last-day
- *   water         sea-door, heron, lighthouse
- *   the number 11 eleven, last-day
- *   endings       eleven, feather, last-day, heron
+ * One person's story, newest first. In May she dreams of a small blue boat
+ * (the client's own search example: "blue boat" / "barca azul"); some weeks
+ * ago she sees that same blue boat in a harbor in Maine; this month the flower
+ * shop she worked at for eleven years closes, and the signs around it keep
+ * returning to the same images.
+ *
+ * Recurring motifs: see the tally in brand/insights.ts (keep it in sync).
  */
 import type { SampleEntry } from '../src/state/types';
 
 export const sampleEntries: SampleEntry[] = [
+  {
+    id: 'sample-gratitude',
+    daysAgo: 0,
+    time: '08:10',
+    category: 'gratitude',
+    content: {
+      en: {
+        title: 'Morning gratitude',
+        text: 'Three small things this morning. The sunflowers I brought home from the shop on the last day are still standing tall on the kitchen table. My aunt’s lighthouse postcard is on the fridge now, right at eye level. And I drank my coffee on the back steps while the sky turned pink, with nowhere I had to be.',
+        reading: {
+          kind: 'reading',
+          language: 'en',
+          title: 'The Gifts of an Unhurried Morning',
+          interpretation:
+            'What a gentle way to begin the day. Sunflowers that came home with you from the shop and are still standing tall, as if they were not quite ready to say goodbye. A postcard placed right at eye level, so that someone’s love greets you every time you pass the fridge. And coffee on the back steps under a pink sky, with nowhere you had to be.\n\n' +
+            'None of these is big, and that is part of their beauty. Together they hold so much of what matters to you: the flowers you carried home, the people who think of you, and a morning that was all yours. Let yourself stay with this feeling a little longer.',
+          reflectionQuestion: 'How could you give yourself one more unhurried moment like this today?',
+        },
+      },
+      es: {
+        title: 'Gratitud de la mañana',
+        text: 'Tres cosas pequeñas esta mañana. Los girasoles que traje de la florería el último día siguen bien erguidos en la mesa de la cocina. La postal del faro que me mandó mi tía ya está en el refrigerador, a la altura de mis ojos. Y me tomé el café en los escalones de atrás mientras el cielo se ponía rosa, sin tener que ir a ningún lado.',
+        reading: {
+          kind: 'reading',
+          language: 'es',
+          title: 'Regalos de una mañana sin prisa',
+          interpretation:
+            'Así da gusto empezar el día. Unos girasoles que se vinieron contigo de la florería y siguen bien erguidos, como si todavía no estuvieran listos para despedirse. Una postal puesta justo a la altura de tus ojos, para que el cariño de alguien te salude cada vez que pasas por el refrigerador. Y un café en los escalones de atrás, bajo un cielo rosa, sin tener que ir a ningún lado.\n\n' +
+            'Ninguna de estas cosas es grande, y en eso está parte de su belleza. Juntas guardan mucho de lo que te importa: las flores que trajiste a casa, la gente que piensa en ti y una mañana que fue toda tuya. Date permiso para quedarte en esta sensación un ratito más.',
+          reflectionQuestion: '¿Cómo podrías regalarte hoy otro momento sin prisa como este?',
+        },
+      },
+    },
+  },
   {
     id: 'sample-lighthouse',
     daysAgo: 1,
@@ -21,6 +57,7 @@ export const sampleEntries: SampleEntry[] = [
     category: 'signs',
     content: {
       en: {
+        title: 'Three lighthouses',
         text: 'Lighthouses, three times today. A mug at the thrift store, the page I opened to at random in a library book, and tonight an unexpected postcard from my aunt in Maine: a lighthouse on a rocky shore, and on the back, “Saw this and thought of you.”',
         reading: {
           kind: 'reading',
@@ -33,6 +70,7 @@ export const sampleEntries: SampleEntry[] = [
         },
       },
       es: {
+        title: 'Tres faros',
         text: 'Faros, tres veces hoy. Una taza en una tienda de segunda mano, la página que abrí al azar en un libro de la biblioteca y, esta noche, una postal inesperada de mi tía desde Maine: un faro sobre una costa rocosa, y atrás decía “Vi esto y me acordé de ti”.',
         reading: {
           kind: 'reading',
@@ -51,8 +89,10 @@ export const sampleEntries: SampleEntry[] = [
     daysAgo: 3,
     time: '07:40',
     category: 'animals',
+    favorite: true,
     content: {
       en: {
+        title: 'Heron at the lake',
         text: 'First week without the shop, and I still wake up at five. This morning I walked down to the lake before sunrise, and a great blue heron was standing in the shallows, so still I thought it was a branch until it turned its head toward me. We watched each other until the sun came up.',
         reading: {
           kind: 'reading',
@@ -65,6 +105,7 @@ export const sampleEntries: SampleEntry[] = [
         },
       },
       es: {
+        title: 'La garza del lago',
         text: 'Primera semana sin la florería y sigo despertándome a las cinco. Esta mañana bajé al lago antes de que amaneciera, y había una garza grande, gris azulada, parada en la orilla con las patas en el agua, tan quieta que pensé que era una rama, hasta que volteó la cabeza hacia mí. Nos quedamos mirándonos hasta que salió el sol.',
         reading: {
           kind: 'reading',
@@ -86,6 +127,7 @@ export const sampleEntries: SampleEntry[] = [
     subcategory: 'endings',
     content: {
       en: {
+        title: 'Last day at the shop',
         text: 'Last day at the flower shop. After eleven years I turned the little sign on the door to CLOSED for the last time, and the evening light fell across the empty buckets like it was any other day. I cried in the car, but I also felt strangely light.',
         reading: {
           kind: 'reading',
@@ -99,6 +141,7 @@ export const sampleEntries: SampleEntry[] = [
         note: 'The side facing me says Open. I don’t know to what yet, and for once that feels okay.',
       },
       es: {
+        title: 'Último día en la florería',
         text: 'Último día en la florería. Después de once años volteé el letrerito de la puerta a CERRADO por última vez, y la luz del atardecer caía sobre las cubetas vacías como cualquier otro día. Lloré en el carro, pero también me sentí extrañamente ligera.',
         reading: {
           kind: 'reading',
@@ -156,6 +199,7 @@ export const sampleEntries: SampleEntry[] = [
     category: 'numbers',
     content: {
       en: {
+        title: '11:11 everywhere',
         text: '11:11 on the microwave last night, 11:11 on the dashboard this morning, and just now my lunch came to exactly $11.11. All in the same week Rosa told us she’s closing the flower shop, where I’ve worked for eleven years. I’m half laughing and half paying attention.',
         reading: {
           kind: 'reading',
@@ -169,6 +213,7 @@ export const sampleEntries: SampleEntry[] = [
         },
       },
       es: {
+        title: '11:11 por todas partes',
         text: '11:11 en el microondas anoche, 11:11 en el reloj del carro esta mañana, y hace un rato el almuerzo me costó exactamente $11.11. Todo en la misma semana en que Rosa nos dijo que va a cerrar la florería, donde llevo once años trabajando. Una parte de mí se ríe y la otra presta mucha atención.',
         reading: {
           kind: 'reading',
@@ -214,6 +259,77 @@ export const sampleEntries: SampleEntry[] = [
           reflectionQuestion: '¿De quién sigues esperando permiso, y qué cambiaría si te lo dieras tú?',
         },
         note: 'Mi abuela nunca le pidió permiso a nadie para nada. Creo que llevo tiempo esperando que alguien me diga que está bien querer algo nuevo.',
+      },
+    },
+  },
+  {
+    id: 'sample-saw-blue-boat',
+    daysAgo: 45,
+    category: 'signs',
+    content: {
+      en: {
+        title: 'Saw a blue boat',
+        text: 'A few days in Maine with my aunt. This morning, walking along the harbor, I saw a little blue boat tied up at the dock, rocking gently, the exact same blue as the boat in my dream, the one where I felt so light and free. I stood there so long that a fisherman asked if I was lost. I wasn’t. I just didn’t want to forget it.',
+        reading: {
+          kind: 'reading',
+          language: 'en',
+          title: 'The Same Blue',
+          interpretation:
+            'After visiting you in a dream, the boat found you in daylight: tied to a dock in a harbor you were only passing through, painted the exact blue you remembered. Out of every boat in that harbor, this was the one that stopped you. When an image from the night turns up in the waking world like this, it is the kind of everyday sign that asks for a second look.\n\n' +
+            'In your dream, a boat of that same blue held you while you felt light and free. Here it was resting, tied up and rocking gently, as if it had been waiting for you to walk by. James Redfield wrote about coincidences as small signposts that invite our attention, and you gave this one yours: you stood still long enough for a stranger to wonder whether you were lost. You were not lost. You were noticing. Perhaps the boat came to remind you that the lightness you felt in that dream is still yours to return to.',
+          reflectionQuestion: 'Where in your everyday life could you make a little room for that lightness?',
+        },
+      },
+      es: {
+        title: 'Vi una barca azul',
+        text: 'Unos días en Maine con mi tía. Esta mañana, caminando por el puerto, vi una pequeña barca azul amarrada al muelle, meciéndose despacio, del mismo azul exacto que la barca de mi sueño, ese en el que me sentía tan ligera y tan libre. Me quedé mirándola tanto rato que un pescador me preguntó si estaba perdida. No lo estaba. Solo quería grabármelo bien.',
+        reading: {
+          kind: 'reading',
+          language: 'es',
+          title: 'El mismo azul',
+          interpretation:
+            'Después de visitarte en un sueño, la barca te encontró a plena luz del día: amarrada a un muelle en un puerto por el que solo estabas de paso, pintada del mismo azul que recordabas. De todas las barcas de ese puerto, fue esa la que te detuvo. Cuando una imagen de la noche aparece así en el mundo despierto, es el tipo de señal cotidiana que pide una segunda mirada.\n\n' +
+            'En tu sueño, una barca de ese mismo azul te sostenía mientras te sentías ligera y libre. Aquí estaba en reposo, amarrada y meciéndose despacio, como si te hubiera estado esperando. James Redfield escribió sobre las coincidencias como pequeñas señales en el camino que nos invitan a prestar atención, y tú le diste a esta toda la tuya: te quedaste quieta tanto rato que un desconocido pensó que estabas perdida. No estabas perdida. Estabas observando. Quizá la barca vino a recordarte que esa ligereza que sentiste en el sueño sigue siendo tuya, y que puedes volver a ella.',
+          reflectionQuestion: '¿En qué parte de tu vida diaria podrías hacerle un poco de espacio a esa ligereza?',
+        },
+      },
+    },
+  },
+  {
+    id: 'sample-blue-boat',
+    monthDay: '05-17',
+    // Always before 'sample-saw-blue-boat' (45 days ago), whatever year the demo runs in.
+    minDaysAgo: 60,
+    time: '06:40',
+    category: 'dreams',
+    hasPhoto: true,
+    favorite: true,
+    content: {
+      en: {
+        title: 'Blue boat',
+        text: 'I dreamed I was sitting in a small blue boat on clear, calm water, so clear I could see pebbles on the bottom. There were no oars and I wasn’t steering, but I wasn’t afraid. The sun was going down, the water turned gold and pink, and I felt light and free, lighter than I’ve felt in years.',
+        reading: {
+          kind: 'reading',
+          language: 'en',
+          title: 'A Boat Without Oars',
+          interpretation:
+            'Water in dreams often mirrors the inner world, and yours was calm and clear enough to see all the way to the bottom. That kind of clarity is worth noticing: nothing murky, nothing hidden, just a surface you could trust. And you were not swimming or struggling to stay afloat. You were held, in a small boat the color of sky and open sea.\n\n' +
+            'There were no oars and you were not steering, yet there was no fear. That may be the heart of the dream: a taste of what it feels like to stop pushing and let yourself be carried for a while. Robert A. Johnson, who wrote beautifully about dreamwork, suggested meeting each dream image as a part of yourself, so you might ask which part of you is this little blue boat, buoyant and steady, able to float without effort. Keep that lightness close. Sometimes a dream lets us feel something before our waking life has found room for it.',
+          reflectionQuestion: 'What would it feel like to stop steering for a while and let something carry you?',
+        },
+      },
+      es: {
+        title: 'La barca azul',
+        text: 'Soñé que iba sentada en una pequeña barca azul sobre un agua clara y tranquila, tan clara que se veían las piedritas del fondo. No había remos y nadie la dirigía, pero no tenía miedo. El sol se estaba poniendo, el agua se volvió dorada y rosa, y me sentí ligera y libre, más ligera que en muchos años.',
+        reading: {
+          kind: 'reading',
+          language: 'es',
+          title: 'Una barca sin remos',
+          interpretation:
+            'En los sueños, el agua suele reflejar el mundo interior, y la tuya estaba tan tranquila y tan clara que se veía hasta el fondo. Vale la pena fijarse en esa claridad: nada turbio, nada escondido, solo una superficie en la que podías confiar. Y no estabas nadando ni luchando por mantenerte a flote. Algo te sostenía: una pequeña barca del color del cielo y del mar abierto.\n\n' +
+            'No había remos y nadie la dirigía, y aun así no sentías miedo. Quizá ese sea el corazón del sueño: probar lo que se siente dejar de empujar y permitir que algo te lleve por un rato. Robert A. Johnson, que escribió con mucha belleza sobre el trabajo con los sueños, proponía mirar cada imagen de un sueño como una parte de uno mismo; así que podrías preguntarte qué parte de ti es esta barquita azul, ligera y firme, capaz de flotar sin esfuerzo. Atesora esa ligereza. A veces un sueño nos deja sentir algo antes de que el día a día le haga espacio.',
+          reflectionQuestion: '¿Cómo se sentiría soltar el timón por un rato y dejar que algo te lleve?',
+        },
       },
     },
   },

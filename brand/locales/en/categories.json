@@ -1,101 +1,101 @@
 {
   "dreams": {
     "label": "Dreams",
-    "bullets": ["Record your dream", "Get a personalized interpretation", "Save and track patterns"],
-    "placeholder": "Describe your dream as you remember it, even the strange parts…"
+    "subtitle": "Explore dream meanings",
+    "description": "Record and explore the spiritual meanings of your dreams.",
+    "bullets": [
+      "Where you were and what you saw",
+      "Who appeared, and what they did",
+      "How you felt when you woke up"
+    ],
+    "placeholder": "Last night I dreamed I was flying over the town where I grew up…",
+    "titlePlaceholder": "e.g. Blue boat"
   },
   "numbers": {
     "label": "Numbers",
+    "subtitle": "Angel numbers & sequences",
+    "description": "Discover the messages behind repeating or meaningful numbers.",
     "bullets": [
-      "Enter repeating numbers",
-      "Explore their spiritual meaning",
-      "See what they may be guiding you toward"
+      "The number, exactly as you saw it",
+      "Where it showed up: a clock, a receipt, a license plate",
+      "What was on your mind at that moment"
     ],
-    "placeholder": "Write down the number you keep seeing and where it showed up: a clock, a receipt, a license plate…"
+    "placeholder": "I keep seeing 444: on the clock, on receipts, on license plates…",
+    "titlePlaceholder": "e.g. 444 on the clock"
   },
   "signs": {
-    "label": "Signs & Symbols",
+    "label": "Everyday Signs",
+    "subtitle": "Coincidences & omens",
+    "description": "Find meaning in everyday coincidences, objects, and signs around you.",
     "bullets": [
-      "Add a photo or a description",
-      "Find meaning and guidance",
-      "Butterflies, feathers, stones and more"
+      "What you noticed, found, or felt",
+      "Where you were and what was on your mind",
+      "Any saying or folk belief it reminds you of"
     ],
-    "placeholder": "Describe what you found or noticed, where it was, and what was on your mind at the time…"
+    "placeholder": "My left palm has been itching all morning…",
+    "titlePlaceholder": "e.g. Itchy left palm"
+  },
+  "animals": {
+    "label": "Animals",
+    "subtitle": "Messages they bring",
+    "description": "Explore the spiritual meaning of animals and the messages they bring.",
+    "bullets": [
+      "Which animal it was, and where you saw it",
+      "What it was doing, and for how long",
+      "How it felt to cross paths with it"
+    ],
+    "placeholder": "A bright red cardinal landed on my windowsill and just stayed there, watching me…",
+    "titlePlaceholder": "e.g. Cardinal at the window"
   },
   "life": {
     "label": "Life Situations",
     "title": "Life Situations",
+    "subtitle": "Guidance for your journey",
+    "description": "Guidance and insights for real-life situations and challenges.",
     "intro": "Choose what is on your heart, then tell the notebook what happened.",
     "bullets": [
-      "Love, family, work and more",
-      "Share what happened in your own words",
-      "Spiritual insight for real-life moments"
+      "What is happening, in your own words",
+      "Who is involved, and what matters most to you",
+      "How it has been sitting with you lately"
     ],
-    "placeholder": "Tell the notebook what happened, and how it has been sitting with you…"
-  },
-  "people": {
-    "label": "People",
-    "bullets": [
-      "Interpret meaningful encounters",
-      "Reflect on your relationships",
-      "Past loves, new people, repeated connections"
-    ],
-    "placeholder": "Describe the encounter: who it was, where you were, and what you felt in that moment…"
-  },
-  "places": {
-    "label": "Places & Travel",
-    "bullets": [
-      "The meaning of places",
-      "The spiritual significance of travel",
-      "New beginnings and transitions"
-    ],
-    "placeholder": "Describe the place, how you came to be there, and what it stirred in you…"
+    "placeholder": "Something in my life is shifting, and I keep wondering what it is asking of me…",
+    "titlePlaceholder": "e.g. A new chapter"
   },
   "words": {
     "label": "Repeated Words",
+    "subtitle": "Words you keep hearing",
+    "description": "Discover the meaning behind words you keep hearing or seeing.",
     "bullets": [
-      "Words or phrases that keep returning",
-      "Explore their meaning and message",
-      "Notice when and where they appear"
+      "The word or phrase, exactly as it came to you",
+      "Where it showed up: a song, a sign, a conversation",
+      "What it stirs in you"
     ],
-    "placeholder": "Write down the word or phrase, and where you have heard or read it lately…"
-  },
-  "animals": {
-    "label": "Animals",
-    "bullets": ["Discover spiritual meanings", "Receive messages and guidance", "Explore different animals"],
-    "placeholder": "Describe the animal, what it was doing, and how it felt to cross paths with it…"
-  },
-  "objects": {
-    "label": "Objects",
-    "bullets": [
-      "Found objects, gifts and heirlooms",
-      "Coins, keys, jewelry and more",
-      "Discover what they may symbolize"
-    ],
-    "placeholder": "Describe the object, where it came from, and why it caught your attention…"
-  },
-  "body": {
-    "label": "Body Signs",
-    "bullets": [
-      "Spiritual perspectives on body sensations",
-      "Emotional and energetic meanings",
-      "Not a medical opinion"
-    ],
-    "placeholder": "Describe the sensation, where you felt it, and what was happening around you at the time…"
+    "placeholder": "The word “patience” keeps finding me: in a song, on a sign, in a friend’s text…",
+    "titlePlaceholder": "e.g. Patience, again"
   },
   "questions": {
     "label": "Spiritual Questions",
+    "subtitle": "Ask & explore",
+    "description": "Ask questions and receive spiritual insights and guidance.",
     "bullets": [
-      "Ask any spiritual question",
-      "Receive intuitive guidance and insights",
-      "Support for decisions and self-discovery"
+      "Your question, in your own words",
+      "What has you wondering about it now",
+      "What your heart already senses"
     ],
-    "placeholder": "Ask the question that is on your heart, in whatever words come…"
+    "placeholder": "I’ve been wondering what my heart is really asking of me right now…",
+    "titlePlaceholder": "e.g. What is my purpose?"
   },
-  "synchronicities": {
-    "label": "Synchronicities",
-    "bullets": ["Record meaningful coincidences", "See how the threads connect", "Track them over time"],
-    "placeholder": "Describe the coincidence, and the moment it made you stop and wonder…"
+  "gratitude": {
+    "label": "Daily Gratitude",
+    "subtitle": "Notice life’s blessings",
+    "description": "A space to write what you are grateful for and notice life’s blessings.",
+    "bullets": [
+      "Three small things from today",
+      "Someone who made your day a little lighter",
+      "A moment you would like to remember"
+    ],
+    "placeholder": "Three small things I’m grateful for today…",
+    "titlePlaceholder": "e.g. Small joys"
   },
   "situations": {
     "love": {
@@ -124,7 +124,7 @@
     },
     "home": {
       "label": "Home & Changes",
-      "placeholder": "Describe the change at home, whether it is a move, a new room or one that suddenly feels empty…"
+      "placeholder": "Describe the change at home: a move, a new room, or one that suddenly feels empty…"
     },
     "travel": {
       "label": "Travel & New Beginnings",
@@ -157,6 +157,28 @@
     "unexplained": {
       "label": "Something I Can’t Explain",
       "placeholder": "Describe what happened, even if it doesn’t make sense yet…"
+    }
+  },
+  "features": {
+    "whispers": {
+      "label": "Whispers of Wisdom",
+      "subtitle": "Uplifting messages",
+      "description": "Receive a random uplifting message, reflection, or word of guidance for your journey."
+    },
+    "calendar": {
+      "label": "Calendar",
+      "subtitle": "Relive your journey",
+      "description": "View and add all your entries by date. See what you recorded and relive your journey."
+    },
+    "search": {
+      "label": "Search",
+      "subtitle": "Find past dreams & signs",
+      "description": "Find past entries, dreams, signs, numbers, words, and more."
+    },
+    "saved": {
+      "label": "Saved",
+      "subtitle": "Favorites in one place",
+      "description": "Keep your favorite entries, meanings, and insights in one place."
     }
   }
 }
