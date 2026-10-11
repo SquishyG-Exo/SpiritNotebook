@@ -4,77 +4,97 @@
     <meta charset="utf-8" />
     <style>
       html, body { margin: 0; background: transparent; }
-      #stage { position: absolute; left: 0; top: 0; line-height: 0; }
-      svg { display: block; }
+      #stage { position: absolute; left: 0; top: 0; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      #lotus { position: absolute; display: block; }
     </style>
   </head>
   <body>
+    <!-- White silhouette for Android's themed icon: petals become solid, the faint glow drops out. -->
+    <svg width="0" height="0" style="position: absolute">
+      <filter id="mono" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 3 -1.2" />
+      </filter>
+    </svg>
     <div id="stage"></div>
     <script>
-      // Brand icon: dusk sky over still water, a low sun, and a lotus of light.
-      // ?variant=rounded|square|glyph|bg|mono  &size=N
+      // Brand icon: the app's watercolor lotus (assets/art/lotus.webp) over its sunset sky
+      // (assets/art/sky-home.webp), with a soft warm glow behind the flower, as on Home.
+      // ?variant=rounded|square|maskable|favicon|glyph|splash|bg|mono  &size=N
       const params = new URLSearchParams(location.search);
       const size = Number(params.get('size') || 512);
       const variant = params.get('variant') || 'rounded';
 
-      const sky = `
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#F9D6BC" />
-          <stop offset="0.45" stop-color="#E7A9C3" />
-          <stop offset="0.62" stop-color="#B597D8" />
-          <stop offset="1" stop-color="#2B2764" />
-        </linearGradient>
-        <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stop-color="#FFF6E8" />
-          <stop offset="0.55" stop-color="#FFE0BF" stop-opacity="0.95" />
-          <stop offset="1" stop-color="#FFC9A6" stop-opacity="0" />
-        </radialGradient>
-        <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFFFFF" />
-          <stop offset="1" stop-color="#F6C9DA" />
-        </linearGradient>
-        <linearGradient id="reflect" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFE3CF" stop-opacity="0.55" />
-          <stop offset="1" stop-color="#FFE3CF" stop-opacity="0" />
-        </linearGradient>
-        <clipPath id="clip"><rect width="100" height="100" rx="${variant === 'rounded' ? 22 : 0}" /></clipPath>`;
+      const SKY = { src: '../../assets/art/sky-home.webp', width: 1080, height: 1920 };
+      const LOTUS = { src: '../../assets/art/lotus.webp', aspect: 600 / 707 };
 
-      // Lotus: seven teardrop petals fanned from a base sitting on the water line (50, 72).
-      function lotus(scale = 1, fill = 'url(#petal)', stroke = 'rgba(200,105,138,0.28)', shadow = true) {
-        const petal = (rot, len, w) =>
-          `<path d="M0 0 C ${w} ${-len * 0.25}, ${w} ${-len * 0.75}, 0 ${-len} C ${-w} ${-len * 0.75}, ${-w} ${-len * 0.25}, 0 0 Z" fill="${fill}" stroke="${stroke}" stroke-width="0.5" transform="rotate(${rot})" />`;
-        return `<g transform="translate(50 72) scale(${scale})">
-          ${shadow ? '<ellipse cx="0" cy="2.5" rx="17" ry="3" fill="#2B2764" opacity="0.35" />' : ''}
-          <g opacity="0.82">${petal(-62, 22, 6.5)}${petal(62, 22, 6.5)}${petal(0, 31, 7.5)}</g>
-          <g>${petal(-38, 26, 7)}${petal(38, 26, 7)}${petal(-13, 28.5, 7)}${petal(13, 28.5, 7)}</g>
-        </g>`;
+      // Per variant: background, corner radius, lotus height and glow (fractions of the icon size).
+      // Maskable and Android foreground keep the flower inside the central safe zone.
+      const VARIANTS = {
+        rounded: { sky: true, radius: 0.225, lotus: 0.66, glow: 0.95 },
+        square: { sky: true, radius: 0, lotus: 0.66, glow: 0.95 },
+        maskable: { sky: true, radius: 0, lotus: 0.56, glow: 0.85 },
+        favicon: { sky: true, radius: 0.2, lotus: 0.86, glow: 1.15, zoom: 1.4 },
+        glyph: { sky: false, radius: 0, lotus: 0.56, glow: 0.8 },
+        splash: { sky: false, radius: 0, lotus: 0.92, glow: 0 },
+        bg: { sky: true, radius: 0, lotus: 0, glow: 0 },
+        mono: { sky: false, radius: 0, lotus: 0.58, glow: 0, mono: true },
+      };
+      const v = VARIANTS[variant] || VARIANTS.rounded;
+
+      const stage = document.getElementById('stage');
+      stage.style.width = `${size}px`;
+      stage.style.height = `${size}px`;
+      stage.style.borderRadius = `${v.radius * size}px`;
+
+      if (v.sky) {
+        // A square from the upper-middle of the painting: soft clouds above, the warm glow low behind the flower.
+        const zoom = v.zoom || 1.15;
+        const scale = (size * zoom) / SKY.width;
+        const sunY = 1150; // the sun's glow in the painting (px)
+        const sky = document.createElement('div');
+        sky.className = 'layer';
+        sky.style.backgroundImage = `url(${SKY.src})`;
+        sky.style.backgroundSize = `${SKY.width * scale}px ${SKY.height * scale}px`;
+        sky.style.backgroundPosition = `${-(SKY.width * scale - size) / 2}px ${-(sunY * scale - size * 0.72)}px`;
+        stage.appendChild(sky);
+        // A soft plum vignette gives the pale painting some presence on light wallpapers.
+        const vignette = document.createElement('div');
+        vignette.className = 'layer';
+        vignette.style.background =
+          'radial-gradient(circle at 50% 46%, rgba(91,56,118,0) 48%, rgba(91,56,118,0.10) 78%, rgba(91,56,118,0.2) 100%)';
+        stage.appendChild(vignette);
       }
 
-      let body = '';
-      if (variant === 'rounded' || variant === 'square' || variant === 'bg') {
-        body += `<rect width="100" height="100" fill="url(#sky)" />`;
+      if (v.glow) {
+        const glow = document.createElement('div');
+        glow.className = 'layer';
+        glow.style.background = `radial-gradient(circle at 50% 50%, rgba(255,249,245,${0.92 * Math.min(1, v.glow)}) 0%, rgba(252,233,220,0.62) ${22 * v.glow}%, rgba(246,200,168,0.22) ${42 * v.glow}%, rgba(246,200,168,0) ${62 * v.glow}%)`;
+        stage.appendChild(glow);
       }
-      if (variant !== 'bg') {
-        const mono = variant === 'mono';
-        if (!mono) {
-          body += `<circle cx="50" cy="52" r="26" fill="url(#sun)" />
-                   <circle cx="50" cy="52" r="9" fill="#FFF3E2" />
-                   <rect x="0" y="57" width="100" height="1.2" fill="#FFFFFF" opacity="0.35" />
-                   <rect x="36" y="58" width="28" height="30" fill="url(#reflect)" />
-                   <g opacity="0.35" stroke="#FFFFFF" stroke-width="0.8" stroke-linecap="round">
-                     <line x1="30" y1="82" x2="70" y2="82" /><line x1="38" y1="88" x2="62" y2="88" /><line x1="44" y1="94" x2="56" y2="94" />
-                   </g>`;
-          body += lotus(variant === 'glyph' ? 1.35 : 1);
-        } else {
-          body += lotus(1.35, '#FFFFFF', 'none', false);
-        }
+
+      if (v.lotus) {
+        const h = v.lotus * size;
+        const w = h * LOTUS.aspect;
+        const img = document.createElement('img');
+        img.id = 'lotus';
+        img.src = LOTUS.src;
+        img.style.height = `${h}px`;
+        img.style.width = `${w}px`;
+        img.style.left = `${(size - w) / 2}px`;
+        img.style.top = `${(size - h) / 2}px`;
+        if (v.mono) img.style.filter = 'url(#mono)';
+        stage.appendChild(img);
       }
-      // Glyph variants sit on a transparent background, sized for Android's safe zone.
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">
-        <defs>${sky}</defs>
-        <g clip-path="url(#clip)">${body}</g>
-      </svg>`;
-      document.getElementById('stage').innerHTML = svg;
+
+      // make-icons.cjs waits for this before taking the shot.
+      Promise.all(
+        [...document.images].map((img) => (img.complete ? Promise.resolve() : new Promise((r) => (img.onload = img.onerror = r)))),
+      ).then(() => {
+        const probe = new Image();
+        probe.onload = probe.onerror = () => (window.__ready = true);
+        probe.src = SKY.src;
+      });
     </script>
   </body>
 </html>

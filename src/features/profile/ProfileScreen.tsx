@@ -1,180 +1,186 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSettings } from '../../state';
-import { colors, fonts, gradients, layout, spacing } from '../../theme';
-import { AppText, Card, Icon, IconCircle, Screen, type IconName } from '../../ui';
-import { CornerButterfly, DreamBanner, EnergyField, Sparkles, type SparkleSpec } from '../../ui/art';
+import { colors, fonts, gradients, layout, spacing, withAlpha } from '../../theme';
+import { AppText, goBackOrHome, Icon, type IconName } from '../../ui';
+import { Monogram, SkyBackdrop } from '../../ui/art';
+import { GLASS_BUTTON_SIZE, GlassIconButton } from '../home/GlassIconButton';
+import { GlassCard, SectionTitle } from './GlassCard';
 import { LabCard } from './LabCard';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ResetDemoButton } from './ResetDemoButton';
 
-const AVATAR = 72;
-/** Cover art behind the title; the identity card overlaps its bottom edge like a profile cover. */
-const COVER_HEIGHT = 150;
-const COVER_OVERLAP = 36;
-/** Clear of the title (top left) and the corner butterfly (top right). */
-const COVER_SPARKLES: SparkleSpec[] = [
-  { x: 0.52, y: 0.14, size: 9, delay: 0 },
-  { x: 0.72, y: 0.46, size: 11, delay: 900 },
-  { x: 0.16, y: 0.56, size: 8, delay: 1600 },
-];
-/** Faint rose glow behind the "What Spirit Notebook is" card; it shows in the gutters. */
-const ABOUT_GLOW = 560;
+const AVATAR = 64;
+const BENEFIT_DISC = 42;
+const MONOGRAM_SIZE = 220;
 const VERSION = '0.1';
 
-const PILLARS: readonly { key: 'notice' | 'reflect' | 'understand' | 'grow'; icon: IconName }[] = [
-  { key: 'notice', icon: 'Eye' },
-  { key: 'reflect', icon: 'Heart' },
-  { key: 'understand', icon: 'Lightbulb' },
-  { key: 'grow', icon: 'Sprout' },
+/** The five benefits from the client's welcome screen, in her order. */
+const BENEFITS: readonly { key: 'decode' | 'clarity' | 'path' | 'journal' | 'connected'; icon: IconName }[] = [
+  { key: 'decode', icon: 'Moon' },
+  { key: 'clarity', icon: 'Heart' },
+  { key: 'path', icon: 'Sun' },
+  { key: 'journal', icon: 'Feather' },
+  { key: 'connected', icon: 'Star' },
 ];
 
+const PILLARS = ['notice', 'reflect', 'understand', 'grow'] as const;
+
+/** Profile and settings (a stack screen opened from Home's gear and avatar). */
 export function ProfileScreen() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const { language, setLanguage } = useSettings();
-
   const name = t('profile.guestName');
-  const rawBullets: unknown = t('profile.aboutBullets', { returnObjects: true });
-  const bullets = Array.isArray(rawBullets) ? rawBullets.filter((b): b is string => typeof b === 'string') : [];
 
   return (
-    <Screen scroll>
-      <DreamBanner
-        variant="dawn"
-        height={COVER_HEIGHT}
-        rounded={false}
-        butterflies="none"
-        sparkles={false}
-        style={styles.cover}
-        contentStyle={styles.coverContent}>
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <Sparkles sparkles={COVER_SPARKLES} />
-          <CornerButterfly corner="top-right" inset={16} size={48} rotation={-14} />
-        </View>
-        <View style={styles.header}>
-          <AppText variant="title" accessibilityRole="header">
+    <View style={styles.root}>
+      <SkyBackdrop scene="dusk">
+        <Monogram size={MONOGRAM_SIZE} opacity={0.13} style={[styles.monogram, { top: insets.top + 4 }]} />
+      </SkyBackdrop>
+
+      <ScrollView
+        style={styles.fill}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: insets.top + spacing.sm, paddingBottom: insets.bottom + spacing.xxxl },
+        ]}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.topBar}>
+          <GlassIconButton
+            icon="ChevronLeft"
+            label={t('common.actions.back')}
+            onPress={goBackOrHome}
+            iconOffset={-2}
+            testID="profile-back"
+          />
+          <AppText variant="heading" color={colors.plum} align="center" accessibilityRole="header" style={styles.title}>
             {t('profile.title')}
           </AppText>
+          <View style={styles.topBarSpacer} />
         </View>
-      </DreamBanner>
 
-      <View style={styles.stack}>
-        <Reveal order={0}>
-          <Card style={styles.identity}>
-            <View style={styles.avatar} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-              <LinearGradient
-                colors={gradients.dusk}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={StyleSheet.absoluteFill}
-              />
-              <AppText style={styles.initial}>{name.charAt(0).toLocaleUpperCase()}</AppText>
-            </View>
-            <View style={styles.identityText}>
-              <AppText variant="heading">{name}</AppText>
+        <View style={styles.stack}>
+          <Reveal order={0}>
+            <GlassCard style={styles.identity}>
+              <View style={styles.avatar} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+                <LinearGradient
+                  colors={gradients.dusk}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={StyleSheet.absoluteFill}
+                />
+                <AppText style={styles.initial}>{name.charAt(0).toLocaleUpperCase()}</AppText>
+              </View>
+              <View style={styles.identityText}>
+                <AppText variant="heading" color={colors.plum}>
+                  {name}
+                </AppText>
+                <AppText variant="small" color={colors.muted}>
+                  {t('profile.guestSubtitle')}
+                </AppText>
+              </View>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={1}>
+            <GlassCard style={styles.card}>
+              <SectionTitle icon="Languages" title={t('common.language.label')} />
+              <LanguageSwitch value={language} onChange={setLanguage} />
               <AppText variant="small" color={colors.muted}>
-                {t('profile.guestSubtitle')}
+                {t('profile.languageHint')}
+              </AppText>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={2}>
+            <GlassCard style={styles.card}>
+              <AppText variant="heading" color={colors.plum} accessibilityRole="header">
+                {t('profile.aboutTitle')}
+              </AppText>
+              <View style={styles.benefits}>
+                {BENEFITS.map((benefit) => (
+                  <View key={benefit.key} style={styles.benefit}>
+                    <View style={styles.benefitDisc}>
+                      <Icon name={benefit.icon} size={20} color={colors.gold} strokeWidth={1.6} />
+                    </View>
+                    <View style={styles.benefitText}>
+                      <AppText style={styles.benefitTitle}>{t(`profile.benefits.${benefit.key}.title`)}</AppText>
+                      <AppText variant="small" color={colors.muted}>
+                        {t(`profile.benefits.${benefit.key}.body`)}
+                      </AppText>
+                    </View>
+                  </View>
+                ))}
+              </View>
+              <View style={styles.divider} />
+              <View style={styles.pillars}>
+                {PILLARS.map((pillar, index) => (
+                  <Fragment key={pillar}>
+                    {index > 0 ? <View style={styles.pillarDot} /> : null}
+                    <AppText variant="overline" color={colors.goldDeep} style={styles.pillar}>
+                      {t(`common.pillars.${pillar}`)}
+                    </AppText>
+                  </Fragment>
+                ))}
+              </View>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={3}>
+            <LabCard />
+          </Reveal>
+
+          <Reveal order={4}>
+            <GlassCard style={styles.card}>
+              <SectionTitle icon="CircleAlert" title={t('common.disclaimer.title')} />
+              <AppText variant="small" color={colors.muted}>
+                {t('common.disclaimer.body')}
+              </AppText>
+            </GlassCard>
+          </Reveal>
+
+          <Reveal order={5}>
+            <View style={styles.footer}>
+              <ResetDemoButton />
+              <AppText variant="caption" color={colors.inkSoft} align="center">
+                {t('profile.version', { version: VERSION })}
               </AppText>
             </View>
-          </Card>
-        </Reveal>
-
-        {/* Above the About glow, which would otherwise paint over its lower edge. */}
-        <Reveal order={1} style={styles.raised}>
-          <Card style={styles.card}>
-            <View style={styles.labelRow}>
-              <Icon name="Languages" size={18} color={colors.lavenderDeep} />
-              <AppText variant="subheading">{t('common.language.label')}</AppText>
-            </View>
-            <LanguageSwitch value={language} onChange={setLanguage} />
-            <AppText variant="small" color={colors.muted}>
-              {t('profile.languageHint')}
-            </AppText>
-          </Card>
-        </Reveal>
-
-        <Reveal order={2} style={styles.raised}>
-          <LabCard />
-        </Reveal>
-
-        <Reveal order={2}>
-          <EnergyField size={ABOUT_GLOW} color={colors.rose} intensity={0.34} animated={false} style={styles.aboutGlow} />
-          <Card style={styles.card}>
-            <AppText variant="heading" accessibilityRole="header">
-              {t('profile.aboutTitle')}
-            </AppText>
-            <View style={styles.pillars}>
-              {PILLARS.map((pillar) => (
-                <View key={pillar.key} style={styles.pillar}>
-                  <IconCircle name={pillar.icon} size={48} tint={colors.roseSoft} color={colors.roseDeep} />
-                  <AppText variant="caption" color={colors.inkSoft} align="center" numberOfLines={1} style={styles.pillarLabel}>
-                    {t(`common.pillars.${pillar.key}`)}
-                  </AppText>
-                </View>
-              ))}
-            </View>
-            <View style={styles.divider} />
-            <View style={styles.bullets}>
-              {bullets.map((bullet) => (
-                <View key={bullet} style={styles.bullet}>
-                  <View style={styles.check}>
-                    <Icon name="Check" size={13} color={colors.roseDeep} strokeWidth={2.5} />
-                  </View>
-                  <AppText variant="body" color={colors.inkSoft} style={styles.bulletText}>
-                    {bullet}
-                  </AppText>
-                </View>
-              ))}
-            </View>
-          </Card>
-        </Reveal>
-
-        <Reveal order={3}>
-          <Card tint={colors.surfaceTint} elevated={false} style={styles.card}>
-            <View style={styles.labelRow}>
-              <Icon name="CircleAlert" size={18} color={colors.roseDeep} />
-              <AppText variant="subheading">{t('common.disclaimer.title')}</AppText>
-            </View>
-            <AppText variant="small" color={colors.muted}>
-              {t('common.disclaimer.body')}
-            </AppText>
-          </Card>
-        </Reveal>
-
-        <Reveal order={4}>
-          <View style={styles.footer}>
-            <ResetDemoButton />
-            <AppText variant="caption" color={colors.muted} align="center">
-              {t('profile.version', { version: VERSION })}
-            </AppText>
-          </View>
-        </Reveal>
-      </View>
-    </Screen>
+          </Reveal>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 function Reveal({ order, children, style }: { order: number; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   return (
-    <Animated.View entering={FadeInUp.duration(440).delay(50 + order * 70)} style={style}>
+    <Animated.View entering={FadeInUp.duration(440).delay(60 + order * 70)} style={style}>
       {children}
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  // Full-bleed: undo the Screen gutter.
-  cover: { marginHorizontal: -layout.gutter },
-  coverContent: { justifyContent: 'flex-start' },
-  header: { paddingTop: spacing.xl, paddingHorizontal: layout.gutter },
-  // The identity card rides up over the cover's faded bottom edge.
-  stack: { gap: spacing.lg, marginTop: -COVER_OVERLAP },
-  raised: { zIndex: 1 },
-  aboutGlow: { left: '50%', top: '50%', marginLeft: -ABOUT_GLOW / 2, marginTop: -ABOUT_GLOW / 2 },
+  root: { flex: 1, backgroundColor: colors.cream },
+  fill: { flex: 1 },
+  content: {
+    width: '100%',
+    maxWidth: layout.maxWidth,
+    alignSelf: 'center',
+    paddingHorizontal: layout.gutter,
+  },
+  monogram: { position: 'absolute', right: -MONOGRAM_SIZE * 0.22 },
+  topBar: { flexDirection: 'row', alignItems: 'center', marginHorizontal: -4 },
+  title: { flex: 1 },
+  topBarSpacer: { width: GLASS_BUTTON_SIZE },
+  stack: { gap: spacing.lg, marginTop: spacing.lg },
   identity: { flexDirection: 'row', alignItems: 'center', gap: spacing.lg },
   avatar: {
     width: AVATAR,
@@ -183,29 +189,44 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: colors.white,
+    borderWidth: 1.5,
+    borderColor: colors.goldLight,
   },
-  initial: { fontFamily: fonts.display, fontSize: 32, lineHeight: 38, color: colors.ink },
+  initial: { fontFamily: fonts.display, fontSize: 30, lineHeight: 36, color: colors.plum },
   identityText: { flex: 1, gap: 2 },
   card: { gap: spacing.lg },
-  labelRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  // Borrow the card's side padding so "Understand" / "Comprende" fit at 360 px.
-  pillars: { flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: -spacing.md },
-  pillar: { flex: 1, alignItems: 'center', gap: spacing.sm },
-  pillarLabel: { letterSpacing: 0 },
-  divider: { height: 1, backgroundColor: colors.hairline },
-  bullets: { gap: spacing.md },
-  bullet: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.md },
-  check: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    marginTop: 2,
+  benefits: { gap: spacing.lg },
+  benefit: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.md + 2 },
+  benefitDisc: {
+    width: BENEFIT_DISC,
+    height: BENEFIT_DISC,
+    borderRadius: BENEFIT_DISC / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.roseSoft,
+    backgroundColor: withAlpha(colors.white, 0.8),
+    borderWidth: 1,
+    borderColor: withAlpha(colors.goldLight, 0.6),
   },
-  bulletText: { flex: 1 },
+  benefitText: { flex: 1, gap: 2 },
+  benefitTitle: { fontFamily: fonts.display, fontSize: 19, lineHeight: 23, color: colors.plum },
+  divider: { height: 1, backgroundColor: withAlpha(colors.plum, 0.1) },
+  // Borrows the card's side padding and a tighter overline so the four words stay on one line at 360 px
+  // (Spanish included).
+  pillars: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    rowGap: spacing.xs,
+    marginHorizontal: -spacing.md,
+  },
+  pillar: { fontSize: 10.5, letterSpacing: 0.9 },
+  pillarDot: {
+    width: 3,
+    height: 3,
+    borderRadius: 1.5,
+    marginHorizontal: 5,
+    backgroundColor: colors.gold,
+  },
   footer: { alignItems: 'center', gap: spacing.md, paddingTop: spacing.sm },
 });

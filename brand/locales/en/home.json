@@ -1,12 +1,4 @@
 {
-  "greeting": {
-    "morning": "Good morning",
-    "afternoon": "Good afternoon",
-    "evening": "Good evening",
-    "night": "Peaceful night"
-  },
-  "latest": "Latest entry",
-  "empty": "Your notebook is ready for its first sign.",
-  "emptyHint": "Begin with anything that caught your attention today.",
-  "openEntry": "Open your latest entry: {{title}}"
+  "settings": "Settings and language",
+  "profile": "Your profile"
 }

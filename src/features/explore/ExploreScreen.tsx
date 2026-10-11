@@ -1,99 +1,127 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { categories, type CategoryDef } from '../../../brand/categories';
-import { colors, spacing } from '../../theme';
-import { AppText, Icon, Screen } from '../../ui';
-import { Butterfly, EnergyField } from '../../ui/art';
-import { categoryLabel } from '../../lib/categoryCopy';
-import { CategoryTile } from './CategoryTile';
-import { pageStyle } from './pageStyle';
-import { ScreenBanner } from './ScreenBanner';
+import { categories, type CategoryKey } from '../../../brand/categories';
+import { categoryLabel, categorySubtitle } from '../../lib/categoryCopy';
+import { colors, fonts, layout, spacing } from '../../theme';
+import { AppText, goBackOrHome, Icon } from '../../ui';
+import { SkyBackdrop } from '../../ui/art';
+import { GlassIconButton } from '../home/GlassIconButton';
+import { HomeTile, TileGrid } from '../home/HomeTile';
+import { DateChip } from './DateChip';
+import { dateParam, withDate } from './params';
 
-function openCategory(def: CategoryDef) {
-  if (def.hasSubcategories) router.push(`/explore/${def.key}`);
-  else router.push({ pathname: '/entry/new', params: { category: def.key } });
+function openCategory(category: CategoryKey, date: string | undefined) {
+  if (category === 'life') router.push({ pathname: '/explore/life', params: withDate(date) });
+  else router.push({ pathname: '/entry/new', params: { category, ...withDate(date) } });
 }
 
-/** Below this tile width the 13px label can no longer fit "Synchronicities" / "Sincronicidades". */
-const COMPACT_TILE = 106;
-const COLUMNS = 3;
-/** A faint, static glow behind the middle of the grid; only its edges show between the tiles. */
-const GLOW = 360;
-
+/**
+ * The centre "+": choose what to record. /explore?date=YYYY-MM-DD (from the
+ * calendar) carries the day through to the composer.
+ */
 export function ExploreScreen() {
   const { t } = useTranslation();
-  const [gridWidth, setGridWidth] = useState(0);
-  const tileWidth = (gridWidth - (COLUMNS - 1) * spacing.md) / COLUMNS;
-  const compact = gridWidth > 0 && tileWidth < COMPACT_TILE;
+  const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ date?: string | string[] }>();
+  const date = dateParam(params.date);
 
   return (
-    <Screen scroll edges={['top', 'bottom']} contentStyle={pageStyle.content}>
-      <ScreenBanner height={140} />
+    <View style={styles.root}>
+      <SkyBackdrop scene="dusk" />
 
-      <Animated.View entering={FadeInUp.duration(500)} style={styles.intro}>
-        <AppText variant="title">{t('explore.title')}</AppText>
-        <AppText variant="body" color={colors.muted}>
-          {t('explore.subtitle')}
-        </AppText>
-      </Animated.View>
+      <ScrollView
+        style={styles.fill}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: insets.top + spacing.sm, paddingBottom: insets.bottom + spacing.xxxl },
+        ]}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.topBar}>
+          <GlassIconButton
+            icon="ChevronLeft"
+            label={t('common.actions.back')}
+            onPress={goBackOrHome}
+            iconOffset={-2}
+            testID="explore-back"
+          />
+        </View>
 
-      <View style={styles.gridArea}>
-        <EnergyField size={GLOW} color={colors.lavender} intensity={0.22} animated={false} style={styles.glow} />
-        <View style={styles.grid} onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}>
+        <Animated.View entering={FadeInUp.duration(500)} style={styles.intro}>
+          <AppText variant="title" color={colors.plum} align="center" accessibilityRole="header" style={styles.title}>
+            {t('explore.title')}
+          </AppText>
+          <AppText align="center" style={styles.subtitle}>
+            {t('explore.subtitle')}
+          </AppText>
+          {date ? <DateChip date={date} /> : null}
+        </Animated.View>
+
+        <TileGrid style={styles.grid}>
           {categories.map((def, index) => (
-            <CategoryTile
+            <HomeTile
               key={def.key}
-              def={def}
-              index={index}
-              compact={compact}
+              order={index}
+              icon={def.icon}
+              numerals={def.key === 'numbers' ? '11:11' : undefined}
               label={categoryLabel(t, def.key)}
-              onPress={() => openCategory(def)}
+              subtitle={categorySubtitle(t, def.key)}
+              onPress={() => openCategory(def.key, date)}
+              testID={`category-${def.key}`}
             />
           ))}
-        </View>
-        {/* Just past the grid's bottom-right corner, right of anything the footer can wrap to. */}
-        <View style={styles.corner}>
-          <Butterfly size={26} rotation={-20} opacity={0.5} delay={1200} colorA={colors.lavender} colorB={colors.rose} />
-        </View>
-      </View>
+        </TileGrid>
 
-      <Animated.View entering={FadeIn.delay(760).duration(600)} style={styles.footer}>
-        <Icon name="Sparkle" size={14} color={colors.rose} />
-        <AppText variant="small" color={colors.muted} align="center">
-          {t('explore.footer')}
-        </AppText>
-      </Animated.View>
-    </Screen>
+        <Animated.View entering={FadeIn.delay(700).duration(600)} style={styles.footer}>
+          <Icon name="Sparkle" size={14} color={colors.gold} />
+          <AppText variant="small" color={colors.inkSoft} align="center">
+            {t('explore.footer')}
+          </AppText>
+        </Animated.View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: colors.cream,
+  },
+  fill: {
+    flex: 1,
+  },
+  content: {
+    width: '100%',
+    maxWidth: layout.maxWidth,
+    alignSelf: 'center',
+    paddingHorizontal: 14,
+  },
+  topBar: {
+    flexDirection: 'row',
+    paddingHorizontal: 2,
+  },
   intro: {
     gap: spacing.sm,
+    marginTop: spacing.sm,
+    paddingHorizontal: spacing.lg,
   },
-  gridArea: {
-    marginTop: spacing.xxl,
+  // Narrow enough to break evenly ("What would you like / to record?").
+  title: {
+    alignSelf: 'center',
+    maxWidth: 255,
   },
-  glow: {
-    top: '50%',
-    left: '50%',
-    marginTop: -GLOW / 2,
-    marginLeft: -GLOW / 2,
+  subtitle: {
+    fontFamily: fonts.displayRegular,
+    fontSize: 18,
+    lineHeight: 24,
+    color: colors.inkSoft,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.md,
-  },
-  corner: {
-    position: 'absolute',
-    right: -8,
-    bottom: -48,
-    pointerEvents: 'none',
+    marginTop: spacing.xxl,
   },
   footer: {
     alignItems: 'center',

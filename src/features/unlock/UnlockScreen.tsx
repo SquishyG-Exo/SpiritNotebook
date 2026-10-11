@@ -1,4 +1,3 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -21,28 +20,13 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ApiError, unlockWithPasscode } from '../../api/client';
-import { colors, fonts, radius, shadow, spacing , withAlpha } from '../../theme';
-import { AppText, Button, Icon, IconCircle } from '../../ui';
-import { Butterfly, Dreamscape, Sparkles, type SparkleSpec } from '../../ui/art';
+import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
+import { AppText, Button, Icon } from '../../ui';
+import { LotusMark, Monogram, SkyBackdrop } from '../../ui/art';
 
 const MAX_LENGTH = 32;
-
-/** Twinkles in the open sky above the content and over the hills below it. */
-const SKY_SPARKLES: SparkleSpec[] = [
-  { x: 0.14, y: 0.05, size: 11, delay: 0 },
-  { x: 0.6, y: 0.08, size: 8, delay: 700 },
-  { x: 0.88, y: 0.04, size: 10, delay: 1400 },
-  { x: 0.12, y: 0.95, size: 9, delay: 1000 },
-];
-
-/** Cream mist behind the brand block, card and hint: the scenery shows above and below it. */
-const MIST = withAlpha(colors.cream, 0.78);
-const MIST_CLEAR = withAlpha(colors.cream, 0);
-const HILLS_VEIL = [withAlpha(colors.lavender, 0), withAlpha(colors.lavender, 0.5)] as const;
-/** How far the mist fades out beyond the content, top and bottom. */
-const MIST_EDGE = 96;
-/** Each fade reaches full strength a little inside the content, so text never sits on a thin edge. */
-const MIST_FADE = MIST_EDGE + spacing.xxl;
+const LOTUS_HEIGHT = 112;
+const MONOGRAM_SIZE = 190;
 
 function errorMessageKey(error: unknown): string {
   if (error instanceof ApiError) {
@@ -52,7 +36,7 @@ function errorMessageKey(error: unknown): string {
   return 'common.errors.generic';
 }
 
-/** Full-screen passcode prompt for private previews. */
+/** Full-screen passcode prompt for private previews (Design 4: sky, lotus, glass card). */
 export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -94,52 +78,26 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
 
   return (
     <View style={styles.root}>
-      <Dreamscape variant="dusk" />
-      {/* Softens the zoomed-in near hills so the page closes in lavender, not a heavy violet block. */}
-      <LinearGradient pointerEvents="none" colors={HILLS_VEIL} style={styles.hillsVeil} />
-      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-        <Sparkles sparkles={SKY_SPARKLES} />
-        <Butterfly size={58} rotation={-14} style={[styles.butterfly, { top: insets.top + 56, left: 18 }]} />
-        <Butterfly
-          size={36}
-          rotation={18}
-          delay={900}
-          colorA={colors.peach}
-          colorB={colors.rose}
-          opacity={0.8}
-          style={[styles.butterfly, { top: insets.top + 112, right: 22 }]}
-        />
-        <Butterfly
-          size={26}
-          rotation={-24}
-          delay={1800}
-          colorA={colors.peach}
-          colorB={colors.lavender}
-          opacity={0.9}
-          style={[styles.butterfly, { bottom: insets.bottom + 64, right: 40 }]}
-        />
-      </View>
+      <SkyBackdrop scene="dusk">
+        {/* Top right, in the open sky above the lotus: clear of every line of text on any screen height. */}
+        <Monogram size={MONOGRAM_SIZE} opacity={0.13} style={[styles.monogram, { top: insets.top + 6 }]} />
+      </SkyBackdrop>
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.flex}>
         <ScrollView
           contentContainerStyle={[
             styles.scroll,
-            { paddingTop: insets.top + spacing.xxxl, paddingBottom: insets.bottom + spacing.xxxl },
+            { paddingTop: insets.top + spacing.xxl, paddingBottom: insets.bottom + spacing.xxl },
           ]}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
           <View style={styles.content}>
-            <View pointerEvents="none" style={styles.mist}>
-              <LinearGradient colors={[MIST_CLEAR, MIST]} style={styles.mistEdgeTop} />
-              <View style={styles.mistBody} />
-              <LinearGradient colors={[MIST, MIST_CLEAR]} style={styles.mistEdgeBottom} />
-            </View>
             <Animated.View entering={FadeInUp.duration(520)} style={styles.brand}>
-              <IconCircle name="Moon" size={68} tint={colors.white} color={colors.lavenderDeep} style={shadow.glow} />
-              <AppText variant="display" align="center">
+              <LotusMark height={LOTUS_HEIGHT} />
+              <AppText variant="display" color={colors.plum} align="center" style={styles.name}>
                 {t('common.app.name')}
               </AppText>
-              <AppText variant="small" color={colors.inkSoft} align="center">
+              <AppText align="center" style={styles.tagline}>
                 {t('common.app.shortTagline')}
               </AppText>
             </Animated.View>
@@ -147,7 +105,7 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
             <Animated.View entering={FadeInUp.duration(520).delay(120)}>
               <Animated.View style={[styles.card, shakeStyle]}>
                 <View style={styles.cardText}>
-                  <AppText variant="heading" align="center" accessibilityRole="header">
+                  <AppText variant="heading" color={colors.plum} align="center" accessibilityRole="header">
                     {t('unlock.title')}
                   </AppText>
                   <AppText variant="small" color={colors.muted} align="center">
@@ -162,7 +120,7 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
                     error?.wrongCode ? styles.fieldError : null,
                   ]}>
                   <View style={styles.fieldIcon}>
-                    <Icon name="LockKeyhole" size={18} color={focused ? colors.lavenderDeep : colors.muted} />
+                    <Icon name="LockKeyhole" size={18} color={focused ? colors.gold : colors.muted} />
                   </View>
                   <TextInput
                     value={code}
@@ -174,7 +132,7 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
                     onBlur={() => setFocused(false)}
                     onSubmitEditing={() => void submit()}
                     placeholder={t('unlock.placeholder')}
-                    placeholderTextColor={colors.faint}
+                    placeholderTextColor={colors.muted}
                     secureTextEntry={!revealed}
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -238,19 +196,22 @@ export function UnlockScreen({ onUnlocked }: { onUnlocked: () => void }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.cream, overflow: 'hidden' },
   flex: { flex: 1 },
-  hillsVeil: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '32%' },
-  butterfly: { position: 'absolute' },
+  monogram: { position: 'absolute', right: -MONOGRAM_SIZE * 0.26 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: spacing.xl },
-  content: { width: '100%', maxWidth: 380, alignSelf: 'center', gap: spacing.xxl },
-  // Hugs the content (so it follows it when it scrolls or wraps) and bleeds past the screen edges.
-  mist: { position: 'absolute', top: -MIST_EDGE, bottom: -MIST_EDGE, left: -80, right: -80 },
-  mistEdgeTop: { height: MIST_FADE },
-  mistBody: { flex: 1, backgroundColor: MIST },
-  mistEdgeBottom: { height: MIST_FADE },
-  brand: { alignItems: 'center', gap: spacing.sm },
+  content: { width: '100%', maxWidth: 380, alignSelf: 'center', gap: spacing.xl },
+  brand: { alignItems: 'center' },
+  name: { marginTop: spacing.xs },
+  tagline: {
+    fontFamily: fonts.displayRegular,
+    fontSize: 18,
+    lineHeight: 24,
+    color: colors.inkSoft,
+  },
   card: {
-    backgroundColor: colors.surface,
+    backgroundColor: withAlpha(colors.cream, 0.88),
     borderRadius: radius.xl,
+    borderWidth: 1,
+    borderColor: colors.glassBorder,
     padding: spacing.xxl,
     gap: spacing.lg,
     ...shadow.lifted,
@@ -265,11 +226,11 @@ const styles = StyleSheet.create({
     paddingRight: spacing.sm,
     borderRadius: radius.md,
     borderWidth: 1.5,
-    borderColor: colors.hairline,
-    backgroundColor: colors.cream,
+    borderColor: withAlpha(colors.plum, 0.16),
+    backgroundColor: withAlpha(colors.white, 0.86),
   },
-  fieldFocused: { borderColor: colors.lavender, backgroundColor: colors.surface },
-  fieldError: { borderColor: colors.rose },
+  fieldFocused: { borderColor: colors.gold, backgroundColor: colors.surface },
+  fieldError: { borderColor: colors.roseDeep },
   fieldIcon: { flexShrink: 0 },
   input: {
     flex: 1,

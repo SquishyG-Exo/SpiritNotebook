@@ -1,5 +1,6 @@
 {
-  "title": "What would you like to explore?",
+  "title": "What would you like to record?",
   "subtitle": "Choose what caught your attention. We’ll gently guide you from there.",
-  "footer": "Each path opens a short entry and a personal reading."
+  "footer": "Each path opens a short entry and a personal reading.",
+  "forDate": "For {{date}}"
 }

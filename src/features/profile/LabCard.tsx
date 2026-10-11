@@ -7,7 +7,8 @@ import { sampleEntries } from '../../../brand/sample-entries';
 import { ApiError, requestInterpretation } from '../../api/client';
 import { useSettings, type Reading, type ReadingMode } from '../../state';
 import { colors, radius, spacing, withAlpha } from '../../theme';
-import { AppText, Button, Card, Chip, Icon } from '../../ui';
+import { AppText, Button, Chip, Icon } from '../../ui';
+import { GlassCard, SectionTitle } from './GlassCard';
 
 const VARIANTS: readonly ReadingMode[] = ['standard', 'advisor'];
 
@@ -65,11 +66,8 @@ export function LabCard() {
   }, [text, category, language]);
 
   return (
-    <Card style={styles.card}>
-      <View style={styles.titleRow}>
-        <Icon name="Sparkles" size={20} color={colors.lavenderDeep} />
-        <AppText variant="heading">{t('profile.lab.title')}</AppText>
-      </View>
+    <GlassCard style={styles.card}>
+      <SectionTitle icon="Sparkles" title={t('profile.lab.title')} />
       <AppText variant="small" color={colors.muted}>
         {t('profile.lab.subtitle')}
       </AppText>
@@ -109,7 +107,7 @@ export function LabCard() {
         if (!result) return null;
         return <ResultCard key={variant} variant={variant} result={result} />;
       })}
-    </Card>
+    </GlassCard>
   );
 }
 
@@ -139,7 +137,9 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
       ) : null}
       {reading ? (
         <>
-          <AppText variant="heading">{reading.title}</AppText>
+          <AppText variant="heading" color={colors.plum}>
+            {reading.title}
+          </AppText>
           {shown.map((paragraph, index) => (
             <AppText key={index} variant="small" color={colors.inkSoft}>
               {paragraph}
@@ -147,7 +147,7 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
           ))}
           {paragraphs.length > 1 ? (
             <Pressable onPress={() => setExpanded((value) => !value)} hitSlop={8}>
-              <AppText variant="smallMedium" color={colors.roseDeep}>
+              <AppText variant="smallMedium" color={colors.plum}>
                 {t(expanded ? 'profile.lab.less' : 'profile.lab.more')}
               </AppText>
             </Pressable>
@@ -159,7 +159,7 @@ function ResultCard({ variant, result }: { variant: ReadingMode; result: RunResu
           ) : null}
           {reading.advice ? (
             <View style={styles.advice}>
-              <AppText variant="overline" color={colors.lavenderDeep}>
+              <AppText variant="overline" color={colors.goldDeep}>
                 {t('profile.lab.advice')}
               </AppText>
               <AppText variant="quote" color={colors.inkSoft} style={styles.adviceText}>
@@ -196,19 +196,18 @@ function Toggle({ value, onChange, label }: { value: boolean; onChange: (next: b
 
 const styles = StyleSheet.create({
   card: { gap: spacing.md },
-  titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   toggleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xs },
   toggleText: { flex: 1, gap: spacing.xs },
-  divider: { height: 1, backgroundColor: colors.hairline, marginVertical: spacing.xs },
+  divider: { height: 1, backgroundColor: withAlpha(colors.plum, 0.1), marginVertical: spacing.xs },
   track: {
     width: 50,
     height: 28,
     borderRadius: radius.pill,
-    backgroundColor: colors.hairline,
+    backgroundColor: withAlpha(colors.plum, 0.22),
     padding: 3,
     justifyContent: 'center',
   },
-  trackOn: { backgroundColor: colors.roseDeep },
+  trackOn: { backgroundColor: colors.plum },
   knob: {
     width: 22,
     height: 22,
@@ -219,11 +218,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     padding: spacing.lg,
     borderRadius: radius.md,
-    backgroundColor: colors.surfaceTint,
+    backgroundColor: withAlpha(colors.white, 0.62),
     borderWidth: 1,
-    borderColor: colors.hairline,
+    borderColor: withAlpha(colors.plum, 0.1),
   },
-  resultAdvisor: { backgroundColor: withAlpha('#FBEFD6', 0.6) },
+  resultAdvisor: { backgroundColor: withAlpha(colors.peachSoft, 0.85) },
   resultHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   advice: { gap: spacing.xs, marginTop: spacing.xs },
   adviceText: { fontSize: 16, lineHeight: 24 },

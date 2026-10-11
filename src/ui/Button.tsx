@@ -2,7 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { ActivityIndicator, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { colors, gradients, radius, shadow, spacing, type } from '../theme';
+import { colors, gradients, radius, shadow, spacing, type, withAlpha } from '../theme';
 import { AppText } from './AppText';
 import { PressableScale } from './PressableScale';
 
@@ -25,7 +25,7 @@ export interface ButtonProps {
 
 const TEXT_COLOR: Record<ButtonVariant, string> = {
   primary: colors.white,
-  secondary: colors.roseDeep,
+  secondary: colors.plum,
   ghost: colors.inkSoft,
   light: colors.ink,
   dark: colors.cream,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   secondary: {
     backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: colors.rose,
+    borderColor: withAlpha(colors.plum, 0.35),
   },
   ghost: { backgroundColor: 'transparent' },
   inactive: { opacity: 0.55 },

@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View, type LayoutChangeEvent } from 'react-nativ
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import type { Language } from '../../state';
-import { colors, fonts, radius, shadow, spacing } from '../../theme';
+import { colors, fonts, radius, shadow, spacing, withAlpha } from '../../theme';
 import { AppText } from '../../ui';
 
 const OPTIONS: readonly Language[] = ['en', 'es'];
@@ -40,7 +40,7 @@ export function LanguageSwitch({ value, onChange }: { value: Language; onChange:
             style={[styles.option, segment === 0 && selected ? styles.optionFallback : null]}>
             <AppText
               variant="smallMedium"
-              color={selected ? colors.ink : colors.muted}
+              color={selected ? colors.plum : colors.muted}
               style={selected ? styles.selectedText : null}>
               {t(`common.language.${option}`)}
             </AppText>
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: INSET,
     borderRadius: radius.pill,
-    backgroundColor: colors.surfaceTint,
+    backgroundColor: withAlpha(colors.white, 0.55),
     borderWidth: 1,
-    borderColor: colors.hairline,
+    borderColor: withAlpha(colors.plum, 0.12),
   },
   thumb: {
     position: 'absolute',

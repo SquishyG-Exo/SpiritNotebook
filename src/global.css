@@ -5,7 +5,7 @@ body {
   padding: 0;
   height: 100%;
   background: #fff9f5;
-  color: #1f1b45;
+  color: #2e2340;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -30,16 +30,21 @@ input {
   outline: none;
 }
 
-/* Desktop and tablets: present the app inside a centered phone frame on a dusk gradient. */
+/*
+ * Desktop and tablets: present the app inside a centered phone frame over the
+ * watercolor sunset sky (public/art/sky-dusk.webp, the app's own sky art), with
+ * a soft plum veil so the phone stays the focus. The gradient underneath shows
+ * while the picture loads.
+ */
 @media (min-width: 768px) and (min-height: 640px) {
   body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Dreamscape backdrop (public/art/desktop-backdrop.svg) over the dusk gradient. */
     background:
-      url('/art/desktop-backdrop.svg') center / cover no-repeat,
-      linear-gradient(160deg, #fbe3d5 0%, #f3ccdb 48%, #d5c6f3 100%);
+      radial-gradient(ellipse at center, rgba(255, 249, 245, 0) 35%, rgba(63, 38, 86, 0.22) 100%),
+      url('/art/sky-dusk.webp') center 38% / cover no-repeat,
+      linear-gradient(180deg, #d5c6f3 0%, #f3ccdb 52%, #fbe3d5 100%);
   }
 
   #root {
@@ -51,8 +56,8 @@ input {
     overflow: hidden;
     position: relative;
     box-shadow:
-      0 0 0 10px #1b1840,
-      0 0 0 12px rgba(255, 255, 255, 0.35),
-      0 40px 90px rgba(40, 25, 70, 0.35);
+      0 0 0 10px #2b1c33,
+      0 0 0 12px rgba(255, 255, 255, 0.4),
+      0 40px 90px rgba(43, 28, 51, 0.38);
   }
 }

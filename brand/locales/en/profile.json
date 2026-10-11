@@ -3,13 +3,29 @@
   "guestName": "Guest",
   "guestSubtitle": "Spirit Notebook preview",
   "languageHint": "Readings will answer in this language.",
-  "aboutTitle": "What Spirit Notebook is",
-  "aboutBullets": [
-    "A personal journal for signs, dreams, and coincidences",
-    "Spiritual meanings and gentle guidance",
-    "Tools for self-reflection and inner growth",
-    "A place to see patterns and your soul’s journey over time"
-  ],
+  "aboutTitle": "What you’ll find here",
+  "benefits": {
+    "decode": {
+      "title": "Decode Your Signs",
+      "body": "Understand dreams, numbers, animals, and everyday synchronicities."
+    },
+    "clarity": {
+      "title": "Gain Clarity",
+      "body": "Find deeper meaning in your emotions, relationships, and life situations."
+    },
+    "path": {
+      "title": "Explore Your Path",
+      "body": "Receive spiritual insights and guided reflections to support your journey."
+    },
+    "journal": {
+      "title": "Create Your Personal Journal",
+      "body": "Save your experiences, track patterns, and see your growth over time."
+    },
+    "connected": {
+      "title": "Feel More Connected",
+      "body": "Discover a more meaningful and inspired life."
+    }
+  },
   "resetLabel": "Reset demo data",
   "resetConfirm": "Tap again to restore the sample journal",
   "resetDone": "Sample journal restored",

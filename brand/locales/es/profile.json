@@ -3,13 +3,29 @@
   "guestName": "Visitante",
   "guestSubtitle": "Vista previa de Spirit Notebook",
   "languageHint": "Las lecturas te responderán en este idioma.",
-  "aboutTitle": "Qué es Spirit Notebook",
-  "aboutBullets": [
-    "Un diario personal para señales, sueños y coincidencias",
-    "Significados espirituales y una guía amable",
-    "Herramientas para la autorreflexión y el crecimiento interior",
-    "Un lugar para ver tus patrones y el camino de tu alma a lo largo del tiempo"
-  ],
+  "aboutTitle": "Lo que encontrarás aquí",
+  "benefits": {
+    "decode": {
+      "title": "Descifra tus señales",
+      "body": "Comprende tus sueños, números, animales y sincronicidades cotidianas."
+    },
+    "clarity": {
+      "title": "Encuentra claridad",
+      "body": "Descubre un significado más profundo en tus emociones, tus relaciones y tus situaciones de vida."
+    },
+    "path": {
+      "title": "Explora tu camino",
+      "body": "Recibe orientación espiritual y reflexiones guiadas que te acompañan en tu camino."
+    },
+    "journal": {
+      "title": "Crea tu diario personal",
+      "body": "Guarda tus experiencias, descubre patrones y mira cómo creces con el tiempo."
+    },
+    "connected": {
+      "title": "Siente una conexión más profunda",
+      "body": "Descubre una vida más significativa e inspirada."
+    }
+  },
   "resetLabel": "Restablecer datos de la demo",
   "resetConfirm": "Toca de nuevo para restaurar el diario de ejemplo",
   "resetDone": "Diario de ejemplo restaurado",

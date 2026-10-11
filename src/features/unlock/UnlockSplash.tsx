@@ -1,63 +1,62 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   FadeIn,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
 
-import { colors, gradients, shadow, spacing } from '../../theme';
+import { colors, spacing } from '../../theme';
 import { AppText } from '../../ui';
-import { Dreamscape } from '../../ui/art';
+import { LotusMark, Monogram, SkyBackdrop } from '../../ui/art';
+
+const LOTUS_HEIGHT = 120;
 
 /**
- * Shown while the passcode requirement is being checked. The scenery and the
- * content fade in after a short delay, so a fast check shows only the cream
- * page (no flash). A faint dawn scene echoes the Unlock screen's dusk.
+ * Shown while the passcode requirement is being checked. The sky and the
+ * lotus fade in after a short delay, so a fast check shows only the cream
+ * page (no flash); the lotus then breathes gently until the app opens.
  */
 export function UnlockSplash() {
   const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
   const breath = useSharedValue(0);
 
   useEffect(() => {
-    breath.set(withRepeat(withTiming(1, { duration: 1600, easing: Easing.inOut(Easing.sin) }), -1, true));
-  }, [breath]);
+    if (reduceMotion) return;
+    breath.set(withRepeat(withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.sin) }), -1, true));
+    return () => cancelAnimation(breath);
+  }, [breath, reduceMotion]);
 
-  const orbStyle = useAnimatedStyle(() => ({
-    opacity: 0.7 + breath.get() * 0.3,
-    transform: [{ scale: 0.94 + breath.get() * 0.08 }],
+  const lotusStyle = useAnimatedStyle(() => ({
+    opacity: 0.82 + breath.get() * 0.18,
+    transform: [{ scale: 0.97 + breath.get() * 0.04 }],
   }));
 
   return (
     <View style={styles.root} accessibilityLabel={t('unlock.checking')}>
-      <Animated.View pointerEvents="none" entering={FadeIn.duration(600).delay(200)} style={StyleSheet.absoluteFill}>
-        <View style={styles.scenery}>
-          <Dreamscape variant="dawn" />
-        </View>
+      <Animated.View entering={FadeIn.duration(700).delay(200)} style={StyleSheet.absoluteFill}>
+        <SkyBackdrop scene="home">
+          <Monogram size={230} opacity={0.1} style={styles.monogram} />
+        </SkyBackdrop>
       </Animated.View>
-      <Animated.View entering={FadeIn.duration(420).delay(200)} style={styles.center}>
-        <Animated.View style={[styles.orb, orbStyle]}>
-          <LinearGradient
-            colors={gradients.dusk}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={StyleSheet.absoluteFill}
-          />
+      <Animated.View entering={FadeIn.duration(500).delay(260)} style={styles.center}>
+        <Animated.View style={lotusStyle}>
+          <LotusMark height={LOTUS_HEIGHT} />
         </Animated.View>
-        <AppText variant="title" align="center">
+        <AppText variant="display" color={colors.plum} align="center">
           {t('common.app.name')}
         </AppText>
       </Animated.View>
     </View>
   );
 }
-
-const ORB = 64;
 
 const styles = StyleSheet.create({
   root: {
@@ -66,15 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Low intensity, and taller than the screen so the sun rises near the bottom edge
-  // instead of sitting under the title: only its rays reach up behind the orb.
-  scenery: { position: 'absolute', top: 0, left: 0, right: 0, height: '135%', opacity: 0.45 },
-  center: { alignItems: 'center', gap: spacing.lg },
-  orb: {
-    width: ORB,
-    height: ORB,
-    borderRadius: ORB / 2,
-    overflow: 'hidden',
-    ...shadow.glow,
-  },
+  monogram: { position: 'absolute', right: -60, bottom: '12%' },
+  center: { alignItems: 'center', gap: spacing.md },
 });
