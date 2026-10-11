@@ -5,7 +5,7 @@
  *
  *   POST /api/interpret
  *     headers: content-type: application/json, x-demo-passcode?: string
- *     body:    { text, category, subcategory?, language, mode?: 'standard' | 'advisor' }
+ *     body:    { text, title?, category, subcategory?, language, mode?: 'standard' | 'advisor' }
  *     200:     { kind: 'reading' | 'care', title, interpretation, reflection_question, language,
  *                advisor?: { requested, consulted }, advice?: string, duration_ms?: number }
  *              Model ids are deliberately not part of the response; they live in the server logs.
@@ -43,6 +43,8 @@ const PASSCODE_KEY = 'spirit.passcode';
 
 export interface InterpretInput {
   text: string;
+  /** The reader's own title for the entry, when they gave one. */
+  title?: string;
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   language: Language;

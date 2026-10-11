@@ -1,4 +1,5 @@
-import { Tabs } from 'expo-router';
+import { router, Tabs } from 'expo-router';
+import { Fragment } from 'react';
 import type { ComponentProps } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -12,10 +13,13 @@ type TabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>
 /** Route name → icon. Labels come from the Tabs.Screen `title` option (translated in the layout). */
 const TAB_ICONS: Record<string, IconName> = {
   index: 'House',
+  notebook: 'BookOpen',
   calendar: 'CalendarDays',
-  insights: 'Sparkles',
-  profile: 'UserRound',
+  favorites: 'Heart',
 };
+
+/** The centre "+" sits after this many tabs. */
+const CENTER_AFTER = 2;
 
 /** Custom bottom tab bar: soft surface, hairline top border, tinted active pill. */
 export function TabBar({ state, descriptors, navigation, insets }: TabBarProps) {
@@ -29,8 +33,20 @@ export function TabBar({ state, descriptors, navigation, insets }: TabBarProps) 
         const color = focused ? colors.roseDeep : colors.muted;
 
         return (
+          <Fragment key={route.key}>
+          {index === CENTER_AFTER ? (
+            <PressableScale
+              scaleTo={0.9}
+              accessibilityRole="button"
+              accessibilityLabel={descriptors[route.key]?.options.tabBarAccessibilityLabel ?? 'New entry'}
+              onPress={() => router.push('/explore')}
+              style={styles.item}>
+              <View style={[styles.iconWrap, styles.iconWrapActive]}>
+                <Icon name="Plus" size={24} color={colors.plum} strokeWidth={2.2} />
+              </View>
+            </PressableScale>
+          ) : null}
           <PressableScale
-            key={route.key}
             scaleTo={0.92}
             accessibilityRole="tab"
             accessibilityState={{ selected: focused }}
@@ -48,6 +64,7 @@ export function TabBar({ state, descriptors, navigation, insets }: TabBarProps) 
               {label}
             </AppText>
           </PressableScale>
+          </Fragment>
         );
       })}
     </View>

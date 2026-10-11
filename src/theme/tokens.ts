@@ -28,15 +28,20 @@ export const shadow = {
   soft: { boxShadow: '0 8px 24px rgba(62, 42, 90, 0.08)' },
   card: { boxShadow: '0 4px 16px rgba(62, 42, 90, 0.06)' },
   lifted: { boxShadow: '0 14px 34px rgba(62, 42, 90, 0.14)' },
-  glow: { boxShadow: '0 10px 30px rgba(200, 105, 138, 0.28)' },
+  glow: { boxShadow: '0 10px 30px rgba(109, 70, 137, 0.28)' },
+  /** Soft lift for glass tiles over art. */
+  tile: { boxShadow: '0 6px 18px rgba(91, 56, 118, 0.10)' },
+  /** Gold glow for the centre action button. */
+  goldGlow: { boxShadow: '0 8px 22px rgba(185, 133, 68, 0.45)' },
 } as const;
 
 /** Typography presets. Use through <AppText variant="..."> when possible. */
 export const type = {
-  hero: { fontFamily: fonts.display, fontSize: 40, lineHeight: 46, letterSpacing: -0.6 },
-  display: { fontFamily: fonts.display, fontSize: 32, lineHeight: 38, letterSpacing: -0.4 },
-  title: { fontFamily: fonts.display, fontSize: 26, lineHeight: 32, letterSpacing: -0.3 },
-  heading: { fontFamily: fonts.display, fontSize: 21, lineHeight: 27, letterSpacing: -0.2 },
+  // Cormorant has a small x-height: display sizes run larger than a sans would.
+  hero: { fontFamily: fonts.display, fontSize: 46, lineHeight: 52, letterSpacing: -0.4 },
+  display: { fontFamily: fonts.display, fontSize: 36, lineHeight: 42, letterSpacing: -0.3 },
+  title: { fontFamily: fonts.display, fontSize: 30, lineHeight: 36, letterSpacing: -0.2 },
+  heading: { fontFamily: fonts.display, fontSize: 24, lineHeight: 30, letterSpacing: -0.1 },
   subheading: { fontFamily: fonts.bodySemiBold, fontSize: 16, lineHeight: 22 },
   body: { fontFamily: fonts.body, fontSize: 16, lineHeight: 25 },
   bodyMedium: { fontFamily: fonts.bodyMedium, fontSize: 16, lineHeight: 25 },
@@ -51,7 +56,7 @@ export const type = {
     textTransform: 'uppercase' as const,
   },
   button: { fontFamily: fonts.bodySemiBold, fontSize: 16, lineHeight: 20 },
-  quote: { fontFamily: fonts.displayItalic, fontSize: 19, lineHeight: 28 },
+  quote: { fontFamily: fonts.displayItalic, fontSize: 22, lineHeight: 31 },
 } as const;
 
 export type TypeVariant = keyof typeof type;
@@ -61,7 +66,7 @@ export const layout = {
   /** Horizontal page gutter. */
   gutter: 20,
   /** Height of the custom tab bar, excluding the safe-area inset. */
-  tabBarHeight: 64,
+  tabBarHeight: 68,
   /** Max content width on wide screens (the desktop phone frame is narrower anyway). */
   maxWidth: 520,
 } as const;

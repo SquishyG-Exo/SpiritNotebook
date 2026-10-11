@@ -18,7 +18,7 @@ export const sampleEntries: SampleEntry[] = [
     id: 'sample-lighthouse',
     daysAgo: 1,
     time: '22:15',
-    category: 'synchronicities',
+    category: 'signs',
     content: {
       en: {
         text: 'Lighthouses, three times today. A mug at the thrift store, the page I opened to at random in a library book, and tonight an unexpected postcard from my aunt in Maine: a lighthouse on a rocky shore, and on the back, “Saw this and thought of you.”',

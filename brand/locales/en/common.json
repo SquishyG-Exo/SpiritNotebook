@@ -1,14 +1,20 @@
 {
   "app": {
     "name": "Spirit Notebook",
-    "tagline": "Where signs become meaning, and meaning reveals your soul’s path.",
-    "shortTagline": "Where signs become meaning."
+    "tagline": "Follow the signs. Discover the path your soul already knows.",
+    "shortTagline": "Follow the signs."
   },
   "tabs": {
     "home": "Home",
+    "notebook": "Notebook",
+    "new": "New entry",
     "calendar": "Calendar",
+    "favorites": "Favorites",
+    "search": "Search",
+    "whispers": "Whispers of Wisdom",
     "insights": "Insights",
-    "profile": "Profile"
+    "profile": "Profile",
+    "settings": "Settings"
   },
   "actions": {
     "back": "Back",

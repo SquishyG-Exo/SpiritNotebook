@@ -51,6 +51,10 @@ export default function RootLayout() {
                   contentStyle: { backgroundColor: colors.cream },
                 }}>
                 <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="search" />
+                <Stack.Screen name="whispers" />
+                <Stack.Screen name="insights" />
+                <Stack.Screen name="profile" />
                 <Stack.Screen name="explore/index" />
                 <Stack.Screen name="explore/[category]" />
                 <Stack.Screen name="entry/new" />

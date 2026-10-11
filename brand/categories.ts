@@ -1,22 +1,28 @@
 /**
- * The Explore grid and the Life Situations list.
- * Labels, hints and placeholders live in locales/<lang>/categories.json,
- * keyed by these `key` values. Icons are lucide icon names resolved in
- * src/ui/icons.tsx.
+ * Entry categories, the Life Situations list and the Home grid.
+ *
+ * Labels, subtitles, descriptions, hints and placeholders live in
+ * locales/<lang>/categories.json, keyed by these `key` values (feature tiles
+ * under `features.<key>`). Icons are icon names resolved in src/ui/icons.tsx
+ * (lucide names, plus the custom `Butterfly` and `Lotus`).
+ *
+ * This file must stay free of React Native imports: the serverless API
+ * imports it too.
  */
+
+/** What a reader can log. 'signs' is "Everyday Signs" (it replaced Body Signs). */
 export type CategoryKey =
   | 'dreams'
   | 'numbers'
   | 'signs'
-  | 'life'
-  | 'people'
-  | 'places'
-  | 'words'
   | 'animals'
-  | 'objects'
-  | 'body'
+  | 'life'
+  | 'words'
   | 'questions'
-  | 'synchronicities';
+  | 'gratitude';
+
+/** Home tiles that open a feature rather than the composer. */
+export type FeatureKey = 'whispers' | 'calendar' | 'search' | 'saved';
 
 export type LifeSituationKey =
   | 'love'
@@ -37,9 +43,9 @@ export type LifeSituationKey =
 
 export interface CategoryDef {
   key: CategoryKey;
-  /** lucide icon name, see src/ui/icons.tsx */
+  /** Icon name, see src/ui/icons.tsx */
   icon: string;
-  /** Soft tile background. */
+  /** Soft tile background (chips, rows). */
   tint: string;
   /** Icon / accent color on the tint. */
   accent: string;
@@ -52,19 +58,49 @@ export interface LifeSituationDef {
   icon: string;
 }
 
+export interface FeatureDef {
+  key: FeatureKey;
+  icon: string;
+  /** Expo Router path the tile opens. */
+  href: '/whispers' | '/calendar' | '/search' | '/favorites';
+}
+
+export type HomeTileDef =
+  | { kind: 'category'; key: CategoryKey }
+  | { kind: 'feature'; key: FeatureKey };
+
 export const categories: readonly CategoryDef[] = [
   { key: 'dreams', icon: 'Moon', tint: '#EDE6FB', accent: '#6D5BBE' },
-  { key: 'numbers', icon: 'Hash', tint: '#FBE3EA', accent: '#C8698A' },
-  { key: 'signs', icon: 'Sparkles', tint: '#E3EEF9', accent: '#5A8FC2' },
-  { key: 'life', icon: 'Flower2', tint: '#FCE9DC', accent: '#D98A5A', hasSubcategories: true },
-  { key: 'people', icon: 'Users', tint: '#E3F3EC', accent: '#4E9C7A' },
-  { key: 'places', icon: 'Globe', tint: '#E6E9FA', accent: '#5F6BC0' },
-  { key: 'words', icon: 'MessageCircle', tint: '#F4E4F3', accent: '#A85FA0' },
-  { key: 'animals', icon: 'PawPrint', tint: '#F8EED9', accent: '#B98A3E' },
-  { key: 'objects', icon: 'Gem', tint: '#FBE3EE', accent: '#C6608E' },
-  { key: 'body', icon: 'PersonStanding', tint: '#E9F1E4', accent: '#6C9A5B' },
-  { key: 'questions', icon: 'Sun', tint: '#FBEFD6', accent: '#D19A3A' },
-  { key: 'synchronicities', icon: 'Infinity', tint: '#EBE3FA', accent: '#8153C9' },
+  { key: 'numbers', icon: 'Hash', tint: '#E1EFF4', accent: '#3E7F95' },
+  { key: 'signs', icon: 'Butterfly', tint: '#FBE3EA', accent: '#B5577A' },
+  { key: 'animals', icon: 'PawPrint', tint: '#E3F1EA', accent: '#4E8C6E' },
+  { key: 'life', icon: 'Sunrise', tint: '#FCE9DC', accent: '#B8703E', hasSubcategories: true },
+  { key: 'words', icon: 'MessageCircle', tint: '#F8E3E6', accent: '#B4566A' },
+  { key: 'questions', icon: 'Lotus', tint: '#EBE3FA', accent: '#7A52B8' },
+  { key: 'gratitude', icon: 'Heart', tint: '#FBE5E3', accent: '#C04F4F' },
+];
+
+export const features: readonly FeatureDef[] = [
+  { key: 'whispers', icon: 'Sun', href: '/whispers' },
+  { key: 'calendar', icon: 'CalendarDays', href: '/calendar' },
+  { key: 'search', icon: 'Search', href: '/search' },
+  { key: 'saved', icon: 'Bookmark', href: '/favorites' },
+];
+
+/** The Home grid, in the client's order (3 columns, 4 rows). */
+export const homeTiles: readonly HomeTileDef[] = [
+  { kind: 'category', key: 'dreams' },
+  { kind: 'category', key: 'numbers' },
+  { kind: 'category', key: 'signs' },
+  { kind: 'category', key: 'animals' },
+  { kind: 'category', key: 'life' },
+  { kind: 'category', key: 'words' },
+  { kind: 'category', key: 'questions' },
+  { kind: 'category', key: 'gratitude' },
+  { kind: 'feature', key: 'whispers' },
+  { kind: 'feature', key: 'calendar' },
+  { kind: 'feature', key: 'search' },
+  { kind: 'feature', key: 'saved' },
 ];
 
 export const lifeSituations: readonly LifeSituationDef[] = [
@@ -87,6 +123,9 @@ export const lifeSituations: readonly LifeSituationDef[] = [
 
 export const categoryByKey = (key: CategoryKey): CategoryDef =>
   categories.find((c) => c.key === key) ?? categories[0];
+
+export const featureByKey = (key: FeatureKey): FeatureDef =>
+  features.find((f) => f.key === key) ?? features[0];
 
 export const isCategoryKey = (value: unknown): value is CategoryKey =>
   typeof value === 'string' && categories.some((c) => c.key === value);

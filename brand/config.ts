@@ -18,14 +18,20 @@ export const brand = {
   slug: 'spirit-notebook',
 
   colors: {
-    ink: '#1F1B45',
-    inkSoft: '#3E3A6E',
-    muted: '#6F6A94',
-    faint: '#A9A4C6',
+    // Design 4: warm sunset palette, plum titles, gold accents.
+    ink: '#2E2340',
+    inkSoft: '#4A3D5E',
+    muted: '#6E6283',
+    faint: '#A99FBE',
     cream: '#FFF9F5',
     surface: '#FFFFFF',
     surfaceTint: '#FBF4F7',
     hairline: '#EFE6EE',
+    /** Translucent tile / card glass over the sunset art. */
+    glass: 'rgba(255, 250, 247, 0.72)',
+    glassBorder: 'rgba(255, 255, 255, 0.85)',
+    plum: '#5B3876',
+    plumDeep: '#3F2656',
     lavender: '#C9B9F2',
     lavenderSoft: '#EDE6FB',
     lavenderDeep: '#6D5BBE',
@@ -34,33 +40,47 @@ export const brand = {
     roseDeep: '#A64A6B',
     peach: '#F6C8A8',
     peachSoft: '#FCE9DC',
-    gold: '#CFA55B',
+    /** Line icons on light glass (3:1 for graphics). */
+    gold: '#AD7A39',
+    /** Gold text on light surfaces (AA). */
+    goldDeep: '#7F561F',
+    goldLight: '#E7C07A',
+    /** Bottom navigation bar. */
+    navDark: '#2B1C33',
+    navDarkSoft: '#3D2A47',
     navy: '#2A2660',
     navyDeep: '#171436',
-    success: '#5BA37F',
-    danger: '#D9534F',
+    success: '#4F8F6F',
+    danger: '#C8463F',
     white: '#FFFFFF',
   },
 
   gradients: {
     /** Light page hero: peach → rose → lavender. */
     dusk: ['#FBE3D5', '#F3CCDB', '#D5C6F3'],
+    /** Sunset sky (top → horizon): lavender → rose → peach. */
+    sunset: ['#B7A2DC', '#E8B5CA', '#F8D3B5'],
     /** Sunset sky: violet → rose → peach. */
     sky: ['#8E7BC8', '#D9A6C4', '#F7CDB0'],
     /** Deep water / night. */
     night: ['#1B1840', '#2E2A6A', '#5D4C9C'],
-    /** Primary call to action. */
-    cta: ['#D27A9B', '#B86B9E'],
+    /** Primary call to action: lavender plum (the client's chosen purple). */
+    cta: ['#8E5BA0', '#6D4689'],
+    /** Gold accent: the centre "+" button. */
+    gold: ['#EBC781', '#B98544'],
+    /** Bottom navigation bar. */
+    nav: ['#36243F', '#24172B'],
     /** Premium accents. */
     premium: ['#F1C27D', '#E39BB4', '#B8A2EA'],
   },
 
   /** Keys must match the font assets registered in src/theme/fonts.ts. */
   fonts: {
-    display: 'Fraunces_500Medium',
-    displayRegular: 'Fraunces_400Regular',
-    displaySemiBold: 'Fraunces_600SemiBold',
-    displayItalic: 'Fraunces_400Regular_Italic',
+    // Cormorant Garamond: the classic serif of the approved Design 4.
+    display: 'CormorantGaramond_600SemiBold',
+    displayRegular: 'CormorantGaramond_500Medium',
+    displaySemiBold: 'CormorantGaramond_700Bold',
+    displayItalic: 'CormorantGaramond_500Medium_Italic',
     body: 'DMSans_400Regular',
     bodyMedium: 'DMSans_500Medium',
     bodySemiBold: 'DMSans_600SemiBold',

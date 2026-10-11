@@ -28,6 +28,8 @@ export interface Reading {
 }
 
 export interface EntryContent {
+  /** The reader's own title, e.g. "Blue boat" (optional; search matches it first). */
+  title?: string;
   text: string;
   reading?: Reading;
   /** "Journal my thoughts" note. */
@@ -39,8 +41,16 @@ export type EntryStatus = 'draft' | 'saved';
 export interface JournalEntry {
   id: string;
   status: EntryStatus;
-  /** ISO timestamp. */
+  /**
+   * When the experience happened, chosen by the reader (defaults to now).
+   * ISO timestamp; when `hasTime` is false it holds local noon of that day
+   * and the time must not be shown.
+   */
   createdAt: string;
+  /** False when the reader saved a date without a time. */
+  hasTime: boolean;
+  /** Saved to Favorites ("Saved"). */
+  favorite?: boolean;
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   /** Photo attachment is UI-only in this proof of concept. */
@@ -55,16 +65,30 @@ export interface JournalEntry {
 /** Shape of the preloaded demo entries in brand/sample-entries.ts. */
 export interface SampleEntry {
   id: string;
-  /** Days before "today" the entry was written (0 = today). */
-  daysAgo: number;
-  /** Local time of day, 'HH:mm'. */
-  time: string;
+  /** Days before "today" the entry happened (0 = today). Ignored when `monthDay` is set. */
+  daysAgo?: number;
+  /** Fixed calendar day 'MM-DD': resolves to its most recent occurrence on or before today. */
+  monthDay?: string;
+  /** Local time of day, 'HH:mm'. Omit for a date-only entry. */
+  time?: string;
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   hasPhoto?: boolean;
+  favorite?: boolean;
   content: Record<Language, EntryContent & { reading: Reading }>;
 }
 
 export function resolveContent(entry: JournalEntry, language: Language): EntryContent {
   return entry.localized?.[language] ?? entry.content;
+}
+
+/** The title to show for an entry: the reader's own, then the reading's, then the first words. */
+export function entryTitle(entry: JournalEntry, language: Language): string {
+  const content = resolveContent(entry, language);
+  const own = content.title?.trim();
+  if (own) return own;
+  const reading = content.reading?.title?.trim();
+  if (reading) return reading;
+  const words = content.text.trim().split(/\s+/).slice(0, 7).join(' ');
+  return words.length < content.text.trim().length ? `${words}…` : words;
 }

@@ -15,6 +15,7 @@ const lifeSituationKeys = lifeSituations.map((situation) => situation.key) as [
 ];
 
 export const READING_MODES = ['standard', 'advisor'] as const;
+export const MAX_TITLE_CHARS = 120;
 export type ReadingMode = (typeof READING_MODES)[number];
 
 /** Body of POST /api/interpret. Length limits apply to the trimmed text. */
@@ -29,6 +30,13 @@ export const InterpretRequestSchema = z.object(
       .max(brand.ai.maxInputChars, {
         error: `text must be at most ${brand.ai.maxInputChars} characters`,
       }),
+    /** The reader's own title (optional). */
+    title: z
+      .string({ error: 'title must be a string' })
+      .trim()
+      .max(MAX_TITLE_CHARS, { error: `title must be at most ${MAX_TITLE_CHARS} characters` })
+      .nullish()
+      .transform((value) => value || undefined),
     category: z.enum(categoryKeys, { error: 'category is not a known category' }),
     subcategory: z
       .enum(lifeSituationKeys, { error: 'subcategory is not a known life situation' })
@@ -49,6 +57,7 @@ export const InterpretRequestSchema = z.object(
 /** A validated reading request. The parsed schema output is assignable to it. */
 export interface InterpretInput {
   text: string;
+  title?: string;
   category: CategoryKey;
   subcategory?: LifeSituationKey;
   language: BrandLanguage;
