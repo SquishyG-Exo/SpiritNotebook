@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useEffect, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +19,7 @@ import type { HighlightRange } from '../../lib/search';
 import { entryTitle, resolveContent, useSettings, type JournalEntry } from '../../state';
 import { colors, fonts, radius, spacing, withAlpha } from '../../theme';
 import { AppText, glass, glassBlur, Icon, PressableScale } from '../../ui';
+import { DecorativeImage } from '../../ui/art';
 import { entryImage } from '../../ui/art/images';
 import { HighlightedText } from './HighlightedText';
 
@@ -103,23 +103,110 @@ export function EntryCard({
     .filter(Boolean)
     .join('. ');
 
+  const open = () => router.push(`/entry/${entry.id}`);
+  const cardStyle = [glass.card, glassBlur, compact ? styles.compactCard : styles.card];
+  const glowLayer = <Animated.View style={[styles.glow, glowStyle]} />;
+
+  // With an action (the heart on Saved) the card is a plain container: the
+  // open-entry button and the action sit side by side, never one inside the other.
+  if (action) {
+    return (
+      <Animated.View entering={FadeInDown.duration(320).delay(Math.min(index, 6) * 50)}>
+        <View style={cardStyle} testID={testID}>
+          {glowLayer}
+          <PressableScale
+            onPress={open}
+            scaleTo={0.99}
+            accessibilityRole="button"
+            accessibilityLabel={a11yLabel}
+            accessibilityHint={t('notebook.card.openHint')}
+            testID={testID ? `${testID}-open` : undefined}
+            style={styles.openArea}>
+          <View style={compact ? styles.thumbSmall : styles.thumb}>
+            <DecorativeImage
+              source={entryImage(entry)}
+              contentFit="cover"
+              transition={200}
+              style={StyleSheet.absoluteFill}
+            />
+          </View>
+
+          {compact ? (
+            <View style={styles.compactBody}>
+              <AppText style={styles.compactTitle} numberOfLines={2}>
+                {title}
+              </AppText>
+              <View style={styles.compactMeta}>
+                <View style={styles.iconBox}>
+                  <Icon name={icon} size={14} color={colors.gold} strokeWidth={1.8} />
+                </View>
+                <AppText style={styles.metaText} numberOfLines={1}>
+                  {time ? `${time} · ${category}` : category}
+                </AppText>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.body}>
+              <View style={styles.metaRow}>
+                <View style={styles.dateRow}>
+                  <AppText style={styles.metaText} numberOfLines={1}>
+                    {time ? `${date} · ${time}` : date}
+                  </AppText>
+                  {entry.favorite && !action ? (
+                    <View style={styles.iconBox}>
+                      <Icon name="Heart" size={12} color={colors.roseDeep} fill={colors.roseDeep} strokeWidth={1.8} />
+                    </View>
+                  ) : null}
+                </View>
+                <View style={styles.tag}>
+                  <View style={styles.iconBox}>
+                    <Icon name={icon} size={15} color={colors.gold} strokeWidth={1.8} />
+                  </View>
+                  <AppText style={styles.tagText} numberOfLines={1}>
+                    {category}
+                  </AppText>
+                </View>
+              </View>
+              <AppText style={styles.title} numberOfLines={2}>
+                {title}
+              </AppText>
+              {excerpt ? (
+                <HighlightedText
+                  text={excerpt.text}
+                  highlights={excerpt.highlights}
+                  style={styles.excerpt}
+                  numberOfLines={6}
+                />
+              ) : (
+                <AppText style={styles.excerpt} numberOfLines={3}>
+                  {opening}
+                </AppText>
+              )}
+            </View>
+          )}
+          </PressableScale>
+          <View style={styles.trailing}>{action}</View>
+        </View>
+      </Animated.View>
+    );
+  }
+
   return (
     <Animated.View entering={FadeInDown.duration(320).delay(Math.min(index, 6) * 50)}>
       <PressableScale
-        onPress={() => router.push(`/entry/${entry.id}`)}
+        onPress={open}
         scaleTo={0.98}
         accessibilityRole="button"
         accessibilityLabel={a11yLabel}
         accessibilityHint={t('notebook.card.openHint')}
         testID={testID}
-        style={[glass.card, glassBlur, compact ? styles.compactCard : styles.card]}>
-        <Animated.View style={[styles.glow, glowStyle]} />
+        style={cardStyle}>
+        {glowLayer}
         <View style={compact ? styles.thumbSmall : styles.thumb}>
-          <Image
+          <DecorativeImage
             source={entryImage(entry)}
             contentFit="cover"
             transition={200}
-            accessible={false}
             style={StyleSheet.absoluteFill}
           />
         </View>
@@ -180,7 +267,7 @@ export function EntryCard({
 
         {/* Wrapped: a bare web <svg> would paint under the absolutely positioned glow. */}
         <View style={styles.trailing}>
-          {action ?? <Icon name="ChevronRight" size={20} color={colors.muted} strokeWidth={1.75} />}
+          <Icon name="ChevronRight" size={20} color={colors.muted} strokeWidth={1.75} />
         </View>
       </PressableScale>
     </Animated.View>
@@ -280,4 +367,6 @@ const styles = StyleSheet.create({
   },
   compactMeta: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   trailing: { flexShrink: 0, alignSelf: 'center', paddingLeft: 2 },
+  // The open-entry button inside a card with an action: painting and text, laid out like the card.
+  openArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
 });

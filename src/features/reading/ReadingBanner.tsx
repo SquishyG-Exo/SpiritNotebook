@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +8,7 @@ import { entryTopicLabel } from '../../lib/categoryCopy';
 import type { JournalEntry } from '../../state';
 import { colors, radius, shadow, spacing, withAlpha } from '../../theme';
 import { AppText, glassBlur, Icon, IconCircle } from '../../ui';
-import { DreamBanner } from '../../ui/art';
+import { DecorativeImage, DreamBanner } from '../../ui/art';
 import { entryImage } from '../../ui/art/images';
 
 const BANNER_HEIGHT = 196;
@@ -42,13 +41,11 @@ export function ReadingBanner({ entry, extra }: ReadingBannerProps) {
 
   return (
     <View style={styles.banner} testID="reading-banner">
-      <Image
+      <DecorativeImage
         source={entryImage(entry)}
         style={StyleSheet.absoluteFill}
         contentFit="cover"
         transition={300}
-        accessible={false}
-        alt=""
       />
       <LinearGradient
         colors={[withAlpha(colors.navDark, 0), withAlpha(colors.navDark, 0.42)]}

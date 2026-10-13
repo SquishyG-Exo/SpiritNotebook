@@ -1,5 +1,6 @@
 import { getLocales } from 'expo-localization';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Platform } from 'react-native';
 
 import { brand } from '../../brand/config';
 import { i18n } from '../i18n';
@@ -46,6 +47,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (i18n.language !== language) void i18n.changeLanguage(language);
+    // Screen readers pick their voice from the page language: Spanish text must not be read with an English voice.
+    if (Platform.OS === 'web' && typeof document !== 'undefined') document.documentElement.lang = language;
   }, [language]);
 
   const setLanguage = useCallback((next: Language) => {

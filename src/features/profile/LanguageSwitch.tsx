@@ -36,6 +36,7 @@ export function LanguageSwitch({ value, onChange }: { value: Language; onChange:
             onPress={() => onChange(option)}
             accessibilityRole="radio"
             accessibilityState={{ checked: selected }}
+            aria-checked={selected}
             accessibilityLabel={t(`common.language.${option}`)}
             style={[styles.option, segment === 0 && selected ? styles.optionFallback : null]}>
             <AppText

@@ -57,7 +57,7 @@ export function TabBar({ state, descriptors, navigation, insets }: TabBarProps) 
       <View style={[styles.bar, { height: tabBarHeightFor(insets.bottom) }]}>
         <LinearGradient colors={gradients.nav} style={StyleSheet.absoluteFill} />
         <View style={styles.sheen} />
-        <View style={styles.row}>
+        <View style={styles.row} accessibilityRole="tablist">
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key];
             const focused = state.index === index;
@@ -71,6 +71,7 @@ export function TabBar({ state, descriptors, navigation, insets }: TabBarProps) 
                   scaleTo={0.92}
                   accessibilityRole="tab"
                   accessibilityState={{ selected: focused }}
+                  aria-selected={focused}
                   accessibilityLabel={label}
                   testID={options.tabBarButtonTestID}
                   onPress={() => {

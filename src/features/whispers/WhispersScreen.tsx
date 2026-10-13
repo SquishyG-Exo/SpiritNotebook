@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import { whispers } from '../../../brand/whispers';
 import { useJournal, useSettings } from '../../state';
 import { colors, fonts, layout, radius, spacing, withAlpha } from '../../theme';
 import { AppText, Button, glass, glassBlur, GlassIconButton, goBackOrHome, Icon, Screen } from '../../ui';
+import { DecorativeImage } from '../../ui/art';
 import { art } from '../../ui/art/images';
 import { firstParam } from '../entry/params';
 import { SkyBackground, TopBar } from '../entry/scenery';
@@ -94,11 +94,9 @@ export function WhispersScreen() {
           <Animated.View entering={FadeInUp.duration(500)} style={styles.hero}>
             <View style={styles.lotus}>
               <LotusGlow size={GLOW} style={styles.glow} />
-              <Image
+              <DecorativeImage
                 source={art.lotus}
                 contentFit="contain"
-                accessible={false}
-                alt=""
                 style={{ width: Math.round(LOTUS_HEIGHT * art.lotusAspect), height: LOTUS_HEIGHT }}
               />
             </View>

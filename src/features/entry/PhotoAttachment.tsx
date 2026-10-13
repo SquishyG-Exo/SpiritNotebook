@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
@@ -6,6 +5,7 @@ import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import type { CategoryKey } from '../../../brand/categories';
 import { colors, radius, spacing } from '../../theme';
 import { AppText, glass, glassBlur, HitSlopArea, Icon } from '../../ui';
+import { DecorativeImage } from '../../ui/art';
 import { categoryThumbs } from '../../ui/art/images';
 
 export interface PhotoAttachmentProps {
@@ -39,7 +39,7 @@ export function PhotoAttachment({ hasPhoto, onChange, category }: PhotoAttachmen
   return (
     <View style={styles.attached}>
       <Animated.View entering={ZoomIn.duration(320)} style={styles.thumbWrap}>
-        <Image source={categoryThumbs[category]} style={styles.thumb} contentFit="cover" accessible={false} />
+        <DecorativeImage source={categoryThumbs[category]} style={styles.thumb} contentFit="cover" />
         <Pressable
           onPress={() => onChange(false)}
           accessibilityRole="button"

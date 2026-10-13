@@ -1,8 +1,8 @@
-import { Image } from 'expo-image';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 
 import { colors } from '../../theme';
+import { DecorativeImage } from './DecorativeImage';
 import { art } from './images';
 import { useSvgId } from './useSvgId';
 
@@ -51,7 +51,7 @@ export function LotusMark({ height, glow = true, style }: LotusMarkProps) {
           <Circle cx={half} cy={half} r={half} fill={`url(#${id})`} />
         </Svg>
       ) : null}
-      <Image source={art.lotus} contentFit="contain" priority="high" loading="eager" style={{ width, height }} />
+      <DecorativeImage source={art.lotus} contentFit="contain" priority="high" loading="eager" style={{ width, height }} />
     </View>
   );
 }

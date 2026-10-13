@@ -137,6 +137,7 @@ const DayButton = memo(function DayButton({ cell, count, selected, isToday, labe
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected }}
+      aria-pressed={selected}
       style={styles.cell}>
       <View
         style={[

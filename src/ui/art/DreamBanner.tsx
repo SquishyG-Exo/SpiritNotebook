@@ -1,10 +1,11 @@
-import { Image, type ImageSource } from 'expo-image';
+import type { ImageSource } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { colors, radius } from '../../theme';
 import { Butterfly } from './Butterfly';
+import { DecorativeImage } from './DecorativeImage';
 import { Dreamscape, type DreamscapeVariant } from './Dreamscape';
 import { EnergyField } from './EnergyField';
 import { Sparkles, type SparkleSpec } from './Sparkles';
@@ -59,7 +60,7 @@ export function DreamBanner({
       pointerEvents="box-none"
       style={[styles.container, { height }, rounded ? styles.rounded : null, style]}>
       {source ? (
-        <Image source={source} style={StyleSheet.absoluteFill} contentFit="cover" transition={400} />
+        <DecorativeImage source={source} style={StyleSheet.absoluteFill} contentFit="cover" transition={400} />
       ) : (
         <Dreamscape variant={variant} />
       )}

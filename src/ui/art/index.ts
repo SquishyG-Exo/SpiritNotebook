@@ -6,3 +6,4 @@ export { Dreamscape, type DreamscapeProps, type DreamscapeVariant } from './Drea
 export { LotusMark, type LotusMarkProps } from './LotusMark';
 export { Monogram, MONOGRAM_ASPECT, type MonogramProps } from './Monogram';
 export { SkyBackdrop, type SkyBackdropProps, type SkyScene } from './SkyBackdrop';
+export { DecorativeImage, type DecorativeImageProps } from './DecorativeImage';

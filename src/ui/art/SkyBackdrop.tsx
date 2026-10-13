@@ -1,9 +1,10 @@
-import { Image, type ImageContentPosition } from 'expo-image';
+import type { ImageContentPosition } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { gradients } from '../../theme';
+import { DecorativeImage } from './DecorativeImage';
 import { art } from './images';
 
 export type SkyScene = 'home' | 'dusk';
@@ -34,7 +35,7 @@ export function SkyBackdrop({ scene = 'home', contentPosition = 'top', children,
         colors={[gradients.dusk[2], gradients.dusk[1], gradients.dusk[0]]}
         style={StyleSheet.absoluteFill}
       />
-      <Image
+      <DecorativeImage
         source={scene === 'home' ? art.skyHome : art.skyDusk}
         contentFit="cover"
         contentPosition={contentPosition}
