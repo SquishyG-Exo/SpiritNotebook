@@ -97,6 +97,54 @@
     "placeholder": "Three small things I’m grateful for today…",
     "titlePlaceholder": "e.g. Small joys"
   },
+  "people": {
+    "label": "People",
+    "subtitle": "Meaningful encounters",
+    "description": "Reflect on meaningful encounters, relationships and the people who cross your path.",
+    "bullets": [
+      "Who it was, and where you met or thought of them",
+      "What was said, or what you felt in that moment",
+      "Whether this person has appeared before"
+    ],
+    "placeholder": "I ran into an old friend I had been thinking about all week…",
+    "titlePlaceholder": "e.g. An old friend"
+  },
+  "places": {
+    "label": "Places & Travel",
+    "subtitle": "Journeys & places",
+    "description": "Explore the meaning of places, journeys and new beginnings.",
+    "bullets": [
+      "Where you were, and how you came to be there",
+      "What the place stirred in you",
+      "Any new beginning or ending it marks"
+    ],
+    "placeholder": "The moment the train pulled into the little seaside town, I felt at home…",
+    "titlePlaceholder": "e.g. The seaside town"
+  },
+  "objects": {
+    "label": "Objects",
+    "subtitle": "Found & gifted",
+    "description": "Discover what found objects, gifts and heirlooms may symbolize.",
+    "bullets": [
+      "What the object was, and where it came from",
+      "Why it caught your attention",
+      "Who or what it reminds you of"
+    ],
+    "placeholder": "I found an old brass key at the bottom of my grandmother’s sewing box…",
+    "titlePlaceholder": "e.g. Grandmother’s key"
+  },
+  "synchronicities": {
+    "label": "Synchronicities",
+    "subtitle": "Meaningful coincidences",
+    "description": "Record meaningful coincidences and see how the threads connect over time.",
+    "bullets": [
+      "What happened, and what made it feel more than chance",
+      "What you were thinking about just before",
+      "Any thread it shares with other moments"
+    ],
+    "placeholder": "I was thinking about calling my sister, and that very moment she called me…",
+    "titlePlaceholder": "e.g. She called first"
+  },
   "situations": {
     "love": {
       "label": "Love & Relationships",

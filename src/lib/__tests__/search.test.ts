@@ -160,6 +160,10 @@ const LABELS: Record<Language, Record<CategoryKey, string>> = {
     words: 'Repeated Words',
     questions: 'Spiritual Questions',
     gratitude: 'Daily Gratitude',
+    people: 'People',
+    places: 'Places & Travel',
+    objects: 'Objects',
+    synchronicities: 'Synchronicities',
   },
   es: {
     dreams: 'Sueños',
@@ -170,6 +174,10 @@ const LABELS: Record<Language, Record<CategoryKey, string>> = {
     words: 'Palabras repetidas',
     questions: 'Preguntas espirituales',
     gratitude: 'Gratitud diaria',
+    people: 'Personas',
+    places: 'Lugares y viajes',
+    objects: 'Objetos',
+    synchronicities: 'Sincronicidades',
   },
 };
 

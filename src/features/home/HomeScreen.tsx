@@ -12,6 +12,7 @@ import { AppText, GlassIconButton } from '../../ui';
 import { LotusMark, Monogram, SkyBackdrop } from '../../ui/art';
 import { TAB_BAR_OVERLAP, TAB_SCENE_CLEARANCE, tabBarHeightFor } from '../../ui/TabBar';
 import { HomeTile, TILE_GAP, TILE_MIN_HEIGHT, TileGrid } from './HomeTile';
+import { MoreTiles } from './MoreTiles';
 
 const LOTUS_MIN = 96;
 const LOTUS_MAX = 116;
@@ -49,7 +50,10 @@ function openHomeTile(tile: HomeTileDef) {
 
 const openProfile = () => router.push('/profile');
 
-/** Design 4 Home: sky, lotus, serif title and tagline over a 3 × 4 grid of glass tiles. */
+/**
+ * Design 4 Home: sky, lotus, serif title and tagline over a 3 × 4 grid of glass
+ * tiles, sized to fit above the tab bar; "More to explore" scrolls in below.
+ */
 export function HomeScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -121,6 +125,14 @@ export function HomeScreen() {
             );
           })}
         </TileGrid>
+
+        {/* The original brief's categories, under the client's twelve; the first screen stays hers. */}
+        <MoreTiles
+          title={t('home.more')}
+          onOpen={(key) => openHomeTile({ kind: 'category', key })}
+          order={homeTiles.length}
+          testIDPrefix="home-tile"
+        />
       </ScrollView>
     </View>
   );

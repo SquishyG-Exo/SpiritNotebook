@@ -30,6 +30,10 @@ export const categoryThumbs: Record<CategoryKey, ImageRequireSource> = {
   words: require('../../../assets/art/thumbs/words.webp'),
   questions: require('../../../assets/art/thumbs/questions.webp'),
   gratitude: require('../../../assets/art/thumbs/gratitude.webp'),
+  people: require('../../../assets/art/thumbs/people.webp'),
+  places: require('../../../assets/art/thumbs/places.webp'),
+  objects: require('../../../assets/art/thumbs/objects.webp'),
+  synchronicities: require('../../../assets/art/thumbs/synchronicities.webp'),
 };
 
 /** Sample entries that carry their own "photo" (the demo's attached pictures). */

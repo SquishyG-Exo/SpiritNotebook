@@ -47,9 +47,8 @@ describe('sample journal', () => {
     expect(buildSampleEntries().find((e) => e.id === 'sample-saw-blue-boat')?.hasTime).toBe(false);
   });
 
-  it('never uses a removed category', () => {
-    const removed = ['body', 'people', 'places', 'objects', 'synchronicities'];
-    for (const entry of buildSampleEntries()) expect(removed).not.toContain(entry.category);
+  it('never uses the removed Body Signs category', () => {
+    for (const entry of buildSampleEntries()) expect(entry.category).not.toBe('body');
   });
 });
 

@@ -97,6 +97,54 @@
     "placeholder": "Tres pequeñas cosas que agradezco hoy…",
     "titlePlaceholder": "p. ej. Pequeñas alegrías"
   },
+  "people": {
+    "label": "Personas",
+    "subtitle": "Encuentros que importan",
+    "description": "Reflexiona sobre encuentros significativos, tus relaciones y las personas que se cruzan en tu camino.",
+    "bullets": [
+      "Quién era y dónde se encontraron o pensaste en esa persona",
+      "Qué se dijo o qué sentiste en ese momento",
+      "Si esta persona ya había aparecido antes"
+    ],
+    "placeholder": "Me encontré con una vieja amiga en la que había pensado toda la semana…",
+    "titlePlaceholder": "p. ej. Una vieja amiga"
+  },
+  "places": {
+    "label": "Lugares y viajes",
+    "subtitle": "Viajes y lugares",
+    "description": "Explora el significado de los lugares, los viajes y los nuevos comienzos.",
+    "bullets": [
+      "Dónde estabas y cómo llegaste ahí",
+      "Lo que ese lugar despertó en ti",
+      "Algún comienzo o cierre que marque"
+    ],
+    "placeholder": "En cuanto el tren llegó al pueblito junto al mar, me sentí en casa…",
+    "titlePlaceholder": "p. ej. El pueblo junto al mar"
+  },
+  "objects": {
+    "label": "Objetos",
+    "subtitle": "Hallazgos y regalos",
+    "description": "Descubre lo que pueden simbolizar los objetos encontrados, los regalos y los recuerdos de familia.",
+    "bullets": [
+      "Qué objeto era y de dónde vino",
+      "Por qué llamó tu atención",
+      "A quién o a qué te recuerda"
+    ],
+    "placeholder": "Encontré una vieja llave de bronce en el fondo del costurero de mi abuela…",
+    "titlePlaceholder": "p. ej. La llave de la abuela"
+  },
+  "synchronicities": {
+    "label": "Sincronicidades",
+    "subtitle": "Casualidades con sentido",
+    "description": "Registra coincidencias significativas y descubre cómo se conectan los hilos con el tiempo.",
+    "bullets": [
+      "Qué pasó y por qué sentiste que no fue casualidad",
+      "En qué estabas pensando justo antes",
+      "Algún hilo que lo una con otros momentos"
+    ],
+    "placeholder": "Estaba pensando en llamar a mi hermana y en ese mismo instante ella me llamó…",
+    "titlePlaceholder": "p. ej. Ella llamó primero"
+  },
   "situations": {
     "love": {
       "label": "Amor y relaciones",

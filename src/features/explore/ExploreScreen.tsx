@@ -4,12 +4,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { categories, type CategoryKey } from '../../../brand/categories';
+import { mainCategories, type CategoryKey } from '../../../brand/categories';
 import { categoryLabel, categorySubtitle } from '../../lib/categoryCopy';
 import { colors, fonts, layout, spacing } from '../../theme';
 import { AppText, GlassIconButton, goBackOrHome, Icon } from '../../ui';
 import { SkyBackdrop } from '../../ui/art';
 import { HomeTile, TileGrid } from '../home/HomeTile';
+import { MoreTiles } from '../home/MoreTiles';
 import { DateChip } from './DateChip';
 import { dateParam, withDate } from './params';
 
@@ -60,7 +61,7 @@ export function ExploreScreen() {
         </Animated.View>
 
         <TileGrid style={styles.grid}>
-          {categories.map((def, index) => (
+          {mainCategories.map((def, index) => (
             <HomeTile
               key={def.key}
               order={index}
@@ -73,6 +74,13 @@ export function ExploreScreen() {
             />
           ))}
         </TileGrid>
+
+        <MoreTiles
+          title={t('explore.more')}
+          onOpen={(key) => openCategory(key, date)}
+          order={mainCategories.length}
+          testIDPrefix="category"
+        />
 
         <Animated.View entering={FadeIn.delay(700).duration(600)} style={styles.footer}>
           <Icon name="Sparkle" size={14} color={colors.gold} />

@@ -33,6 +33,10 @@ export interface HomeTileProps {
   testID?: string;
 }
 
+/** A word too long for a tile line at 17px ("Synchronicities", "Sincronicidades") would break mid-word. */
+const LONG_WORD = 14;
+const hasLongWord = (label: string) => label.split(/\s+/).some((word) => word.length >= LONG_WORD);
+
 /**
  * Design 4 tile: translucent glass over the sky art, a gold line icon, a serif
  * title and a small subtitle (each up to two lines). Tiles in a row share the
@@ -62,7 +66,7 @@ export function HomeTile({ icon, label, subtitle, numerals, order, onPress, test
             />
           )}
         </View>
-        <AppText style={styles.label} numberOfLines={2}>
+        <AppText style={[styles.label, hasLongWord(label) ? styles.labelLong : null]} numberOfLines={2}>
           {label}
         </AppText>
         <AppText style={styles.subtitle} numberOfLines={2}>
@@ -129,6 +133,10 @@ const styles = StyleSheet.create({
     letterSpacing: -0.1,
     color: colors.plum,
     textAlign: 'center',
+  },
+  labelLong: {
+    fontSize: 14.5,
+    letterSpacing: -0.2,
   },
   subtitle: {
     marginTop: 3,

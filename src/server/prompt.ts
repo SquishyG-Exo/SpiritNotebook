@@ -51,6 +51,10 @@ const CATEGORY_LABELS: Record<CategoryKey, string> = {
   words: 'Repeated words (a word or phrase that keeps finding the reader)',
   questions: 'Spiritual questions (something the reader is wondering about)',
   gratitude: 'Daily gratitude (the reader lists what they are grateful for; follow the gratitude guidance)',
+  people: 'People (an encounter, a relationship, or someone who keeps coming to mind)',
+  places: 'Places and travel (a place, a journey or a move)',
+  objects: 'Objects (a found object, a gift or an heirloom)',
+  synchronicities: 'Synchronicities (a meaningful coincidence)',
 };
 
 const LIFE_SITUATION_LABELS: Record<LifeSituationKey, string> = {

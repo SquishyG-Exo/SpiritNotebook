@@ -79,13 +79,13 @@ describe('InterpretRequestSchema', () => {
     expect(issueFor({ ...validBody, title: 7 })).toBe('title must be a string');
   });
 
-  it('accepts the current categories and rejects the removed ones', () => {
-    for (const category of ['dreams', 'numbers', 'signs', 'animals', 'life', 'words', 'questions', 'gratitude']) {
+  it('accepts every category and rejects the removed Body Signs', () => {
+    const current = ['dreams', 'numbers', 'signs', 'animals', 'life', 'words', 'questions', 'gratitude'];
+    const fromTheBrief = ['people', 'places', 'objects', 'synchronicities'];
+    for (const category of [...current, ...fromTheBrief]) {
       expect(InterpretRequestSchema.safeParse({ ...validBody, category }).success).toBe(true);
     }
-    for (const category of ['body', 'synchronicities', 'people', 'places', 'objects']) {
-      expect(issueFor({ ...validBody, category })).toBe('category is not a known category');
-    }
+    expect(issueFor({ ...validBody, category: 'body' })).toBe('category is not a known category');
   });
 
   it('rejects a body that is not an object', () => {

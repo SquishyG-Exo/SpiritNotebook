@@ -14,7 +14,18 @@ export interface FilterOption {
 }
 
 /** Design 4 order: All, Dreams, Signs, Notes, Numbers, then the other categories. */
-const AFTER_NOTES: readonly CategoryKey[] = ['numbers', 'animals', 'life', 'words', 'questions', 'gratitude'];
+const AFTER_NOTES: readonly CategoryKey[] = [
+  'numbers',
+  'animals',
+  'life',
+  'words',
+  'questions',
+  'gratitude',
+  'people',
+  'places',
+  'objects',
+  'synchronicities',
+];
 
 /** Chip labels in the current language (categories through the shared copy helpers). */
 export function useFilterOptions(): FilterOption[] {

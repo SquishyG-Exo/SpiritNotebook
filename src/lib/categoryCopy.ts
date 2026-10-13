@@ -33,6 +33,10 @@ const LABELS: Record<CategoryKey, string> = {
   words: 'Repeated Words',
   questions: 'Spiritual Questions',
   gratitude: 'Daily Gratitude',
+  people: 'People',
+  places: 'Places & Travel',
+  objects: 'Objects',
+  synchronicities: 'Synchronicities',
 };
 
 const SUBTITLES: Record<CategoryKey, string> = {
@@ -44,6 +48,10 @@ const SUBTITLES: Record<CategoryKey, string> = {
   words: 'Words you keep hearing',
   questions: 'Ask & explore',
   gratitude: 'Notice life’s blessings',
+  people: 'Meaningful encounters',
+  places: 'Journeys & places',
+  objects: 'Found & gifted',
+  synchronicities: 'Meaningful coincidences',
 };
 
 const DESCRIPTIONS: Record<CategoryKey, string> = {
@@ -55,6 +63,10 @@ const DESCRIPTIONS: Record<CategoryKey, string> = {
   words: 'Discover the meaning behind words you keep hearing or seeing.',
   questions: 'Ask questions and receive spiritual insights and guidance.',
   gratitude: 'A space to write what you are grateful for and notice life’s blessings.',
+  people: 'Reflect on meaningful encounters, relationships and the people who cross your path.',
+  places: 'Explore the meaning of places, journeys and new beginnings.',
+  objects: 'Discover what found objects, gifts and heirlooms may symbolize.',
+  synchronicities: 'Record meaningful coincidences and see how the threads connect over time.',
 };
 
 const PLACEHOLDERS: Record<CategoryKey, string> = {
@@ -66,6 +78,10 @@ const PLACEHOLDERS: Record<CategoryKey, string> = {
   words: 'Which words or phrases keep finding you?',
   questions: 'What question is on your heart today?',
   gratitude: 'What are you grateful for today?',
+  people: 'Who crossed your path, and what did you feel?',
+  places: 'Where were you, and what did the place stir in you?',
+  objects: 'What did you find or receive, and why did it catch your eye?',
+  synchronicities: 'What coincidence made you stop and wonder?',
 };
 
 const FEATURE_LABELS: Record<FeatureKey, string> = {

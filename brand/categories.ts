@@ -10,7 +10,11 @@
  * imports it too.
  */
 
-/** What a reader can log. 'signs' is "Everyday Signs" (it replaced Body Signs). */
+/**
+ * What a reader can log. The first eight are the client's own buttons ('signs'
+ * is "Everyday Signs", which replaced Body Signs); the last four come from the
+ * original brief and are shown under hers (`more`).
+ */
 export type CategoryKey =
   | 'dreams'
   | 'numbers'
@@ -19,7 +23,11 @@ export type CategoryKey =
   | 'life'
   | 'words'
   | 'questions'
-  | 'gratitude';
+  | 'gratitude'
+  | 'people'
+  | 'places'
+  | 'objects'
+  | 'synchronicities';
 
 /** Home tiles that open a feature rather than the composer. */
 export type FeatureKey = 'whispers' | 'calendar' | 'search' | 'saved';
@@ -51,6 +59,8 @@ export interface CategoryDef {
   accent: string;
   /** True when tapping the tile opens a sub-list instead of the composer. */
   hasSubcategories?: boolean;
+  /** From the original brief: listed under the client's own buttons, in a "More to explore" group. */
+  more?: boolean;
 }
 
 export interface LifeSituationDef {
@@ -78,7 +88,17 @@ export const categories: readonly CategoryDef[] = [
   { key: 'words', icon: 'MessageCircle', tint: '#F8E3E6', accent: '#B4566A' },
   { key: 'questions', icon: 'Lotus', tint: '#EBE3FA', accent: '#7A52B8' },
   { key: 'gratitude', icon: 'Heart', tint: '#FBE5E3', accent: '#C04F4F' },
+  { key: 'people', icon: 'Users', tint: '#E3F3EC', accent: '#4E9C7A', more: true },
+  { key: 'places', icon: 'Globe', tint: '#E6E9FA', accent: '#5F6BC0', more: true },
+  { key: 'objects', icon: 'Gem', tint: '#FBE3EE', accent: '#C6608E', more: true },
+  { key: 'synchronicities', icon: 'Infinity', tint: '#EBE3FA', accent: '#8153C9', more: true },
 ];
+
+/** The client's eight entry categories, in her order. */
+export const mainCategories: readonly CategoryDef[] = categories.filter((c) => !c.more);
+
+/** Categories from the original brief, shown under hers. */
+export const moreCategories: readonly CategoryDef[] = categories.filter((c) => c.more);
 
 export const features: readonly FeatureDef[] = [
   { key: 'whispers', icon: 'Sun', href: '/whispers' },
@@ -87,7 +107,7 @@ export const features: readonly FeatureDef[] = [
   { key: 'saved', icon: 'Bookmark', href: '/favorites' },
 ];
 
-/** The Home grid, in the client's order (3 columns, 4 rows). */
+/** The Home grid, in the client's order (3 columns, 4 rows). `moreCategories` follow under it. */
 export const homeTiles: readonly HomeTileDef[] = [
   { kind: 'category', key: 'dreams' },
   { kind: 'category', key: 'numbers' },

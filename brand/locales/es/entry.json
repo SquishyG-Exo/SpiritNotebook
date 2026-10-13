@@ -11,7 +11,11 @@
     "words": "¿Qué palabras te siguen encontrando?",
     "questions": "¿Qué llevas en el corazón?",
     "gratitude": "¿Qué agradeces hoy?",
-    "gratitudePast": "¿Qué agradeciste ese día?"
+    "gratitudePast": "¿Qué agradeciste ese día?",
+    "people": "¿Quién se cruzó en tu camino?",
+    "places": "¿Dónde te encontrabas?",
+    "objects": "¿Qué encontraste?",
+    "synchronicities": "¿Qué coincidencia te detuvo?"
   },
   "intro": {
     "dreams": "Escríbelo mientras aún está cerca: los lugares, las personas, la sensación que te dejó.",
@@ -21,7 +25,11 @@
     "life": "Comparte lo que pasó con tus propias palabras, y cómo lo estás viviendo.",
     "words": "Escribe la palabra o la frase, y dónde la has estado escuchando o viendo.",
     "questions": "Pregúntalo con las palabras que te salgan. No hay una forma equivocada de preguntarse.",
-    "gratitude": "Grande o pequeño, nombra lo que se sintió como un regalo."
+    "gratitude": "Grande o pequeño, nombra lo que se sintió como un regalo.",
+    "people": "Cuéntale al cuaderno quién era, dónde se encontraron y qué sentiste.",
+    "places": "Describe el lugar o el viaje, y lo que despertó en ti.",
+    "objects": "Un objeto encontrado, un regalo o un recuerdo de familia: anota de dónde vino y por qué llamó tu atención.",
+    "synchronicities": "Escribe qué pasó y por qué sentiste que fue más que casualidad."
   },
   "titleField": {
     "label": "Ponle un título",

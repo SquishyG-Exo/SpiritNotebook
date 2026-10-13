@@ -10,8 +10,8 @@ The look follows the client's approved "Design 4": a watercolor sunset sky over 
 
 | Screen | What happens |
 | --- | --- |
-| **Home** | The lotus, name, tagline ("Follow the signs. Discover the path your soul already knows.") and the client's twelve buttons in her order: Dreams, Numbers, Everyday Signs, Animals, Life Situations, Repeated Words, Spiritual Questions, Daily Gratitude, Whispers of Wisdom, Calendar, Search, Saved. The gear and avatar open Profile. Tabs: Home · Notebook · **+** · Calendar · Favorites. |
-| **+ (new entry)** | The eight entry categories as glass tiles; Life Situations opens its list of 15 situations. |
+| **Home** | The lotus, name, tagline ("Follow the signs. Discover the path your soul already knows.") and the client's twelve buttons in her order: Dreams, Numbers, Everyday Signs, Animals, Life Situations, Repeated Words, Spiritual Questions, Daily Gratitude, Whispers of Wisdom, Calendar, Search, Saved. Under them, "More to explore" keeps four categories from the original brief: People, Places & Travel, Objects, Synchronicities. The gear and avatar open Profile. Tabs: Home · Notebook · **+** · Calendar · Favorites. |
+| **+ (new entry)** | The client's eight entry categories as glass tiles, then the four from the original brief under "More to explore"; Life Situations opens its list of 15 situations. |
 | **New Entry** | Optional title (e.g. "Blue boat"), the date it happened (today or a past day, from a small calendar) and an optional time, the entry text with prompts, a UI-only photo attachment. Daily Gratitude and Everyday Signs have their own copy. |
 | **Your Interpretation** | **Live AI reading**: title, interpretation, reflection question, shown under the entry's painting with the reader's own title. *Save to Notebook* (then the Calendar opens on the entry's day), *Journal My Thoughts*, and a heart to keep it in Favorites. Daily Gratitude gets a warm reflection instead of a symbolic reading. Graceful loading, error and crisis ("care") states. |
 | **Search** | Finds past entries by their title and words, including notes and readings, ignoring case and accents; every word must match. Filter chips by category or notes. Results show date, category, title and an excerpt with the match highlighted, and open the full entry. Try "blue boat". |
@@ -85,7 +85,7 @@ Or from the command line: `npx vercel` (preview) / `npx vercel --prod`.
 Everything brand-specific lives in `/brand`:
 
 - `config.ts` — name, palette, gradients, font names, crisis links and AI input limits (model choices stay server-side).
-- `categories.ts` — the eight entry categories, the four feature buttons, the twelve-tile Home order and the Life Situations list (keys, icons, tints).
+- `categories.ts` — the twelve entry categories (the client's eight, then four from the original brief flagged `more`), the four feature buttons, the twelve-tile Home order and the Life Situations list (keys, icons, tints).
 - `locales/en/*.json`, `locales/es/*.json` — every UI string, one file per screen.
 - `sample-entries.ts` — the preloaded journal (both languages), `insights.ts` — the mocked Premium copy, `whispers.ts` — Whispers of Wisdom.
 - `voice.md` — the AI guide's system prompt.

@@ -11,7 +11,11 @@
     "words": "Which words keep finding you?",
     "questions": "What is on your heart?",
     "gratitude": "What are you grateful for today?",
-    "gratitudePast": "What were you grateful for?"
+    "gratitudePast": "What were you grateful for?",
+    "people": "Who crossed your path?",
+    "places": "Where did you find yourself?",
+    "objects": "What did you find?",
+    "synchronicities": "What coincidence stopped you?"
   },
   "intro": {
     "dreams": "Write it down while it is still close: the places, the people, the feeling it left.",
@@ -21,7 +25,11 @@
     "life": "Share what happened in your own words, and how it is sitting with you.",
     "words": "Write the word or phrase, and where you have been hearing or seeing it.",
     "questions": "Ask it in whatever words come. There is no wrong way to wonder.",
-    "gratitude": "Big or small, name what felt like a gift."
+    "gratitude": "Big or small, name what felt like a gift.",
+    "people": "Tell the notebook who it was, where you met, and what you felt.",
+    "places": "Describe the place or the journey, and what it stirred in you.",
+    "objects": "A found object, a gift or an heirloom: note where it came from and why it caught your eye.",
+    "synchronicities": "Write what happened, and what made it feel like more than chance."
   },
   "titleField": {
     "label": "Give it a title",

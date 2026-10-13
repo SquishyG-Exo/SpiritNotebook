@@ -2,5 +2,6 @@
   "title": "¿Qué te gustaría registrar?",
   "subtitle": "Elige lo que llamó tu atención. Desde ahí te acompañamos paso a paso.",
   "footer": "Cada camino abre una entrada breve y una lectura personal.",
-  "forDate": "Para el {{date}}"
+  "forDate": "Para el {{date}}",
+  "more": "Más para explorar"
 }
